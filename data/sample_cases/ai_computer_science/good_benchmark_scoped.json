@@ -1,0 +1,222 @@
+{
+  "case_id": "ai_computer_science_good_benchmark_scoped",
+  "domain": "ai_computer_science",
+  "case_type": "good",
+  "title": "Benchmark score is not general intelligence",
+  "japanese_title": "ベンチマーク成績と実世界性能の分離",
+  "summary": "Benchmark result is scoped to protocol P.",
+  "user_input": "Model X achieved 90% on Benchmark B under evaluation protocol P. This supports a benchmark-scoped performance claim, but not a general intelligence or safety claim.",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "benchmark_scoped",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "B-tier because the benchmark score is inspectable but broad capability and safety are not established.",
+  "audit_notes": "Leaderboard and safety claims are explicitly out of scope.",
+  "key_warning_theme": "Benchmark scope, contamination, replication, transfer, and safety remain separate.",
+  "nodes": [
+    {
+      "id": "src_benchmark",
+      "node_type": "source",
+      "title": "Benchmark B evaluation report",
+      "source_type": "benchmark_report",
+      "citation_text": "Sample source packet for Benchmark B evaluation report; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_score",
+      "node_type": "source_claim",
+      "title": "Benchmark score",
+      "source_id": "src_benchmark",
+      "claim_text": "Model X achieved 90% on Benchmark B under evaluation protocol P.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_benchmark",
+      "node_type": "hypothesis",
+      "title": "Model X achieved benchmark-scoped performance under protocol P",
+      "description": "The claim is limited to Benchmark B under protocol P and does not imply general intelligence, safety, or real-world deployment reliability.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "B-tier because benchmark evidence is direct for the benchmark but indirect for deployment.",
+      "falsification_conditions": [
+        "Independent replication fails.",
+        "Train/test contamination is discovered.",
+        "Real-world task performance collapses.",
+        "Safety evaluation reveals a major failure.",
+        "The score depends on prompt or hidden tool access."
+      ],
+      "evaluation_protocol": "protocol P",
+      "contamination_check": "not yet independently audited",
+      "reproduction_status": "single reported evaluation"
+    },
+    {
+      "id": "e_score",
+      "node_type": "evidence",
+      "title": "90% on Benchmark B",
+      "evidence_type": "benchmark_result",
+      "directness": "benchmark",
+      "weight": 0.7,
+      "source_claim_ids": [
+        "sc_score"
+      ],
+      "evidence_tags": [
+        "benchmark_result",
+        "single_benchmark"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "evaluation_protocol": "protocol P",
+      "contamination_check": "not yet independently audited",
+      "reproduction_status": "single reported evaluation"
+    },
+    {
+      "id": "i_scope",
+      "node_type": "inference",
+      "title": "Benchmark-scoped inference",
+      "description": "The result supports performance on Benchmark B under protocol P, not broad intelligence or safety.",
+      "depends_on": [
+        "e_score"
+      ],
+      "source_claim_ids": [
+        "sc_score"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_benchmark",
+      "node_type": "risk",
+      "title": "Benchmark overgeneralization",
+      "risk_type": "benchmark_overgeneralization",
+      "risk_tags": [
+        "benchmark_overgeneralization"
+      ],
+      "targets": [
+        "h_benchmark"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Separate benchmark score, contamination check, transfer, and safety evaluation."
+    },
+    {
+      "id": "f_replication",
+      "node_type": "falsifier",
+      "title": "Independent replication fails",
+      "would_weaken": [
+        "h_benchmark"
+      ],
+      "required_test": "Repeat the same protocol independently and compare score."
+    },
+    {
+      "id": "n_leaderboard",
+      "node_type": "narrative",
+      "title": "Leaderboard equals general capability narrative",
+      "narrative_type": "AI_evaluation_frame",
+      "description": "A common frame treats benchmark rank as broad intelligence or safety."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_benchmark",
+      "to": "sc_score",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_score",
+      "to": "e_score",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_score",
+      "to": "i_scope",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "i_scope",
+      "to": "h_benchmark",
+      "edge_type": "supports",
+      "strength": 0.66
+    },
+    {
+      "from": "h_benchmark",
+      "to": "r_benchmark",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_benchmark",
+      "to": "f_replication",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_benchmark",
+      "to": "n_leaderboard",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "evaluation_protocol": "protocol P",
+  "contamination_check": "not yet independently audited",
+  "reproduction_status": "single reported evaluation",
+  "hypotheses": [
+    {
+      "id": "h_benchmark",
+      "title": "Model X achieved benchmark-scoped performance under protocol P",
+      "tier": "B",
+      "description": "The claim is limited to Benchmark B under protocol P and does not imply general intelligence, safety, or real-world deployment reliability."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_score",
+      "title": "Benchmark score",
+      "claim_text": "Model X achieved 90% on Benchmark B under evaluation protocol P."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_score",
+      "title": "90% on Benchmark B",
+      "tier": "A",
+      "directness": "benchmark"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_scope",
+      "title": "Benchmark-scoped inference",
+      "tier": "B",
+      "description": "The result supports performance on Benchmark B under protocol P, not broad intelligence or safety."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_benchmark",
+      "title": "Benchmark overgeneralization",
+      "tier": "C",
+      "risk_type": "benchmark_overgeneralization"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_replication",
+      "title": "Independent replication fails"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_leaderboard",
+      "title": "Leaderboard equals general capability narrative",
+      "description": "A common frame treats benchmark rank as broad intelligence or safety."
+    }
+  ]
+}

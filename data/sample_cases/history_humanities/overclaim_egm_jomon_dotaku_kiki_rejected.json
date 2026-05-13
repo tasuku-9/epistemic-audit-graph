@@ -1,0 +1,364 @@
+{
+  "case_id": "history_humanities_overclaim_egm_jomon_dotaku_kiki_rejected",
+  "domain": "history_humanities",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: Y-DNA, Dotaku, and Kiki as direct conquest proof",
+  "japanese_title": "父系・銅鐸・記紀を直接征服証明にする過剰主張を拒否",
+  "summary": "An intentionally rejected version of the Jomon / Dotaku / Kiki case.",
+  "user_input": "D-M55が残っているので縄文系男性が弥生人を征服したことは確実であり、銅鐸の終焉と記紀神話はその歴史事件を直接記録している。",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected because A-tier certainty is asserted from indirect and M-tag evidence without adequate falsifiers.",
+  "audit_notes": "This is the public overclaim contrast for the scoped EGM history case.",
+  "key_warning_theme": "Y-DNA frequency, ritual discontinuity, and mythic text are treated as direct proof.",
+  "nodes": [
+    {
+      "id": "src_packet",
+      "node_type": "source",
+      "title": "Jomon / Dotaku / Kiki mixed packet",
+      "source_type": "mixed_sources",
+      "citation_text": "Sample source packet for Jomon / Dotaku / Kiki mixed packet; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_d_m55",
+      "node_type": "source_claim",
+      "title": "D-M55 persistence observation",
+      "source_id": "src_packet",
+      "claim_text": "Sources report persistence of D-M55 in Japanese paternal lineages.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_dotaku",
+      "node_type": "source_claim",
+      "title": "Dotaku discontinuity observation",
+      "source_id": "src_packet",
+      "claim_text": "Sources describe discontinuity in Dotaku ritual practice.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_kiki",
+      "node_type": "source_claim",
+      "title": "Kiki mythic motifs",
+      "source_id": "src_packet",
+      "claim_text": "Kiki mythic texts include descent, land-transfer, and agricultural-origin motifs.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_conquest_certainty",
+      "node_type": "hypothesis",
+      "title": "D-M55 proves Jomon males conquered Yayoi and Kiki directly records it",
+      "description": "D-M55 proves conquest, Dotaku discontinuity proves the same single event, and Kiki mythology directly records that historical event.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: Y-DNA frequency, ritual discontinuity, and mythic analogy cannot support A-tier historical certainty.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_d_m55",
+      "node_type": "evidence",
+      "title": "D-M55 frequency",
+      "evidence_type": "archaeogenetic_observation",
+      "directness": "direct",
+      "weight": 0.82,
+      "source_claim_ids": [
+        "sc_d_m55"
+      ],
+      "evidence_tags": [
+        "modern_y_dna",
+        "paternal_lineage"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "e_dotaku",
+      "node_type": "evidence",
+      "title": "Dotaku discontinuity",
+      "evidence_type": "ritual_archaeology",
+      "directness": "indirect",
+      "weight": 0.78,
+      "source_claim_ids": [
+        "sc_dotaku"
+      ],
+      "evidence_tags": [
+        "ritual_discontinuity"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "e_kiki",
+      "node_type": "evidence",
+      "title": "Kiki mythic motifs",
+      "evidence_type": "primary_text_motif",
+      "directness": "analogy",
+      "weight": 0.92,
+      "source_claim_ids": [
+        "sc_kiki"
+      ],
+      "evidence_tags": [
+        "mythic_text",
+        "primary_text_with_context"
+      ],
+      "tier": "M",
+      "m_tag": true
+    },
+    {
+      "id": "i_overclaim",
+      "node_type": "inference",
+      "title": "Collapsed conquest inference",
+      "description": "D-M55, Dotaku discontinuity, and Kiki mythology are treated as direct proof that a conquest certainly happened and was directly recorded.",
+      "depends_on": [
+        "e_d_m55",
+        "e_dotaku",
+        "e_kiki"
+      ],
+      "source_claim_ids": [
+        "sc_d_m55",
+        "sc_dotaku",
+        "sc_kiki"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_y_dna",
+      "node_type": "risk",
+      "title": "Y-DNA proves conquest",
+      "risk_type": "y_dna_proves_conquest",
+      "risk_tags": [
+        "y_dna_proves_conquest"
+      ],
+      "targets": [
+        "h_conquest_certainty"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Reframe paternal lineage as a possible social signal only."
+    },
+    {
+      "id": "r_myth",
+      "node_type": "risk",
+      "title": "Myth treated as direct historical record",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history"
+      ],
+      "targets": [
+        "h_conquest_certainty"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Treat mythic structure as narrative material, not direct event record."
+    },
+    {
+      "id": "r_ritual",
+      "node_type": "risk",
+      "title": "Ritual discontinuity treated as single-cause proof",
+      "risk_type": "ritual_discontinuity_single_cause",
+      "risk_tags": [
+        "ritual_discontinuity_single_cause"
+      ],
+      "targets": [
+        "h_conquest_certainty"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Add internal chronology and multi-causal alternatives."
+    },
+    {
+      "id": "n_passive_survival",
+      "node_type": "narrative",
+      "title": "Passive Jomon survival narrative",
+      "narrative_type": "popular_or_textbook_frame",
+      "description": "The rejected claim also fails to distinguish narrative conflict from proof."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_conquest_certainty"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_packet",
+      "to": "sc_d_m55",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_packet",
+      "to": "sc_dotaku",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_packet",
+      "to": "sc_kiki",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_d_m55",
+      "to": "e_d_m55",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_dotaku",
+      "to": "e_dotaku",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_kiki",
+      "to": "e_kiki",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_d_m55",
+      "to": "i_overclaim",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "e_dotaku",
+      "to": "i_overclaim",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "e_kiki",
+      "to": "i_overclaim",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "i_overclaim",
+      "to": "h_conquest_certainty",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_conquest_certainty",
+      "to": "r_y_dna",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_conquest_certainty",
+      "to": "r_myth",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_conquest_certainty",
+      "to": "r_ritual",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_conquest_certainty",
+      "to": "n_passive_survival",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_conquest_certainty",
+      "title": "D-M55 proves Jomon males conquered Yayoi and Kiki directly records it",
+      "tier": "A",
+      "description": "D-M55 proves conquest, Dotaku discontinuity proves the same single event, and Kiki mythology directly records that historical event."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_d_m55",
+      "title": "D-M55 persistence observation",
+      "claim_text": "Sources report persistence of D-M55 in Japanese paternal lineages."
+    },
+    {
+      "id": "sc_dotaku",
+      "title": "Dotaku discontinuity observation",
+      "claim_text": "Sources describe discontinuity in Dotaku ritual practice."
+    },
+    {
+      "id": "sc_kiki",
+      "title": "Kiki mythic motifs",
+      "claim_text": "Kiki mythic texts include descent, land-transfer, and agricultural-origin motifs."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_d_m55",
+      "title": "D-M55 frequency",
+      "tier": "A",
+      "directness": "direct"
+    },
+    {
+      "id": "e_dotaku",
+      "title": "Dotaku discontinuity",
+      "tier": "A",
+      "directness": "indirect"
+    },
+    {
+      "id": "e_kiki",
+      "title": "Kiki mythic motifs",
+      "tier": "M",
+      "directness": "analogy"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_overclaim",
+      "title": "Collapsed conquest inference",
+      "tier": "X",
+      "description": "D-M55, Dotaku discontinuity, and Kiki mythology are treated as direct proof that a conquest certainly happened and was directly recorded."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_y_dna",
+      "title": "Y-DNA proves conquest",
+      "tier": "X",
+      "risk_type": "y_dna_proves_conquest"
+    },
+    {
+      "id": "r_myth",
+      "title": "Myth treated as direct historical record",
+      "tier": "X",
+      "risk_type": "myth_as_direct_history"
+    },
+    {
+      "id": "r_ritual",
+      "title": "Ritual discontinuity treated as single-cause proof",
+      "tier": "X",
+      "risk_type": "ritual_discontinuity_single_cause"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_passive_survival",
+      "title": "Passive Jomon survival narrative",
+      "description": "The rejected claim also fails to distinguish narrative conflict from proof."
+    }
+  ]
+}

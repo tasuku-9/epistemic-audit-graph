@@ -1,0 +1,219 @@
+{
+  "case_id": "social_science_good_observational_association_scoped",
+  "domain": "social_science",
+  "case_type": "good",
+  "title": "Correlation is not policy causation",
+  "japanese_title": "相関と因果を分離する政策仮説監査",
+  "summary": "Education spending and scores are kept as observational association.",
+  "user_input": "A region with increased education spending also showed improved test scores. This supports an observational association, but a causal policy claim requires an identification strategy and confounder checks.",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "observational",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "Tier B because the association is observable but causal identification is not established.",
+  "audit_notes": "The case records the causal requirements without claiming they are satisfied.",
+  "key_warning_theme": "Confounders, selection effects, pre-trends, and control groups remain open.",
+  "nodes": [
+    {
+      "id": "src_education",
+      "node_type": "source",
+      "title": "Regional education spending observational report",
+      "source_type": "report",
+      "citation_text": "Sample source packet for Regional education spending observational report; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_association",
+      "node_type": "source_claim",
+      "title": "Spending and test-score association",
+      "source_id": "src_education",
+      "claim_text": "The region had increased education spending and improved test scores during the same period.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_association",
+      "node_type": "hypothesis",
+      "title": "Increased spending is observationally associated with improved scores",
+      "description": "The observation supports an association, not a definite causal policy effect.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "B-tier association; causal policy proof requires identification strategy and counterfactual design.",
+      "falsification_conditions": [
+        "The effect disappears after controls.",
+        "The pre-trend assumption fails.",
+        "A comparison region shows the same trend without the policy.",
+        "The measurement method changed during the period."
+      ],
+      "time_window": "specified study period",
+      "comparison_group": "not yet established",
+      "confounder_discussion": "required before causal claim"
+    },
+    {
+      "id": "e_association",
+      "node_type": "evidence",
+      "title": "Observed spending-score association",
+      "evidence_type": "observational_association",
+      "directness": "observational",
+      "weight": 0.58,
+      "source_claim_ids": [
+        "sc_association"
+      ],
+      "evidence_tags": [
+        "observational",
+        "correlation_only"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "time_window": "specified study period"
+    },
+    {
+      "id": "i_association",
+      "node_type": "inference",
+      "title": "Association but not causation",
+      "description": "The evidence supports association while leaving confounding, selection, pre-trends, and measurement change unresolved.",
+      "depends_on": [
+        "e_association"
+      ],
+      "source_claim_ids": [
+        "sc_association"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_correlation",
+      "node_type": "risk",
+      "title": "Correlation-to-causation risk",
+      "risk_type": "correlation_to_causation",
+      "risk_tags": [
+        "correlation_to_causation"
+      ],
+      "targets": [
+        "h_association"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Require identification strategy, control group, pre-trend checks, and confounder discussion."
+    },
+    {
+      "id": "f_controls",
+      "node_type": "falsifier",
+      "title": "Effect disappears after controls",
+      "would_weaken": [
+        "h_association"
+      ],
+      "required_test": "Control for plausible confounders and re-estimate the association."
+    },
+    {
+      "id": "n_policy_simple",
+      "node_type": "narrative",
+      "title": "More spending automatically improves scores narrative",
+      "narrative_type": "policy_frame",
+      "description": "A popular policy frame treats temporal association as causal proof."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_education",
+      "to": "sc_association",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_association",
+      "to": "e_association",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_association",
+      "to": "i_association",
+      "edge_type": "supports",
+      "strength": 0.58
+    },
+    {
+      "from": "i_association",
+      "to": "h_association",
+      "edge_type": "supports",
+      "strength": 0.5
+    },
+    {
+      "from": "h_association",
+      "to": "r_correlation",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_association",
+      "to": "f_controls",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_association",
+      "to": "n_policy_simple",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "time_window": "specified study period",
+  "comparison_group": "not yet established",
+  "confounder_discussion": "required before causal claim",
+  "hypotheses": [
+    {
+      "id": "h_association",
+      "title": "Increased spending is observationally associated with improved scores",
+      "tier": "B",
+      "description": "The observation supports an association, not a definite causal policy effect."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_association",
+      "title": "Spending and test-score association",
+      "claim_text": "The region had increased education spending and improved test scores during the same period."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_association",
+      "title": "Observed spending-score association",
+      "tier": "A",
+      "directness": "observational"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_association",
+      "title": "Association but not causation",
+      "tier": "B",
+      "description": "The evidence supports association while leaving confounding, selection, pre-trends, and measurement change unresolved."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_correlation",
+      "title": "Correlation-to-causation risk",
+      "tier": "C",
+      "risk_type": "correlation_to_causation"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_controls",
+      "title": "Effect disappears after controls"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_policy_simple",
+      "title": "More spending automatically improves scores narrative",
+      "description": "A popular policy frame treats temporal association as causal proof."
+    }
+  ]
+}

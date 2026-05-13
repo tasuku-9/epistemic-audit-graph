@@ -1,0 +1,121 @@
+{
+  "domain": "law_policy_ethics",
+  "label": "Law / policy / ethics",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier"
+  ],
+  "accepted_evidence_types": [
+    "case_law",
+    "statutory_text",
+    "policy_evaluation",
+    "impact_assessment",
+    "normative_argument"
+  ],
+  "weakened_evidence_types": [
+    "legal_validity_only",
+    "normative_assertion_only",
+    "single_jurisdiction"
+  ],
+  "tier_restrictions": [
+    "Legal validity does not imply empirical policy effectiveness.",
+    "Legal validity does not imply ethical correctness.",
+    "Normative claims require explicit value premises and counter-principles."
+  ],
+  "required_falsifier_style": [
+    "legal claim weakened by reversal on appeal",
+    "legal claim limited by jurisdiction",
+    "empirical policy effect not found in evaluation",
+    "normative claim depends on contested value premise"
+  ],
+  "a_tier_requires_any_evidence_tag": [
+    "binding_precedent",
+    "statutory_text",
+    "replicated_policy_evaluation",
+    "impact_assessment"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "normative_to_empirical",
+      "trigger_terms": [
+        "ought",
+        "should",
+        "constitutional",
+        "precedent",
+        "legal",
+        "court"
+      ],
+      "overclaim_terms": [
+        "proves effectiveness",
+        "reduces harm",
+        "effective",
+        "ethically correct",
+        "empirically true"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "legal_validity_to_empirical_or_ethical",
+      "evidence_tags_any": [
+        "legal_validity",
+        "binding_precedent",
+        "case_law"
+      ],
+      "claim_terms_any": [
+        "effective",
+        "effectiveness",
+        "ethically correct",
+        "ethical correctness",
+        "empirical effectiveness"
+      ],
+      "allowed_evidence_tags_any": [
+        "policy_evaluation",
+        "impact_assessment",
+        "replicated_policy_evaluation",
+        "normative_argument"
+      ],
+      "message": "Legal validity cannot directly prove empirical effectiveness or ethical correctness.",
+      "suggested_fix": "Separate legal, empirical, and normative hypotheses and add policy evaluation evidence or explicit value premises."
+    }
+  ],
+  "required_metadata_when_claim_terms": [
+    {
+      "claim_terms_any": [
+        "legal",
+        "court found",
+        "validity"
+      ],
+      "required_fields": [
+        "jurisdiction",
+        "date",
+        "court_level",
+        "legal_issue"
+      ]
+    },
+    {
+      "claim_terms_any": [
+        "ethically correct",
+        "normative",
+        "desirable"
+      ],
+      "required_fields": [
+        "value_premise",
+        "counter_principle"
+      ]
+    }
+  ]
+}

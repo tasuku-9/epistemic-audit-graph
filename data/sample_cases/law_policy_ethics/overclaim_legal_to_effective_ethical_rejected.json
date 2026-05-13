@@ -1,0 +1,181 @@
+{
+  "case_id": "law_policy_ethics_overclaim_legal_to_effective_ethical_rejected",
+  "domain": "law_policy_ethics",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: legal means effective and ethically correct",
+  "japanese_title": "合法性から有効性・倫理的正しさを断定する過剰主張を拒否",
+  "summary": "Legal validity is asserted as empirical effectiveness and ethical correctness.",
+  "user_input": "The court said Policy X is legal, so Policy X is effective and ethically correct.",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected: legal source lacks policy evaluation evidence and explicit value premise.",
+  "audit_notes": "The overclaim intentionally omits jurisdiction/date/court-level/value-premise details.",
+  "key_warning_theme": "Legal validity is used to prove empirical and normative claims.",
+  "nodes": [
+    {
+      "id": "src_court",
+      "node_type": "source",
+      "title": "Court decision on Policy X",
+      "source_type": "case_law",
+      "citation_text": "Sample source packet for Court decision on Policy X; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_legal",
+      "node_type": "source_claim",
+      "title": "Legal finding",
+      "source_id": "src_court",
+      "claim_text": "A court found Policy X legal.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_effective_ethical",
+      "node_type": "hypothesis",
+      "title": "Policy X is effective and ethically correct because it is legal",
+      "description": "Legal validity proves Policy X is effective and ethically correct.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: legality cannot establish empirical effectiveness or ethical correctness.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_legal",
+      "node_type": "evidence",
+      "title": "Legal validity finding",
+      "evidence_type": "case_law",
+      "directness": "direct",
+      "weight": 0.82,
+      "source_claim_ids": [
+        "sc_legal"
+      ],
+      "evidence_tags": [
+        "case_law",
+        "binding_precedent",
+        "legal_validity"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "i_legal_jump",
+      "node_type": "inference",
+      "title": "Legal-to-effective/ethical jump",
+      "description": "The inference treats legal validity as empirical effectiveness and ethical correctness.",
+      "depends_on": [
+        "e_legal"
+      ],
+      "source_claim_ids": [
+        "sc_legal"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_legal_empirical",
+      "node_type": "risk",
+      "title": "Legal validity treated as empirical and ethical proof",
+      "risk_type": "normative_to_empirical",
+      "risk_tags": [
+        "normative_to_empirical"
+      ],
+      "targets": [
+        "h_effective_ethical"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Separate legal, empirical, and normative claims."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_effective_ethical"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_court",
+      "to": "sc_legal",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_legal",
+      "to": "e_legal",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_legal",
+      "to": "i_legal_jump",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "i_legal_jump",
+      "to": "h_effective_ethical",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_effective_ethical",
+      "to": "r_legal_empirical",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_effective_ethical",
+      "title": "Policy X is effective and ethically correct because it is legal",
+      "tier": "A",
+      "description": "Legal validity proves Policy X is effective and ethically correct."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_legal",
+      "title": "Legal finding",
+      "claim_text": "A court found Policy X legal."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_legal",
+      "title": "Legal validity finding",
+      "tier": "A",
+      "directness": "direct"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_legal_jump",
+      "title": "Legal-to-effective/ethical jump",
+      "tier": "X",
+      "description": "The inference treats legal validity as empirical effectiveness and ethical correctness."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_legal_empirical",
+      "title": "Legal validity treated as empirical and ethical proof",
+      "tier": "X",
+      "risk_type": "normative_to_empirical"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": []
+}

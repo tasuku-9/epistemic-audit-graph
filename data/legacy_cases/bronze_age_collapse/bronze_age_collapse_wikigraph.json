@@ -1,0 +1,549 @@
+{
+  "case_id": "bronze_age_collapse_wikigraph",
+  "title": "Bronze Age Collapse WikiGraph",
+  "status": "research_demo",
+  "source_html": "demos/bronze_age_collapse/index.html",
+  "warning": "Research-facing history/humanities demo. Source audit is less complete than the K-Pg flagship demo.",
+  "maps": [
+    {
+      "id": "map:causes",
+      "title": "Causes of Collapse",
+      "seeds": [
+        "page:climate",
+        "page:sea_peoples",
+        "page:systems",
+        "page:archaeology"
+      ],
+      "purpose": "What caused the ~1200 BCE collapse? Separating single-cause narratives from multi-factor evidence."
+    },
+    {
+      "id": "map:sea_peoples",
+      "title": "Who Were the Sea Peoples?",
+      "seeds": [
+        "page:sea_peoples",
+        "page:ancient_dna",
+        "page:textual"
+      ],
+      "purpose": "Origins, identity, and causal role of the Sea Peoples — separating source claims from inferences."
+    },
+    {
+      "id": "map:survival",
+      "title": "Why Did Egypt Survive?",
+      "seeds": [
+        "page:egypt",
+        "page:climate",
+        "page:systems"
+      ],
+      "purpose": "Regional variation: testing collapse theories against Egyptian survival as a falsification check."
+    }
+  ],
+  "pages": [
+    {
+      "id": "page:climate",
+      "title": "Climate & Drought Evidence",
+      "contains": [
+        "claim:h1",
+        "evidence:e1",
+        "evidence:e2",
+        "evidence:e11"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:sea_peoples",
+      "title": "Sea Peoples",
+      "contains": [
+        "claim:h2",
+        "claim:h8",
+        "evidence:e3",
+        "evidence:e4",
+        "evidence:e12"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:systems",
+      "title": "Systems Collapse Theory",
+      "contains": [
+        "claim:h3",
+        "claim:h7",
+        "evidence:e5",
+        "evidence:e6"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:archaeology",
+      "title": "Archaeological Destruction Layers",
+      "contains": [
+        "claim:h5",
+        "evidence:e7",
+        "evidence:e8",
+        "evidence:e13"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:ancient_dna",
+      "title": "Ancient DNA Evidence",
+      "contains": [
+        "claim:h8",
+        "evidence:e9",
+        "evidence:e12"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:textual",
+      "title": "Textual & Epigraphic Sources",
+      "contains": [
+        "claim:h2",
+        "claim:h6",
+        "evidence:e3",
+        "evidence:e10"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:egypt",
+      "title": "Egyptian Survival",
+      "contains": [
+        "claim:h4",
+        "evidence:e14",
+        "evidence:e15"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "page:trade",
+      "title": "Trade Network Collapse",
+      "contains": [
+        "claim:h6",
+        "evidence:e5",
+        "evidence:e10"
+      ],
+      "status": "open"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim:h1",
+      "title": "Climate change/drought was a primary contributing factor",
+      "tier": "B",
+      "desc": "Paleoclimate proxies show severe multi-decadal drought across the Eastern Mediterranean ~1200–1150 BCE, likely stressing agricultural output and population stability.",
+      "fc": "If high-resolution climate records from the period show no significant drought signal, or if drought postdates the destruction layers by more than a generation, the climate role weakens substantially.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.72,
+        "controversy": 0.35,
+        "testability": 0.85,
+        "speculation": 0.3
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data. Requires expert review before use."
+      },
+      "nc": [
+        {
+          "nid": "narrative:n2",
+          "type": "frame_conflict"
+        }
+      ]
+    },
+    {
+      "id": "claim:h2",
+      "title": "Sea Peoples invasion was a direct cause of widespread destruction",
+      "tier": "C",
+      "desc": "Egyptian texts and archaeology document Sea Peoples attacks, but whether they caused the collapse or exploited an already-collapsing system remains contested.",
+      "fc": "If destruction layers consistently predate Sea Peoples activity at the same sites, their causal role is weakened. If aDNA shows Sea Peoples were already present before destructions, the 'invasion' framing weakens.",
+      "oc": "Popular narrative often treats Sea Peoples as the primary cause; evidence supports them as one actor among several.",
+      "eval": {
+        "credibility": 0.48,
+        "controversy": 0.78,
+        "testability": 0.82,
+        "speculation": 0.55
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data. Requires expert review."
+      },
+      "nc": [
+        {
+          "nid": "narrative:n1",
+          "type": "narrative_conflict"
+        }
+      ]
+    },
+    {
+      "id": "claim:h3",
+      "title": "Palace economy fragility made cascading collapse inevitable",
+      "tier": "B",
+      "desc": "LBA palatial economies were highly interconnected and specialized, with little redundancy. A threshold disruption in one node could propagate systemically.",
+      "fc": "If societies with equally interconnected economies survived the same period intact, the fragility-specific explanation weakens. Comparative cases (e.g., Egypt) must be explained.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.61,
+        "controversy": 0.42,
+        "testability": 0.65,
+        "speculation": 0.48
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": [
+        {
+          "nid": "narrative:n2",
+          "type": "frame_conflict"
+        }
+      ]
+    },
+    {
+      "id": "claim:h4",
+      "title": "Internal rebellions and social upheaval contributed to collapse",
+      "tier": "C",
+      "desc": "Some texts hint at lower-class or pastoral uprisings. Collapse of redistributive palace economies may have triggered internal resistance.",
+      "fc": "If no textual or archaeological evidence of internal conflict is found at collapse sites, and if external disruption accounts for all destruction patterns, internal rebellion is weakened as a factor.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.38,
+        "controversy": 0.42,
+        "testability": 0.6,
+        "speculation": 0.6
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": []
+    },
+    {
+      "id": "claim:h5",
+      "title": "Earthquakes contributed to specific destruction events",
+      "tier": "C",
+      "desc": "Seismic evidence has been proposed for several destructions (e.g., Tiryns, Mycenae). However, earthquake-caused destruction is only confirmed at a subset of sites.",
+      "fc": "If seismological and archaeoseismic analysis shows no earthquake events coincident with the main destruction horizon, the earthquake factor is limited to isolated cases, not a systemic cause.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.42,
+        "controversy": 0.35,
+        "testability": 0.88,
+        "speculation": 0.38
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": []
+    },
+    {
+      "id": "claim:h6",
+      "title": "Trade network disruption preceded and amplified political collapse",
+      "tier": "B",
+      "desc": "LBA texts show evidence of disrupted tin and copper supply before destruction layers. Without metal, palace economies could not maintain military and administrative capacity.",
+      "fc": "If luxury metal supply continued normally until the destruction events, or if destruction predates trade disruption, this sequence-based hypothesis weakens.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.65,
+        "controversy": 0.28,
+        "testability": 0.78,
+        "speculation": 0.35
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": []
+    },
+    {
+      "id": "claim:h7",
+      "title": "Multiple simultaneous stressors made recovery impossible",
+      "tier": "A",
+      "desc": "Current scholarly consensus holds that no single cause explains the collapse. Climate stress, migration, trade disruption, and internal pressure interacted to push interconnected systems past recovery thresholds.",
+      "fc": "If a single-factor explanation (climate alone, or Sea Peoples alone) is shown to account for the full spatial and temporal pattern of collapses with no residual, the multi-causal model loses its key advantage.",
+      "oc": null,
+      "eval": {
+        "credibility": 0.8,
+        "controversy": 0.22,
+        "testability": 0.7,
+        "speculation": 0.28
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": [
+        {
+          "nid": "narrative:n1",
+          "type": "narrative_conflict"
+        }
+      ]
+    },
+    {
+      "id": "claim:h8",
+      "title": "Mycenaeans/Aegeans constituted part of the Sea Peoples",
+      "tier": "C",
+      "desc": "Some aDNA and cultural evidence links Sea Peoples-associated populations to Aegean origins. However, the Sea Peoples were likely heterogeneous, not a single ethnic group.",
+      "fc": "If aDNA from Sea Peoples-associated Levantine Iron Age I populations shows no Aegean ancestry signal, the Mycenaean-component hypothesis weakens significantly.",
+      "oc": "Identifying any group as 'the Sea Peoples' is an overclaim — the term covers multiple distinct groups.",
+      "eval": {
+        "credibility": 0.45,
+        "controversy": 0.65,
+        "testability": 0.9,
+        "speculation": 0.52
+      },
+      "audit": {
+        "sa": false,
+        "cs": false,
+        "notes": "Demo data."
+      },
+      "nc": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence:e1",
+      "title": "Lake Van / Sea of Galilee pollen records: severe drought ~1200 BCE",
+      "type": "climatological",
+      "weight": 0.85,
+      "isM": false,
+      "src": "Brandon Drake (2012), Journal of Archaeological Science",
+      "sup": [
+        "claim:h1"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e2",
+      "title": "Speleothem (cave stalagmite) isotope data: multi-decadal dry period, Levant",
+      "type": "climatological",
+      "weight": 0.82,
+      "isM": false,
+      "src": "Kaniewski et al. (2010), PNAS",
+      "sup": [
+        "claim:h1"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e3",
+      "title": "Medinet Habu inscriptions: Ramesses III's account of Sea Peoples (~1177 BCE)",
+      "type": "historical_text",
+      "weight": 0.78,
+      "isM": false,
+      "src": "Primary source, Medinet Habu temple, ~1175 BCE",
+      "sup": [
+        "claim:h2"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e4",
+      "title": "Ugarit 'last tablet': request for grain and warning of ships",
+      "type": "historical_text",
+      "weight": 0.8,
+      "isM": false,
+      "src": "RS 18.38, Ugarit archive, ~1185 BCE",
+      "sup": [
+        "claim:h2",
+        "claim:h6"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e5",
+      "title": "Linear B tablets from Pylos: military mobilization, resource anxiety, no return",
+      "type": "historical_text",
+      "weight": 0.85,
+      "isM": false,
+      "src": "Pylos Linear B archive, ~1180 BCE",
+      "sup": [
+        "claim:h3",
+        "claim:h6"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e6",
+      "title": "Widespread hoarding deposits across collapse horizon",
+      "type": "archaeological",
+      "weight": 0.7,
+      "isM": false,
+      "src": "Multiple LBA sites, summarized in Cline (2014)",
+      "sup": [
+        "claim:h3"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e7",
+      "title": "Synchronous destruction layers at Ugarit, Hattusa, Megiddo, Tiryns (~1185–1175 BCE)",
+      "type": "archaeological",
+      "weight": 0.88,
+      "isM": false,
+      "src": "Radiocarbon dating, Finkelstein & Piasetzky (2010)",
+      "sup": [
+        "claim:h7"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e8",
+      "title": "Archaeoseismic evidence at specific Mycenaean sites (Tiryns, Mycenae)",
+      "type": "archaeological",
+      "weight": 0.65,
+      "isM": false,
+      "src": "Stiros & Jones (1996); Klaus-Günter Hinzen studies",
+      "sup": [
+        "claim:h5"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e9",
+      "title": "aDNA from Iron Age I Levantine populations: Aegean ancestry signal",
+      "type": "genetic",
+      "weight": 0.8,
+      "isM": false,
+      "src": "Harney et al. (2018); Harney et al. (2021), PLOS Genetics",
+      "sup": [
+        "claim:h8"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e10",
+      "title": "Disrupted tin and copper trade routes evidenced in Ugarit/Levantine texts before destructions",
+      "type": "historical_text",
+      "weight": 0.72,
+      "isM": false,
+      "src": "Knapp & Manning (2016), Annual Review of Anthropology",
+      "sup": [
+        "claim:h6",
+        "claim:h3"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e11",
+      "title": "Stable carbon isotope data from wheat grains at destruction-layer sites: drought stress markers",
+      "type": "climatological",
+      "weight": 0.75,
+      "isM": false,
+      "src": "Kaniewski et al. (2013), PLOS ONE",
+      "sup": [
+        "claim:h1"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e12",
+      "title": "Philistine aDNA: distinct Aegean ancestry, not Canaanite",
+      "type": "genetic",
+      "weight": 0.82,
+      "isM": false,
+      "src": "Feldman et al. (2019), Science Advances",
+      "sup": [
+        "claim:h8"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e13",
+      "title": "Egypt repels Sea Peoples but palace economies of peers collapse — Egypt survives",
+      "type": "archaeological",
+      "weight": 0.78,
+      "isM": false,
+      "src": "Comparative record, multiple sources",
+      "sup": [
+        "claim:h7"
+      ],
+      "con": [
+        "claim:h2"
+      ]
+    },
+    {
+      "id": "evidence:e14",
+      "title": "Egyptian New Kingdom records: continued administration and tribute after ~1177 BCE",
+      "type": "historical_text",
+      "weight": 0.8,
+      "isM": false,
+      "src": "Egyptian New Kingdom records, Ramesside period",
+      "sup": [
+        "claim:h3"
+      ],
+      "con": []
+    },
+    {
+      "id": "evidence:e15",
+      "title": "Myth of Atlantis as Bronze Age memory — Plato's account",
+      "type": "mythological",
+      "weight": 0.15,
+      "isM": true,
+      "src": "Plato, Timaeus and Critias, ~360 BCE",
+      "sup": [],
+      "con": []
+    }
+  ],
+  "narratives": [
+    {
+      "id": "narrative:n1",
+      "title": "Sea Peoples caused the Bronze Age Collapse (single-cause popular narrative)",
+      "type": "narrative"
+    },
+    {
+      "id": "narrative:n2",
+      "title": "Bronze Age civilizations were stable until suddenly destroyed by external shock",
+      "type": "narrative"
+    },
+    {
+      "id": "narrative:n3",
+      "title": "The Bronze Age Collapse was a complete civilizational Dark Age — total discontinuity",
+      "type": "narrative"
+    }
+  ],
+  "questions": [
+    {
+      "id": "question:q1",
+      "title": "Precise timing: did collapse events happen simultaneously or sequentially?",
+      "tests": [
+        "high_resolution_radiocarbon",
+        "stratigraphic_sequence"
+      ],
+      "claims": [
+        "claim:h2",
+        "claim:h7"
+      ]
+    },
+    {
+      "id": "question:q2",
+      "title": "Genetic origins of Sea Peoples populations across different sites",
+      "tests": [
+        "ancient_dna",
+        "isotope_analysis"
+      ],
+      "claims": [
+        "claim:h8"
+      ]
+    },
+    {
+      "id": "question:q3",
+      "title": "What structural differences allowed Egypt and Assyria to survive?",
+      "tests": [
+        "comparative_economy",
+        "administrative_record_analysis"
+      ],
+      "claims": [
+        "claim:h3",
+        "claim:h7"
+      ]
+    }
+  ]
+}

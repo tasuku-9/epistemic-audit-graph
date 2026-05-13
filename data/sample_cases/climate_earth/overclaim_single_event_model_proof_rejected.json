@@ -1,0 +1,180 @@
+{
+  "case_id": "climate_earth_overclaim_single_event_model_proof_rejected",
+  "domain": "climate_earth",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: single event proves model",
+  "japanese_title": "単一イベントで長期モデル証明を断定する過剰主張を拒否",
+  "summary": "One hot year is treated as complete proof of a long-term climate model.",
+  "user_input": "This year was extremely hot, so this climate model is completely proven.",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected: single-event evidence cannot prove a long-term trend or model and lacks scale/scenario uncertainty metadata.",
+  "audit_notes": "The alternative cold-week denial example would be rejected by the same rule.",
+  "key_warning_theme": "Single event is used as proof of the entire long-term model.",
+  "nodes": [
+    {
+      "id": "src_weather",
+      "node_type": "source",
+      "title": "Annual weather anomaly report",
+      "source_type": "dataset",
+      "citation_text": "Sample source packet for Annual weather anomaly report; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_hot_year",
+      "node_type": "source_claim",
+      "title": "One hot year",
+      "source_id": "src_weather",
+      "claim_text": "This year was extremely hot in the observed region.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_model_proven",
+      "node_type": "hypothesis",
+      "title": "This year's heat completely proves the long-term climate model",
+      "description": "One hot year proves the long-term model and makes the projection completely proven.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: a single event cannot prove a long-term model.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_hot_year",
+      "node_type": "evidence",
+      "title": "One hot year",
+      "evidence_type": "weather_observation",
+      "directness": "direct",
+      "weight": 0.72,
+      "source_claim_ids": [
+        "sc_hot_year"
+      ],
+      "evidence_tags": [
+        "single_event",
+        "one_year_anomaly"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "i_event_proof",
+      "node_type": "inference",
+      "title": "Single event to model proof",
+      "description": "The inference jumps from one year of weather to complete proof of a long-term model.",
+      "depends_on": [
+        "e_hot_year"
+      ],
+      "source_claim_ids": [
+        "sc_hot_year"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_single_event",
+      "node_type": "risk",
+      "title": "Single event proves model",
+      "risk_type": "single_event_to_trend",
+      "risk_tags": [
+        "single_event_to_trend"
+      ],
+      "targets": [
+        "h_model_proven"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Require long-term observations, model ensemble, uncertainty range, scenario, and attribution method."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_model_proven"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_weather",
+      "to": "sc_hot_year",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_hot_year",
+      "to": "e_hot_year",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_hot_year",
+      "to": "i_event_proof",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "i_event_proof",
+      "to": "h_model_proven",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_model_proven",
+      "to": "r_single_event",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_model_proven",
+      "title": "This year's heat completely proves the long-term climate model",
+      "tier": "A",
+      "description": "One hot year proves the long-term model and makes the projection completely proven."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_hot_year",
+      "title": "One hot year",
+      "claim_text": "This year was extremely hot in the observed region."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_hot_year",
+      "title": "One hot year",
+      "tier": "A",
+      "directness": "direct"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_event_proof",
+      "title": "Single event to model proof",
+      "tier": "X",
+      "description": "The inference jumps from one year of weather to complete proof of a long-term model."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_single_event",
+      "title": "Single event proves model",
+      "tier": "X",
+      "risk_type": "single_event_to_trend"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": []
+}

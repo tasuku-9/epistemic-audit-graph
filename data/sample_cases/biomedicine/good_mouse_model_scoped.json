@@ -1,0 +1,241 @@
+{
+  "case_id": "biomedicine_good_mouse_model_scoped",
+  "domain": "biomedicine",
+  "case_type": "good",
+  "title": "From mouse model to human clinical claim",
+  "japanese_title": "マウス実験からヒト治療効果への飛躍を検出",
+  "summary": "Mouse evidence is kept at preclinical candidate scope.",
+  "user_input": "Compound X reduced tumor size in a mouse model under specified experimental conditions. This may justify further investigation as a therapeutic candidate, but it does not yet establish human clinical efficacy.",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "preclinical",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "Preclinical result supports further investigation, not clinical efficacy.",
+  "audit_notes": "No patient advice or clinical recommendation is made.",
+  "key_warning_theme": "Animal-to-human extrapolation warning.",
+  "nodes": [
+    {
+      "id": "src_mouse",
+      "node_type": "source",
+      "title": "Mouse tumor model experiment",
+      "source_type": "paper",
+      "citation_text": "Sample source packet for Mouse tumor model experiment; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_mouse",
+      "node_type": "source_claim",
+      "title": "Mouse tumor reduction",
+      "source_id": "src_mouse",
+      "claim_text": "Compound X reduced tumor size in a mouse model under specified experimental conditions.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_candidate",
+      "node_type": "hypothesis",
+      "title": "Compound X may be a preclinical therapeutic candidate",
+      "description": "The mouse result may justify further investigation as a therapeutic candidate, but does not establish human clinical efficacy.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "Tier B because the evidence is direct for a mouse endpoint but indirect for human clinical relevance.",
+      "falsification_conditions": [
+        "A human clinical trial fails the primary endpoint.",
+        "Independent mouse replication fails.",
+        "The effect disappears at clinically relevant dose.",
+        "Adverse effects outweigh benefit."
+      ],
+      "organism": "mouse",
+      "endpoint": "tumor size",
+      "intervention_condition": "Compound X under specified experimental conditions"
+    },
+    {
+      "id": "e_mouse",
+      "node_type": "evidence",
+      "title": "Mouse tumor size reduction",
+      "evidence_type": "animal_model",
+      "directness": "direct",
+      "weight": 0.7,
+      "source_claim_ids": [
+        "sc_mouse"
+      ],
+      "evidence_tags": [
+        "animal_model",
+        "mouse_model",
+        "surrogate_endpoint"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "organism": "mouse",
+      "endpoint": "tumor size",
+      "intervention_condition": "Compound X under specified experimental conditions"
+    },
+    {
+      "id": "i_preclinical",
+      "node_type": "inference",
+      "title": "Mouse result supports candidate status",
+      "description": "Animal-model evidence supports further study but not human clinical efficacy.",
+      "depends_on": [
+        "e_mouse"
+      ],
+      "source_claim_ids": [
+        "sc_mouse"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_animal_human",
+      "node_type": "risk",
+      "title": "Animal-to-human extrapolation",
+      "risk_type": "animal_to_human",
+      "risk_tags": [
+        "animal_to_human"
+      ],
+      "targets": [
+        "h_candidate"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Require human clinical evidence before any efficacy claim."
+    },
+    {
+      "id": "f_human_trial",
+      "node_type": "falsifier",
+      "title": "Human trial fails primary endpoint",
+      "would_weaken": [
+        "h_candidate"
+      ],
+      "required_test": "Run or cite a registered human clinical trial with prespecified primary endpoint."
+    },
+    {
+      "id": "f_replication",
+      "node_type": "falsifier",
+      "title": "Independent replication fails",
+      "would_weaken": [
+        "h_candidate"
+      ],
+      "required_test": "Repeat comparable animal-model experiment independently."
+    },
+    {
+      "id": "n_translational_hype",
+      "node_type": "narrative",
+      "title": "Preclinical success implies treatment narrative",
+      "narrative_type": "popular_science_frame",
+      "description": "A common narrative treats animal-model success as near-clinical proof."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_mouse",
+      "to": "sc_mouse",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_mouse",
+      "to": "e_mouse",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_mouse",
+      "to": "i_preclinical",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "i_preclinical",
+      "to": "h_candidate",
+      "edge_type": "supports",
+      "strength": 0.6
+    },
+    {
+      "from": "h_candidate",
+      "to": "r_animal_human",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_candidate",
+      "to": "f_human_trial",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_candidate",
+      "to": "f_replication",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_candidate",
+      "to": "n_translational_hype",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "organism": "mouse",
+  "endpoint": "tumor size",
+  "intervention_condition": "Compound X under specified experimental conditions",
+  "hypotheses": [
+    {
+      "id": "h_candidate",
+      "title": "Compound X may be a preclinical therapeutic candidate",
+      "tier": "B",
+      "description": "The mouse result may justify further investigation as a therapeutic candidate, but does not establish human clinical efficacy."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_mouse",
+      "title": "Mouse tumor reduction",
+      "claim_text": "Compound X reduced tumor size in a mouse model under specified experimental conditions."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_mouse",
+      "title": "Mouse tumor size reduction",
+      "tier": "A",
+      "directness": "direct"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_preclinical",
+      "title": "Mouse result supports candidate status",
+      "tier": "B",
+      "description": "Animal-model evidence supports further study but not human clinical efficacy."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_animal_human",
+      "title": "Animal-to-human extrapolation",
+      "tier": "C",
+      "risk_type": "animal_to_human"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_human_trial",
+      "title": "Human trial fails primary endpoint"
+    },
+    {
+      "id": "f_replication",
+      "title": "Independent replication fails"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_translational_hype",
+      "title": "Preclinical success implies treatment narrative",
+      "description": "A common narrative treats animal-model success as near-clinical proof."
+    }
+  ]
+}

@@ -1,0 +1,1958 @@
+{
+  "case_id": "history_v2_converted_001",
+  "domain": "history_humanities",
+  "case_type": "mixed",
+  "title": "Original history/humanities v2 demo converted to audit case data",
+  "summary": "A structured conversion of the original ancient-history visual demo into source, source-claim, evidence, inference, hypothesis, falsifier, risk, narrative, and edge nodes. Structural validity is not expert endorsement.",
+  "conversion_source": "demos/ancient_history/legacy_hypothesis_credibility_v2.html",
+  "conversion_notes": [
+    "EV.source became source nodes; EV.title became source_claim and evidence nodes.",
+    "HY.desc became hypothesis descriptions and explicit inference nodes.",
+    "HY.fc became falsifier nodes and falsified_by edges.",
+    "HY.oc and M-tagged supporting evidence became risk nodes.",
+    "Legacy con edges to h7 were normalized as support because h7 is phrased as the negated Trans-Eurasian claim."
+  ],
+  "nodes": [
+    {
+      "id": "src1",
+      "node_type": "source",
+      "title": "Cooke et al. 2021, Science Advances",
+      "source_type": "paper",
+      "doi": "10.1126/sciadv.abh2419"
+    },
+    {
+      "id": "sc_e1",
+      "node_type": "source_claim",
+      "title": "Y染色体D系統 35%（本土日本人） source claim",
+      "source_id": "src1",
+      "claim_text": "The legacy v2 demo records this source as the basis for: Y染色体D系統 35%（本土日本人）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "sc_e2",
+      "node_type": "source_claim",
+      "title": "常染色体縄文成分 約12% source claim",
+      "source_id": "src1",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 常染色体縄文成分 約12%.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src2",
+      "node_type": "source",
+      "title": "YFull MTree; ISOGG 2024",
+      "source_type": "reference_packet",
+      "citation_text": "YFull MTree; ISOGG 2024"
+    },
+    {
+      "id": "sc_e3",
+      "node_type": "source_claim",
+      "title": "韓国C2b-CTS2657 TMRCA ~10,600年前 source claim",
+      "source_id": "src2",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 韓国C2b-CTS2657 TMRCA ~10,600年前.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src3",
+      "node_type": "source",
+      "title": "Kim et al. 2011",
+      "source_type": "reference_packet",
+      "citation_text": "Kim et al. 2011"
+    },
+    {
+      "id": "sc_e4",
+      "node_type": "source_claim",
+      "title": "アイヌC = 北アジア・サハリン起源 source claim",
+      "source_id": "src3",
+      "claim_text": "The legacy v2 demo records this source as the basis for: アイヌC = 北アジア・サハリン起源.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src4",
+      "node_type": "source",
+      "title": "Wikipedia; 芽室町郷土読本",
+      "source_type": "mixed_reference",
+      "citation_text": "Wikipedia; 芽室町郷土読本"
+    },
+    {
+      "id": "sc_e5",
+      "node_type": "source_claim",
+      "title": "コロポックル最強伝承地 = 十勝内陸 source claim",
+      "source_id": "src4",
+      "claim_text": "The legacy v2 demo records this source as the basis for: コロポックル最強伝承地 = 十勝内陸.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src5",
+      "node_type": "source",
+      "title": "縄文・弥生考古学総覧",
+      "source_type": "reference_packet",
+      "citation_text": "縄文・弥生考古学総覧"
+    },
+    {
+      "id": "sc_e6",
+      "node_type": "source_claim",
+      "title": "甕棺墓の縄文期における存在 source claim",
+      "source_id": "src5",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 甕棺墓の縄文期における存在.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src6",
+      "node_type": "source",
+      "title": "一般言語学",
+      "source_type": "reference_packet",
+      "citation_text": "一般言語学"
+    },
+    {
+      "id": "sc_e7",
+      "node_type": "source_claim",
+      "title": "タイ・カダイ語族 = SVO語順 source claim",
+      "source_id": "src6",
+      "claim_text": "The legacy v2 demo records this source as the basis for: タイ・カダイ語族 = SVO語順.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src7",
+      "node_type": "source",
+      "title": "東京大学 2019; JST",
+      "source_type": "reference_packet",
+      "citation_text": "東京大学 2019; JST"
+    },
+    {
+      "id": "sc_e8",
+      "node_type": "source_claim",
+      "title": "弥生期縄文人口の急激な減少（DNA） source claim",
+      "source_id": "src7",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 弥生期縄文人口の急激な減少（DNA）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src8",
+      "node_type": "source",
+      "title": "吉野ヶ里等考古学",
+      "source_type": "reference_packet",
+      "citation_text": "吉野ヶ里等考古学"
+    },
+    {
+      "id": "sc_e9",
+      "node_type": "source_claim",
+      "title": "弥生集落の環濠（防御施設） source claim",
+      "source_id": "src8",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 弥生集落の環濠（防御施設）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src9",
+      "node_type": "source",
+      "title": "Adachi et al. 2011",
+      "source_type": "reference_packet",
+      "citation_text": "Adachi et al. 2011"
+    },
+    {
+      "id": "sc_e10",
+      "node_type": "source_claim",
+      "title": "アイヌ = 縄文70-80% + オホーツク20-30% source claim",
+      "source_id": "src9",
+      "claim_text": "The legacy v2 demo records this source as the basis for: アイヌ = 縄文70-80% + オホーツク20-30%.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src10",
+      "node_type": "source",
+      "title": "Kanzawa-Kiriyama et al.",
+      "source_type": "reference_packet",
+      "citation_text": "Kanzawa-Kiriyama et al."
+    },
+    {
+      "id": "sc_e11",
+      "node_type": "source_claim",
+      "title": "礼文島縄文人 D1a2a2a（3800年前） source claim",
+      "source_id": "src10",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 礼文島縄文人 D1a2a2a（3800年前）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src11",
+      "node_type": "source",
+      "title": "Cooke et al. 2021",
+      "source_type": "reference_packet",
+      "citation_text": "Cooke et al. 2021"
+    },
+    {
+      "id": "sc_e12",
+      "node_type": "source_claim",
+      "title": "弥生大陸成分 = 西遼河・アムール系 source claim",
+      "source_id": "src11",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 弥生大陸成分 = 西遼河・アムール系.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src12",
+      "node_type": "source",
+      "title": "比較言語学",
+      "source_type": "reference_packet",
+      "citation_text": "比較言語学"
+    },
+    {
+      "id": "sc_e13",
+      "node_type": "source_claim",
+      "title": "日韓基礎語彙の非対応（漢語除く） source claim",
+      "source_id": "src12",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 日韓基礎語彙の非対応（漢語除く）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "sc_e14",
+      "node_type": "source_claim",
+      "title": "C2b-CTS2657とC2b-F3796の系統分岐 source claim",
+      "source_id": "src2",
+      "claim_text": "The legacy v2 demo records this source as the basis for: C2b-CTS2657とC2b-F3796の系統分岐.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src13",
+      "node_type": "source",
+      "title": "形態学的研究（部分的）",
+      "source_type": "reference_packet",
+      "citation_text": "形態学的研究（部分的）"
+    },
+    {
+      "id": "sc_e15",
+      "node_type": "source_claim",
+      "title": "近畿弥生期縄文形質個体の高地位副葬 source claim",
+      "source_id": "src13",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 近畿弥生期縄文形質個体の高地位副葬.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src14",
+      "node_type": "source",
+      "title": "古事記（712年）; 日本書紀（720年）",
+      "source_type": "reference_packet",
+      "citation_text": "古事記（712年）; 日本書紀（720年）"
+    },
+    {
+      "id": "sc_e16",
+      "node_type": "source_claim",
+      "title": "イザナミ神話「穢れ・死・逃走・禊」構造 source claim",
+      "source_id": "src14",
+      "claim_text": "The legacy v2 demo records this source as the basis for: イザナミ神話「穢れ・死・逃走・禊」構造.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src15",
+      "node_type": "source",
+      "title": "弥生農耕考古学",
+      "source_type": "reference_packet",
+      "citation_text": "弥生農耕考古学"
+    },
+    {
+      "id": "sc_e17",
+      "node_type": "source_claim",
+      "title": "弥生農耕：貯水・肥溜め・有機肥料 source claim",
+      "source_id": "src15",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 弥生農耕：貯水・肥溜め・有機肥料.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src16",
+      "node_type": "source",
+      "title": "アイヌ口承文芸研究",
+      "source_type": "reference_packet",
+      "citation_text": "アイヌ口承文芸研究"
+    },
+    {
+      "id": "sc_e18",
+      "node_type": "source_claim",
+      "title": "アイヌ神話の起源方向 = 南（青森） source claim",
+      "source_id": "src16",
+      "claim_text": "The legacy v2 demo records this source as the basis for: アイヌ神話の起源方向 = 南（青森）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src17",
+      "node_type": "source",
+      "title": "Kim et al. 2011; ISOGG",
+      "source_type": "reference_packet",
+      "citation_text": "Kim et al. 2011; ISOGG"
+    },
+    {
+      "id": "sc_e19",
+      "node_type": "source_claim",
+      "title": "日本のC系統 = C1a1（縄文固有） source claim",
+      "source_id": "src17",
+      "claim_text": "The legacy v2 demo records this source as the basis for: 日本のC系統 = C1a1（縄文固有）.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "src18",
+      "node_type": "source",
+      "title": "歴史人口学",
+      "source_type": "reference_packet",
+      "citation_text": "歴史人口学"
+    },
+    {
+      "id": "sc_e20",
+      "node_type": "source_claim",
+      "title": "アメリカ・豪先住民の処女地疫病事例 source claim",
+      "source_id": "src18",
+      "claim_text": "The legacy v2 demo records this source as the basis for: アメリカ・豪先住民の処女地疫病事例.",
+      "quote_or_locator": "Converted from EV.title and EV.source; exact source quotation requires follow-up citation review."
+    },
+    {
+      "id": "h1",
+      "node_type": "hypothesis",
+      "title": "縄文が弥生を制圧・支配した",
+      "description": "Y染色体D35%・常染色体12%の乖離は、縄文男性が支配者として弥生女性と優先的に交配した証拠。少数支配層モデル。",
+      "tier": "B",
+      "fields": [
+        "genetic",
+        "archaeological"
+      ],
+      "falsification_conditions": [
+        "弥生初期高地位副葬遺骨が全てO系統であれば反証。縄文形質遺骨が低地位に集中すれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h1",
+      "node_type": "inference",
+      "title": "縄文が弥生を制圧・支配した inference step",
+      "description": "Y染色体D35%・常染色体12%の乖離は、縄文男性が支配者として弥生女性と優先的に交配した証拠。少数支配層モデル。",
+      "depends_on": [
+        "e1",
+        "e2",
+        "e9",
+        "e15"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h1",
+      "node_type": "falsifier",
+      "title": "縄文が弥生を制圧・支配した falsifier",
+      "would_weaken": [
+        "h1"
+      ],
+      "required_test": "弥生初期高地位副葬遺骨が全てO系統であれば反証。縄文形質遺骨が低地位に集中すれば反証。"
+    },
+    {
+      "id": "h2",
+      "node_type": "hypothesis",
+      "title": "イザナミ神話＝縄文の農耕接触体験",
+      "description": "黄泉への侵入・死の持ち帰り・禊の構造が縄文の農耕集落略奪・疫病持ち帰りと対応する。ただしM証拠が中心。",
+      "tier": "C",
+      "fields": [
+        "mythological",
+        "demographic"
+      ],
+      "falsification_conditions": [
+        "同型の神話構造が農耕接触のない文化にも存在すれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h2",
+      "node_type": "inference",
+      "title": "イザナミ神話＝縄文の農耕接触体験 inference step",
+      "description": "黄泉への侵入・死の持ち帰り・禊の構造が縄文の農耕集落略奪・疫病持ち帰りと対応する。ただしM証拠が中心。",
+      "depends_on": [
+        "e8",
+        "e16",
+        "e17"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h2",
+      "node_type": "falsifier",
+      "title": "イザナミ神話＝縄文の農耕接触体験 falsifier",
+      "would_weaken": [
+        "h2"
+      ],
+      "required_test": "同型の神話構造が農耕接触のない文化にも存在すれば反証。"
+    },
+    {
+      "id": "risk_h2_overclaim",
+      "node_type": "risk",
+      "title": "イザナミ神話＝縄文の農耕接触体験 overclaim risk",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history",
+        "analogy_inflation"
+      ],
+      "targets": [
+        "h2"
+      ],
+      "severity": "medium",
+      "suggested_patch": "神話構造の一致をanalogical reasoningとして扱う必要あり。直接証拠はない。"
+    },
+    {
+      "id": "h3",
+      "node_type": "hypothesis",
+      "title": "穢れ思想＝農耕接触の疫学的起源",
+      "description": "稲作の貯水・肥溜め・死体肥料が実際に疫病源であり、縄文の「穢れ」概念はその経験的認識から生まれた。",
+      "tier": "B",
+      "fields": [
+        "mythological",
+        "archaeological"
+      ],
+      "falsification_conditions": [
+        "穢れ概念が農耕接触前の縄文期に確認されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h3",
+      "node_type": "inference",
+      "title": "穢れ思想＝農耕接触の疫学的起源 inference step",
+      "description": "稲作の貯水・肥溜め・死体肥料が実際に疫病源であり、縄文の「穢れ」概念はその経験的認識から生まれた。",
+      "depends_on": [
+        "e6",
+        "e16",
+        "e17"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h3",
+      "node_type": "falsifier",
+      "title": "穢れ思想＝農耕接触の疫学的起源 falsifier",
+      "would_weaken": [
+        "h3"
+      ],
+      "required_test": "穢れ概念が農耕接触前の縄文期に確認されれば反証。"
+    },
+    {
+      "id": "h4",
+      "node_type": "hypothesis",
+      "title": "コロポックル＝先行北海道縄文人",
+      "description": "伝承地が十勝内陸（オホーツク沿岸でない）から、コロポックルはオホーツク文化人でなく先行縄文人。フキは屋根材の意味。",
+      "tier": "B",
+      "fields": [
+        "mythological",
+        "archaeological"
+      ],
+      "falsification_conditions": [
+        "コロポックル伝承地がオホーツク文化遺跡と地理的に一致すれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h4",
+      "node_type": "inference",
+      "title": "コロポックル＝先行北海道縄文人 inference step",
+      "description": "伝承地が十勝内陸（オホーツク沿岸でない）から、コロポックルはオホーツク文化人でなく先行縄文人。フキは屋根材の意味。",
+      "depends_on": [
+        "e4",
+        "e5",
+        "e10"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h4",
+      "node_type": "falsifier",
+      "title": "コロポックル＝先行北海道縄文人 falsifier",
+      "would_weaken": [
+        "h4"
+      ],
+      "required_test": "コロポックル伝承地がオホーツク文化遺跡と地理的に一致すれば反証。"
+    },
+    {
+      "id": "h5",
+      "node_type": "hypothesis",
+      "title": "韓国C2b＝西遼河新石器起源",
+      "description": "韓国C2b-CTS2657はTMRCA約10,600年前で、モンゴルC2b-F3796（約3,700年前）と系統が異なる。朝鮮半島の西遼河遺伝的連続性。",
+      "tier": "A",
+      "fields": [
+        "genetic"
+      ],
+      "falsification_conditions": [
+        "韓国C2bサブクレードがモンゴルC2bと同一系統と示されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h5",
+      "node_type": "inference",
+      "title": "韓国C2b＝西遼河新石器起源 inference step",
+      "description": "韓国C2b-CTS2657はTMRCA約10,600年前で、モンゴルC2b-F3796（約3,700年前）と系統が異なる。朝鮮半島の西遼河遺伝的連続性。",
+      "depends_on": [
+        "e3",
+        "e12"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h5",
+      "node_type": "falsifier",
+      "title": "韓国C2b＝西遼河新石器起源 falsifier",
+      "would_weaken": [
+        "h5"
+      ],
+      "required_test": "韓国C2bサブクレードがモンゴルC2bと同一系統と示されれば反証。"
+    },
+    {
+      "id": "h6",
+      "node_type": "hypothesis",
+      "title": "西遼河と日本は遺伝的・文化的に無関係",
+      "description": "日本のC系統はC1a1（縄文固有）でC2b-CTS2657はほぼゼロ。弥生O1b2は長江・山東系であり西遼河系ではない。",
+      "tier": "A",
+      "fields": [
+        "genetic"
+      ],
+      "falsification_conditions": [
+        "C2b-CTS2657が弥生期遺骨から有意に検出されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h6",
+      "node_type": "inference",
+      "title": "西遼河と日本は遺伝的・文化的に無関係 inference step",
+      "description": "日本のC系統はC1a1（縄文固有）でC2b-CTS2657はほぼゼロ。弥生O1b2は長江・山東系であり西遼河系ではない。",
+      "depends_on": [
+        "e19"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h6",
+      "node_type": "falsifier",
+      "title": "西遼河と日本は遺伝的・文化的に無関係 falsifier",
+      "would_weaken": [
+        "h6"
+      ],
+      "required_test": "C2b-CTS2657が弥生期遺骨から有意に検出されれば反証。"
+    },
+    {
+      "id": "h7",
+      "node_type": "hypothesis",
+      "title": "トランスユーラシア仮説は成立困難",
+      "description": "韓国C2bとモンゴルC2bが1万年前に既に分岐、O1b2がSVO語族と関連、日韓基礎語彙の非対応により困難。",
+      "tier": "A",
+      "fields": [
+        "genetic",
+        "linguistic"
+      ],
+      "falsification_conditions": [
+        "日韓語の非借用基礎語彙に体系的音韻対応が発見されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h7",
+      "node_type": "inference",
+      "title": "トランスユーラシア仮説は成立困難 inference step",
+      "description": "韓国C2bとモンゴルC2bが1万年前に既に分岐、O1b2がSVO語族と関連、日韓基礎語彙の非対応により困難。",
+      "depends_on": [
+        "e3",
+        "e13",
+        "e14"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h7",
+      "node_type": "falsifier",
+      "title": "トランスユーラシア仮説は成立困難 falsifier",
+      "would_weaken": [
+        "h7"
+      ],
+      "required_test": "日韓語の非借用基礎語彙に体系的音韻対応が発見されれば反証。"
+    },
+    {
+      "id": "h8",
+      "node_type": "hypothesis",
+      "title": "アイヌ語は縄文語の最有力継承候補",
+      "description": "縄文人の最直接の遺伝的子孫（D70-80%）、弥生影響最小地域で保存、孤立語としての古さ。",
+      "tier": "B",
+      "fields": [
+        "genetic",
+        "linguistic"
+      ],
+      "falsification_conditions": [
+        "アイヌ語と他の既知語族の系統的関係が証明されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h8",
+      "node_type": "inference",
+      "title": "アイヌ語は縄文語の最有力継承候補 inference step",
+      "description": "縄文人の最直接の遺伝的子孫（D70-80%）、弥生影響最小地域で保存、孤立語としての古さ。",
+      "depends_on": [
+        "e11",
+        "e18"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h8",
+      "node_type": "falsifier",
+      "title": "アイヌ語は縄文語の最有力継承候補 falsifier",
+      "would_weaken": [
+        "h8"
+      ],
+      "required_test": "アイヌ語と他の既知語族の系統的関係が証明されれば反証。"
+    },
+    {
+      "id": "h9",
+      "node_type": "hypothesis",
+      "title": "O1b2の祖先言語はSVO系",
+      "description": "O1b2は長江・タイカダイ・オーストロネシア語族系と関連しSVO語順。日韓語SOVはO1b2由来でなく縄文語・西遼河語の基層を反映。",
+      "tier": "B",
+      "fields": [
+        "linguistic",
+        "genetic"
+      ],
+      "falsification_conditions": [
+        "O1b2古代集団の文化的記録にSOV語序が確認されれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h9",
+      "node_type": "inference",
+      "title": "O1b2の祖先言語はSVO系 inference step",
+      "description": "O1b2は長江・タイカダイ・オーストロネシア語族系と関連しSVO語順。日韓語SOVはO1b2由来でなく縄文語・西遼河語の基層を反映。",
+      "depends_on": [
+        "e7",
+        "e13"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h9",
+      "node_type": "falsifier",
+      "title": "O1b2の祖先言語はSVO系 falsifier",
+      "would_weaken": [
+        "h9"
+      ],
+      "required_test": "O1b2古代集団の文化的記録にSOV語序が確認されれば反証。"
+    },
+    {
+      "id": "h10",
+      "node_type": "hypothesis",
+      "title": "弥生流入による縄文人口の疫病崩壊",
+      "description": "大陸農耕集団の集団感染症に対し、1万年以上孤立した縄文人は免疫がなく打撃を受けた。DNA解析で人口急減確認済。",
+      "tier": "B",
+      "fields": [
+        "genetic",
+        "demographic"
+      ],
+      "falsification_conditions": [
+        "縄文晩期人骨の古病理分析で弥生渡来前から感染症痕跡が高頻度に見られれば反証。"
+      ]
+    },
+    {
+      "id": "inf_h10",
+      "node_type": "inference",
+      "title": "弥生流入による縄文人口の疫病崩壊 inference step",
+      "description": "大陸農耕集団の集団感染症に対し、1万年以上孤立した縄文人は免疫がなく打撃を受けた。DNA解析で人口急減確認済。",
+      "depends_on": [
+        "e1",
+        "e2",
+        "e8",
+        "e20"
+      ],
+      "inference_note": "Converted from HY.desc; expert review should decide whether the inference is warranted."
+    },
+    {
+      "id": "f_h10",
+      "node_type": "falsifier",
+      "title": "弥生流入による縄文人口の疫病崩壊 falsifier",
+      "would_weaken": [
+        "h10"
+      ],
+      "required_test": "縄文晩期人骨の古病理分析で弥生渡来前から感染症痕跡が高頻度に見られれば反証。"
+    },
+    {
+      "id": "e1",
+      "node_type": "evidence",
+      "title": "Y染色体D系統 35%（本土日本人）",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.95,
+      "source_claim_ids": [
+        "sc_e1"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h1",
+          "h10"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e2",
+      "node_type": "evidence",
+      "title": "常染色体縄文成分 約12%",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.95,
+      "source_claim_ids": [
+        "sc_e2"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h1",
+          "h10"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e3",
+      "node_type": "evidence",
+      "title": "韓国C2b-CTS2657 TMRCA ~10,600年前",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.85,
+      "source_claim_ids": [
+        "sc_e3"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h5"
+        ],
+        "contradicts": [
+          "h6",
+          "h7"
+        ]
+      }
+    },
+    {
+      "id": "e4",
+      "node_type": "evidence",
+      "title": "アイヌC = 北アジア・サハリン起源",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.8,
+      "source_claim_ids": [
+        "sc_e4"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h4"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e5",
+      "node_type": "evidence",
+      "title": "コロポックル最強伝承地 = 十勝内陸",
+      "evidence_type": "mythological",
+      "directness": "analogy",
+      "weight": 0.5,
+      "source_claim_ids": [
+        "sc_e5"
+      ],
+      "evidence_tags": [
+        "primary_text_with_context"
+      ],
+      "m_tag": true,
+      "legacy_relations": {
+        "supports": [
+          "h4"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e6",
+      "node_type": "evidence",
+      "title": "甕棺墓の縄文期における存在",
+      "evidence_type": "archaeological",
+      "directness": "indirect",
+      "weight": 0.8,
+      "source_claim_ids": [
+        "sc_e6"
+      ],
+      "evidence_tags": [
+        "secure_stratigraphy"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h3"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e7",
+      "node_type": "evidence",
+      "title": "タイ・カダイ語族 = SVO語順",
+      "evidence_type": "linguistic",
+      "directness": "direct",
+      "weight": 0.75,
+      "source_claim_ids": [
+        "sc_e7"
+      ],
+      "evidence_tags": [
+        "direct_philology"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h9"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e8",
+      "node_type": "evidence",
+      "title": "弥生期縄文人口の急激な減少（DNA）",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.85,
+      "source_claim_ids": [
+        "sc_e8"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h10",
+          "h2"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e9",
+      "node_type": "evidence",
+      "title": "弥生集落の環濠（防御施設）",
+      "evidence_type": "archaeological",
+      "directness": "indirect",
+      "weight": 0.75,
+      "source_claim_ids": [
+        "sc_e9"
+      ],
+      "evidence_tags": [
+        "secure_stratigraphy"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h1"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e10",
+      "node_type": "evidence",
+      "title": "アイヌ = 縄文70-80% + オホーツク20-30%",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.85,
+      "source_claim_ids": [
+        "sc_e10"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h4"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e11",
+      "node_type": "evidence",
+      "title": "礼文島縄文人 D1a2a2a（3800年前）",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.9,
+      "source_claim_ids": [
+        "sc_e11"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h8"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e12",
+      "node_type": "evidence",
+      "title": "弥生大陸成分 = 西遼河・アムール系",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.85,
+      "source_claim_ids": [
+        "sc_e12"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h5"
+        ],
+        "contradicts": [
+          "h6"
+        ]
+      }
+    },
+    {
+      "id": "e13",
+      "node_type": "evidence",
+      "title": "日韓基礎語彙の非対応（漢語除く）",
+      "evidence_type": "linguistic",
+      "directness": "direct",
+      "weight": 0.8,
+      "source_claim_ids": [
+        "sc_e13"
+      ],
+      "evidence_tags": [
+        "direct_philology"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h9"
+        ],
+        "contradicts": [
+          "h7"
+        ]
+      }
+    },
+    {
+      "id": "e14",
+      "node_type": "evidence",
+      "title": "C2b-CTS2657とC2b-F3796の系統分岐",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.85,
+      "source_claim_ids": [
+        "sc_e14"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [],
+        "contradicts": [
+          "h7"
+        ]
+      }
+    },
+    {
+      "id": "e15",
+      "node_type": "evidence",
+      "title": "近畿弥生期縄文形質個体の高地位副葬",
+      "evidence_type": "archaeological",
+      "directness": "indirect",
+      "weight": 0.55,
+      "source_claim_ids": [
+        "sc_e15"
+      ],
+      "evidence_tags": [
+        "secure_stratigraphy"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h1"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e16",
+      "node_type": "evidence",
+      "title": "イザナミ神話「穢れ・死・逃走・禊」構造",
+      "evidence_type": "mythological",
+      "directness": "analogy",
+      "weight": 0.35,
+      "source_claim_ids": [
+        "sc_e16"
+      ],
+      "evidence_tags": [
+        "primary_text_with_context"
+      ],
+      "m_tag": true,
+      "legacy_relations": {
+        "supports": [
+          "h2",
+          "h3"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e17",
+      "node_type": "evidence",
+      "title": "弥生農耕：貯水・肥溜め・有機肥料",
+      "evidence_type": "archaeological",
+      "directness": "indirect",
+      "weight": 0.7,
+      "source_claim_ids": [
+        "sc_e17"
+      ],
+      "evidence_tags": [
+        "secure_stratigraphy"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h3",
+          "h2"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e18",
+      "node_type": "evidence",
+      "title": "アイヌ神話の起源方向 = 南（青森）",
+      "evidence_type": "mythological",
+      "directness": "analogy",
+      "weight": 0.4,
+      "source_claim_ids": [
+        "sc_e18"
+      ],
+      "evidence_tags": [
+        "primary_text_with_context"
+      ],
+      "m_tag": true,
+      "legacy_relations": {
+        "supports": [
+          "h8"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e19",
+      "node_type": "evidence",
+      "title": "日本のC系統 = C1a1（縄文固有）",
+      "evidence_type": "genetic",
+      "directness": "direct",
+      "weight": 0.9,
+      "source_claim_ids": [
+        "sc_e19"
+      ],
+      "evidence_tags": [
+        "ancient_dna"
+      ],
+      "m_tag": false,
+      "legacy_relations": {
+        "supports": [
+          "h6"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "e20",
+      "node_type": "evidence",
+      "title": "アメリカ・豪先住民の処女地疫病事例",
+      "evidence_type": "demographic",
+      "directness": "analogy",
+      "weight": 0.7,
+      "source_claim_ids": [
+        "sc_e20"
+      ],
+      "evidence_tags": [],
+      "m_tag": true,
+      "legacy_relations": {
+        "supports": [
+          "h10"
+        ],
+        "contradicts": []
+      }
+    },
+    {
+      "id": "risk_h2_analogy",
+      "node_type": "risk",
+      "title": "イザナミ神話＝縄文の農耕接触体験 analogy evidence risk",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history"
+      ],
+      "targets": [
+        "h2"
+      ],
+      "severity": "low",
+      "suggested_patch": "Keep M-tag or analogy evidence separate from direct proof, and do not use it alone to raise the hypothesis tier."
+    },
+    {
+      "id": "risk_h3_analogy",
+      "node_type": "risk",
+      "title": "穢れ思想＝農耕接触の疫学的起源 analogy evidence risk",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history"
+      ],
+      "targets": [
+        "h3"
+      ],
+      "severity": "low",
+      "suggested_patch": "Keep M-tag or analogy evidence separate from direct proof, and do not use it alone to raise the hypothesis tier."
+    },
+    {
+      "id": "risk_h4_analogy",
+      "node_type": "risk",
+      "title": "コロポックル＝先行北海道縄文人 analogy evidence risk",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history"
+      ],
+      "targets": [
+        "h4"
+      ],
+      "severity": "low",
+      "suggested_patch": "Keep M-tag or analogy evidence separate from direct proof, and do not use it alone to raise the hypothesis tier."
+    },
+    {
+      "id": "risk_h8_analogy",
+      "node_type": "risk",
+      "title": "アイヌ語は縄文語の最有力継承候補 analogy evidence risk",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history"
+      ],
+      "targets": [
+        "h8"
+      ],
+      "severity": "low",
+      "suggested_patch": "Keep M-tag or analogy evidence separate from direct proof, and do not use it alone to raise the hypothesis tier."
+    },
+    {
+      "id": "risk_h10_analogy",
+      "node_type": "risk",
+      "title": "弥生流入による縄文人口の疫病崩壊 analogy evidence risk",
+      "risk_type": "comparative_demographic_analogy",
+      "risk_tags": [
+        "comparative_demographic_analogy"
+      ],
+      "targets": [
+        "h10"
+      ],
+      "severity": "low",
+      "suggested_patch": "Keep M-tag or analogy evidence separate from direct proof, and do not use it alone to raise the hypothesis tier."
+    },
+    {
+      "id": "n1",
+      "node_type": "narrative",
+      "title": "弥生が縄文を人口・文化的に置き換えた",
+      "narrative_type": "target_narrative",
+      "legacy_type": "narrative"
+    },
+    {
+      "id": "n2",
+      "node_type": "narrative",
+      "title": "トランスユーラシア言語起源説（ロビーツ2021）",
+      "narrative_type": "target_paper_frame",
+      "legacy_type": "paper"
+    },
+    {
+      "id": "n3",
+      "node_type": "narrative",
+      "title": "日本と西遼河文明の文化的接続（俗説）",
+      "narrative_type": "target_narrative",
+      "legacy_type": "narrative"
+    },
+    {
+      "id": "n4",
+      "node_type": "narrative",
+      "title": "アイヌはオホーツク・擦文の後裔（通説）",
+      "narrative_type": "target_narrative",
+      "legacy_type": "narrative"
+    }
+  ],
+  "edges": [
+    {
+      "from": "src1",
+      "to": "sc_e1",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src1",
+      "to": "sc_e2",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src2",
+      "to": "sc_e3",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src3",
+      "to": "sc_e4",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src4",
+      "to": "sc_e5",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src5",
+      "to": "sc_e6",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src6",
+      "to": "sc_e7",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src7",
+      "to": "sc_e8",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src8",
+      "to": "sc_e9",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src9",
+      "to": "sc_e10",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src10",
+      "to": "sc_e11",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src11",
+      "to": "sc_e12",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src12",
+      "to": "sc_e13",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src2",
+      "to": "sc_e14",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src13",
+      "to": "sc_e15",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src14",
+      "to": "sc_e16",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src15",
+      "to": "sc_e17",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src16",
+      "to": "sc_e18",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src17",
+      "to": "sc_e19",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "src18",
+      "to": "sc_e20",
+      "edge_type": "says",
+      "strength": 1
+    },
+    {
+      "from": "e1",
+      "to": "inf_h1",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e2",
+      "to": "inf_h1",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e9",
+      "to": "inf_h1",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e15",
+      "to": "inf_h1",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h1",
+      "to": "h1",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h1",
+      "to": "f_h1",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e8",
+      "to": "inf_h2",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e16",
+      "to": "inf_h2",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e17",
+      "to": "inf_h2",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h2",
+      "to": "h2",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h2",
+      "to": "f_h2",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "h2",
+      "to": "risk_h2_overclaim",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "e6",
+      "to": "inf_h3",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e16",
+      "to": "inf_h3",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e17",
+      "to": "inf_h3",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h3",
+      "to": "h3",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h3",
+      "to": "f_h3",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e4",
+      "to": "inf_h4",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e5",
+      "to": "inf_h4",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e10",
+      "to": "inf_h4",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h4",
+      "to": "h4",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h4",
+      "to": "f_h4",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e3",
+      "to": "inf_h5",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e12",
+      "to": "inf_h5",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h5",
+      "to": "h5",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h5",
+      "to": "f_h5",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e19",
+      "to": "inf_h6",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h6",
+      "to": "h6",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h6",
+      "to": "f_h6",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e3",
+      "to": "inf_h7",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e13",
+      "to": "inf_h7",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e14",
+      "to": "inf_h7",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h7",
+      "to": "h7",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h7",
+      "to": "f_h7",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e11",
+      "to": "inf_h8",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e18",
+      "to": "inf_h8",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h8",
+      "to": "h8",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h8",
+      "to": "f_h8",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e7",
+      "to": "inf_h9",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e13",
+      "to": "inf_h9",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h9",
+      "to": "h9",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h9",
+      "to": "f_h9",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "e1",
+      "to": "inf_h10",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e2",
+      "to": "inf_h10",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e8",
+      "to": "inf_h10",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e20",
+      "to": "inf_h10",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "inf_h10",
+      "to": "h10",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "h10",
+      "to": "f_h10",
+      "edge_type": "falsified_by",
+      "strength": 1
+    },
+    {
+      "from": "sc_e1",
+      "to": "e1",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e1",
+      "to": "h1",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "e1",
+      "to": "h10",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "sc_e2",
+      "to": "e2",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e2",
+      "to": "h1",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "e2",
+      "to": "h10",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "sc_e3",
+      "to": "e3",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e3",
+      "to": "h5",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "e3",
+      "to": "h7",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "e3",
+      "to": "h6",
+      "edge_type": "refutes",
+      "strength": 0.85
+    },
+    {
+      "from": "sc_e4",
+      "to": "e4",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e4",
+      "to": "h4",
+      "edge_type": "supports",
+      "strength": 0.8
+    },
+    {
+      "from": "sc_e5",
+      "to": "e5",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e5",
+      "to": "h4",
+      "edge_type": "supports",
+      "strength": 0.5
+    },
+    {
+      "from": "sc_e6",
+      "to": "e6",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e6",
+      "to": "h3",
+      "edge_type": "supports",
+      "strength": 0.8
+    },
+    {
+      "from": "sc_e7",
+      "to": "e7",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e7",
+      "to": "h9",
+      "edge_type": "supports",
+      "strength": 0.75
+    },
+    {
+      "from": "sc_e8",
+      "to": "e8",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e8",
+      "to": "h10",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "e8",
+      "to": "h2",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "sc_e9",
+      "to": "e9",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e9",
+      "to": "h1",
+      "edge_type": "supports",
+      "strength": 0.75
+    },
+    {
+      "from": "sc_e10",
+      "to": "e10",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e10",
+      "to": "h4",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "sc_e11",
+      "to": "e11",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e11",
+      "to": "h8",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "sc_e12",
+      "to": "e12",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e12",
+      "to": "h5",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "e12",
+      "to": "h6",
+      "edge_type": "refutes",
+      "strength": 0.85
+    },
+    {
+      "from": "sc_e13",
+      "to": "e13",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e13",
+      "to": "h9",
+      "edge_type": "supports",
+      "strength": 0.8
+    },
+    {
+      "from": "e13",
+      "to": "h7",
+      "edge_type": "supports",
+      "strength": 0.8
+    },
+    {
+      "from": "sc_e14",
+      "to": "e14",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e14",
+      "to": "h7",
+      "edge_type": "supports",
+      "strength": 0.85
+    },
+    {
+      "from": "sc_e15",
+      "to": "e15",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e15",
+      "to": "h1",
+      "edge_type": "supports",
+      "strength": 0.55
+    },
+    {
+      "from": "sc_e16",
+      "to": "e16",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e16",
+      "to": "h2",
+      "edge_type": "supports",
+      "strength": 0.35
+    },
+    {
+      "from": "e16",
+      "to": "h3",
+      "edge_type": "supports",
+      "strength": 0.35
+    },
+    {
+      "from": "sc_e17",
+      "to": "e17",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e17",
+      "to": "h3",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "e17",
+      "to": "h2",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "sc_e18",
+      "to": "e18",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e18",
+      "to": "h8",
+      "edge_type": "supports",
+      "strength": 0.4
+    },
+    {
+      "from": "sc_e19",
+      "to": "e19",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e19",
+      "to": "h6",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "sc_e20",
+      "to": "e20",
+      "edge_type": "extracted_as",
+      "strength": 1
+    },
+    {
+      "from": "e20",
+      "to": "h10",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "h2",
+      "to": "risk_h2_analogy",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "h3",
+      "to": "risk_h3_analogy",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "h4",
+      "to": "risk_h4_analogy",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "h8",
+      "to": "risk_h8_analogy",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "h10",
+      "to": "risk_h10_analogy",
+      "edge_type": "has_risk",
+      "strength": 1
+    },
+    {
+      "from": "h1",
+      "to": "n1",
+      "edge_type": "narrative_conflict",
+      "strength": 0.6
+    },
+    {
+      "from": "h2",
+      "to": "n1",
+      "edge_type": "narrative_conflict",
+      "strength": 0.6
+    },
+    {
+      "from": "h4",
+      "to": "n4",
+      "edge_type": "frame_conflict",
+      "strength": 0.6
+    },
+    {
+      "from": "h6",
+      "to": "n3",
+      "edge_type": "narrative_conflict",
+      "strength": 0.6
+    },
+    {
+      "from": "h7",
+      "to": "n2",
+      "edge_type": "paper_conflict",
+      "strength": 0.6
+    }
+  ],
+  "expected_validation": {
+    "status": "valid"
+  }
+}

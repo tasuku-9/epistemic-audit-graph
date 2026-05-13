@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legacy History Audit Graph - English</title>
+<style>
+:root{
+  --color-border-tertiary:#d9dee7;
+  --border-radius-lg:10px;
+  --font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --color-text-primary:#1f2933;
+  --color-text-secondary:#667085;
+  --color-background-primary:#fff;
+  --color-background-secondary:#f2f5f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{margin:0;padding:14px;background:#f7f7f4;color:var(--color-text-primary);font-family:var(--font-sans)}
+#intro{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+#intro h1{font-size:18px;line-height:1.25;margin-bottom:4px}
+#intro p{font-size:11px;line-height:1.55;color:var(--color-text-secondary);max-width:760px}
+.links{font-size:11px;display:flex;gap:8px;flex-wrap:wrap;white-space:nowrap}
+.links a{color:#315f9e;text-decoration:none;border:0.5px solid var(--color-border-tertiary);background:#fff;border-radius:5px;padding:5px 7px}
+#wrap{display:flex;height:600px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;font-family:var(--font-sans);font-size:13px;background:var(--color-background-primary)}
+#left{width:215px;border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+#lhead{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;flex-shrink:0}
+#hlist{flex:1;overflow-y:auto}
+.hi{cursor:pointer;padding:8px 12px;border-left:2px solid transparent;transition:background .1s}
+.hi:hover,.hi.sel{background:var(--color-background-secondary)}
+.hi-top{display:flex;align-items:flex-start;gap:7px;margin-bottom:3px}
+.tier-badge{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;font-family:var(--font-mono);flex-shrink:0;margin-top:1px}
+.hi-title{font-size:11px;line-height:1.4;color:var(--color-text-primary)}
+.hi-sub{display:flex;align-items:center;gap:5px;padding-left:25px;flex-wrap:wrap}
+.ev-tag{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.oc-warn{font-size:9px;color:#dc2626;padding:1px 4px;border-radius:3px;background:rgba(220,38,38,.08);border:0.5px solid rgba(220,38,38,.25)}
+#llegs{padding:10px 12px;border-top:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+#llegs p{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px}
+.leg{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-size:10px;color:var(--color-text-secondary)}
+.ltier{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;font-family:monospace;flex-shrink:0}
+#center{flex:1;position:relative;overflow:hidden}
+#gc{width:100%;height:100%;display:block}
+#overlay{position:absolute;top:8px;left:8px;font-size:9px;color:var(--color-text-secondary);line-height:1.6;pointer-events:none;background:var(--color-background-primary);padding:4px 7px;border-radius:5px;border:0.5px solid var(--color-border-tertiary);opacity:.85}
+#right{width:240px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:12px}
+#empty{color:var(--color-text-secondary);font-size:12px;text-align:center;margin-top:50px;line-height:1.9}
+.dlbl{font-size:10px;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase}
+.dtitle{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
+.tier-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.tier-big{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;font-family:monospace}
+.tier-desc{font-size:11px;color:var(--color-text-secondary)}
+.sbar-wrap{margin-bottom:10px}
+.sbar{height:3px;background:var(--color-border-tertiary);border-radius:2px}
+.sbar-fill{height:100%;border-radius:2px;transition:width .5s}
+.ddesc{font-size:11px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:10px}
+.fc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px}
+.fclbl{font-size:9px;margin-bottom:3px;letter-spacing:.08em;font-weight:500;text-transform:uppercase}
+.fctext{font-size:10px;line-height:1.55}
+.oc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(220,38,38,.06);border:0.5px solid rgba(220,38,38,.2)}
+.oc-lbl{font-size:9px;color:#dc2626;margin-bottom:3px;font-weight:500;text-transform:uppercase}
+.oc-text{font-size:10px;color:#b91c1c;line-height:1.5}
+.na-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
+.na-lbl{font-size:9px;color:var(--color-text-secondary);margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase}
+.na-item{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px}
+.na-badge{font-size:8px;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.na-text{font-size:10px;color:var(--color-text-secondary);line-height:1.4}
+.evl-lbl{font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;margin-bottom:5px;text-transform:uppercase}
+.ev-item{padding:7px 8px;margin-bottom:5px;border-radius:5px;border:0.5px solid;cursor:pointer}
+.ev-item:hover{opacity:.8}
+.ev-top{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.ev-rel{font-size:9px;font-weight:500}
+.ev-type{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.m-tag{font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(136,135,128,.15);border:0.5px solid rgba(136,135,128,.4);color:#888780}
+.ev-title{font-size:10px;color:var(--color-text-secondary);line-height:1.35}
+.ev-src{font-size:9px;margin-top:3px;font-family:var(--font-mono);color:var(--color-text-secondary);opacity:.65}
+.src-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(55,138,221,.06);border:0.5px solid rgba(55,138,221,.2)}
+@media(max-width:820px){
+  #intro{display:block}
+  .links{margin-top:8px}
+  #wrap{height:auto;display:grid;grid-template-columns:1fr}
+  #left,#right{width:auto;max-height:260px;border:0;border-bottom:0.5px solid var(--color-border-tertiary)}
+  #center{height:520px}
+}
+</style>
+</head>
+<body>
+<div id="intro">
+  <div>
+    <h1>Legacy History Audit Graph - English</h1>
+    <p>This is the legacy history-only stress-test translated into English. It is intentionally stronger and messier than the six-domain public demo: use it for UI motion, narrative-conflict, M-tag, and overclaim inspection.</p>
+  </div>
+  <div class="links">
+    <a href="../../frontend/index.html">six-domain demo</a>
+    <a href="legacy_hypothesis_credibility_v2.html">original legacy</a>
+  </div>
+</div>
+
+<div id="wrap">
+<div id="left">
+  <div id="lhead">HYPOTHESES - Tier / audit support</div>
+  <div id="hlist"></div>
+  <div id="llegs">
+    <p>Tier system</p>
+    <div id="tierleg"></div>
+    <p style="margin-top:8px">Edge type</p>
+    <div id="edgeleg"></div>
+  </div>
+</div>
+<div id="center">
+  <canvas id="gc"></canvas>
+  <div id="overlay">circle: hypothesis / evidence - diamond: narrative - M: analogy or mythic evidence</div>
+</div>
+<div id="right"><div id="dc"><div id="empty">Select a node to inspect<br>details, falsifiers, and narrative conflicts.</div></div></div>
+</div>
+
+<script>
+const TIERS={
+  A:{label:"A",desc:"strong within-scope observation",bg:"rgba(29,158,117,.12)",color:"#166534",border:"#16a34a"},
+  B:{label:"B",desc:"structured but not proven",bg:"rgba(55,138,221,.1)",color:"#1d4ed8",border:"#2563eb"},
+  C:{label:"C",desc:"testable open question",bg:"rgba(186,117,23,.1)",color:"#92400e",border:"#b45309"},
+  X:{label:"X",desc:"overclaim or insufficient basis",bg:"rgba(220,38,38,.08)",color:"#dc2626",border:"#dc2626"},
+  M:{label:"M",desc:"methodological analogy",bg:"rgba(136,135,128,.1)",color:"#888780",border:"#888780"}
+};
+
+const TYPES={
+  genetic:{l:"genetic",c:"#1D9E75"},
+  archaeological:{l:"archaeology",c:"#378ADD"},
+  linguistic:{l:"linguistic",c:"#BA7517"},
+  mythological:{l:"myth / text",c:"#7C3AED"},
+  demographic:{l:"demographic",c:"#D85A30"},
+  circumstantial:{l:"circumstantial",c:"#888780"}
+};
+
+const EDGETYPES={
+  sup:{l:"support",c:"rgba(22,163,74,.18)",hl:"rgba(22,163,74,.6)"},
+  con:{l:"counter",c:"rgba(220,38,38,.18)",hl:"rgba(220,38,38,.6)"},
+  paper_conflict:{l:"paper conflict",c:"rgba(234,88,12,.18)",hl:"rgba(234,88,12,.6)",dash:true},
+  narrative_conflict:{l:"narrative conflict",c:"rgba(124,58,237,.15)",hl:"rgba(124,58,237,.6)",dash:true},
+  frame_conflict:{l:"frame conflict",c:"rgba(29,78,216,.15)",hl:"rgba(29,78,216,.6)",dash:true}
+};
+
+const NAR=[
+  {id:"n1",title:"Passive Jomon survival narrative",type:"narrative"},
+  {id:"n2",title:"Trans-Eurasian language-origin frame",type:"paper"},
+  {id:"n3",title:"Japan and West Liao River cultural-continuity frame",type:"narrative"},
+  {id:"n4",title:"Ainu as only post-Jomon northern remnant frame",type:"narrative"}
+];
+
+const EV=[
+  {id:"e1",title:"Modern Japanese Y-DNA D-M55 is reported at substantial frequency",type:"genetic",weight:.95,m:false,source:"population-genetics packet; replace with reviewed citation",doi:"",sup:["h1","h10"],con:[]},
+  {id:"e2",title:"Jomon-associated mtDNA component is much smaller than paternal signal",type:"genetic",weight:.78,m:false,source:"population-genetics packet; replace with reviewed citation",sup:["h1","h10"],con:[]},
+  {id:"e3",title:"Korean C2b-CTS2657 split is deep and not a simple recent Mongolic signal",type:"genetic",weight:.85,m:false,source:"Y-tree packet; replace with reviewed citation",sup:["h5"],con:["h6","h7"]},
+  {id:"e4",title:"Ainu datasets include northern Asian / Sakhalin-related signals",type:"genetic",weight:.8,m:false,source:"Ainu population history packet",sup:["h4"],con:[]},
+  {id:"e5",title:"Koropokkuru folklore is concentrated in northern Hokkaido traditions",type:"mythological",weight:.45,m:true,source:"folklore packet; analogy only",sup:["h4"],con:[]},
+  {id:"e6",title:"Ritual and burial discontinuities appear around Yayoi transition contexts",type:"archaeological",weight:.72,m:false,source:"archaeology synthesis packet",sup:["h3"],con:[]},
+  {id:"e7",title:"Tai-Kadai and related comparison raises possible SVO-contact question",type:"linguistic",weight:.62,m:false,source:"comparative linguistics packet",sup:["h9"],con:[]},
+  {id:"e8",title:"Some late Yayoi contexts show sharp demographic change in ancient-DNA summaries",type:"genetic",weight:.82,m:false,source:"ancient-DNA synthesis packet",sup:["h10","h2"],con:[]},
+  {id:"e9",title:"Defensive settlement features and conflict archaeology appear in transition debates",type:"archaeological",weight:.66,m:false,source:"settlement archaeology packet",sup:["h1"],con:[]},
+  {id:"e10",title:"Ainu ancestry is modeled as Jomon-related plus later northern components",type:"genetic",weight:.82,m:false,source:"Ainu ancestry packet",sup:["h4","h8"],con:[]},
+  {id:"e11",title:"Rebun Island ancient individuals are relevant to northern Jomon continuity debates",type:"genetic",weight:.7,m:false,source:"ancient-DNA packet",sup:["h8"],con:[]},
+  {id:"e12",title:"Yayoi mainland component is not identical to a direct West Liao signal",type:"genetic",weight:.8,m:false,source:"population-genetics packet",sup:["h6"],con:["h5"]},
+  {id:"e13",title:"Basic Japanese-Korean vocabulary correspondences remain limited",type:"linguistic",weight:.78,m:false,source:"comparative linguistics packet",sup:["h7"],con:["h9"]},
+  {id:"e14",title:"C2b subclade separation weakens simple Korean-Mongolic bridge claims",type:"genetic",weight:.8,m:false,source:"Y-tree packet",sup:["h7"],con:[]},
+  {id:"e15",title:"Morphological shifts are discussed in transition-period population debates",type:"archaeological",weight:.55,m:false,source:"physical anthropology packet",sup:["h1"],con:[]},
+  {id:"e16",title:"Izanami motifs include pollution, death, boundary crossing, and return failure",type:"mythological",weight:.35,m:true,source:"Kojiki / Nihon Shoki motif packet",sup:["h2","h3"],con:[]},
+  {id:"e17",title:"Agricultural storage, water, and corpse-handling contexts are plausible disease settings",type:"archaeological",weight:.58,m:false,source:"Yayoi subsistence packet",sup:["h3","h2"],con:[]},
+  {id:"e18",title:"Comparative foundation myths can preserve social memory but rarely direct event records",type:"mythological",weight:.35,m:true,source:"comparative mythology packet",sup:["h2"],con:[]}
+];
+
+const HY=[
+  {id:"h1",title:"Jomon-associated male lines may have survived through asymmetric social incorporation",tier:"B",
+   desc:"A paternal-lineage signal that is larger than the maternal signal can be audited as possible asymmetric incorporation. It cannot by itself prove conquest or rule.",
+   fc:"Reject or weaken if early Kofun elite ancient DNA shows no elevated D-M55, or if the signal is fully explained by later drift and sampling.",
+   oc:"Do not read Y-DNA frequency as proof of conquest.",
+   narConflicts:[{nid:"n1",type:"narrative_conflict"}],
+   fields:["genetic","archaeological"]},
+  {id:"h2",title:"Izanami pollution motifs may preserve transformed memory of contact stress",tier:"C",
+   desc:"The mythic structure can be tested as a transformed ritual-political memory of disease, boundary, or contact stress. It is not direct historical testimony.",
+   fc:"Weaken if the motif is fully explained by broad myth typology without local ritual or transition-period specificity.",
+   oc:"Myth is M-tag evidence and cannot directly prove an event.",
+   narConflicts:[{nid:"n1",type:"narrative_conflict"}],
+   fields:["mythological","demographic"]},
+  {id:"h3",title:"Kegare concepts may have partly epidemiological contact roots",tier:"B",
+   desc:"Pollution and corpse-related taboos may be examined beside agricultural settlement, storage, water, and contact contexts. The link remains abductive.",
+   fc:"Weaken if kegare concepts are demonstrably later, unrelated to transition-period contact, or fully explained by non-epidemiological ritual chronology.",
+   oc:null,
+   narConflicts:[],
+   fields:["mythological","archaeological"]},
+  {id:"h4",title:"Koropokkuru may encode memory of northern maritime Jomon-related groups",tier:"B",
+   desc:"Folklore, northern genetic structure, and Hokkaido archaeology can be audited together, but folklore remains indirect and analogy-like.",
+   fc:"Weaken if Koropokkuru distribution and motifs are shown to be late literary construction without regional continuity.",
+   oc:null,
+   narConflicts:[{nid:"n4",type:"frame_conflict"}],
+   fields:["mythological","genetic"]},
+  {id:"h5",title:"Korean C2b lineages may have a West Liao Neolithic background",tier:"C",
+   desc:"Deep subclade timing makes a simple recent bridge unlikely, but the broader northeast Asian background remains testable.",
+   fc:"Weaken if subclades are shown to be unrelated to any West Liao or northeast Asian Neolithic context.",
+   oc:"Do not use this as direct proof of Japanese migration history.",
+   narConflicts:[{nid:"n3",type:"narrative_conflict"}],
+   fields:["genetic"]},
+  {id:"h6",title:"West Liao and Japanese formation should not be treated as directly equivalent",tier:"A",
+   desc:"Available distinctions between Japanese C lineages, Korean C2b subclades, and Yayoi components make a direct equivalence claim too strong.",
+   fc:"Weaken if securely dated ancient DNA creates a direct, specific bridge into Yayoi or Kofun Japan.",
+   oc:null,
+   narConflicts:[{nid:"n3",type:"narrative_conflict"}],
+   fields:["genetic"]},
+  {id:"h7",title:"The Trans-Eurasian language-origin claim faces lineage and linguistic pressure",tier:"A",
+   desc:"The old stress-test treats genetic subclade timing and basic vocabulary mismatch as pressure against a simple language-family migration story.",
+   fc:"Weaken if robust regular sound correspondences and matching ancient DNA migration routes are established.",
+   oc:null,
+   narConflicts:[{nid:"n2",type:"paper_conflict"}],
+   fields:["genetic","linguistic"]},
+  {id:"h8",title:"Ainu may preserve older Jomon-related linguistic substrate signals",tier:"B",
+   desc:"Ainu language isolation and Jomon-related ancestry make a substrate hypothesis auditable, not proven.",
+   fc:"Weaken if Ainu can be securely derived from a known external language family with matching historical pathway.",
+   oc:null,
+   narConflicts:[],
+   fields:["genetic","linguistic"]},
+  {id:"h9",title:"Incoming O1b2-associated farmers may have spoken an SVO-linked language",tier:"C",
+   desc:"This is a linguistic contact hypothesis, not a demonstrated population-language identity.",
+   fc:"Weaken if early incoming farmer contexts are shown to preserve SOV linguistic structure or if SVO comparison fails.",
+   oc:"Do not equate Y-DNA, grammar, and language identity directly.",
+   narConflicts:[],
+   fields:["linguistic","genetic"]},
+  {id:"h10",title:"Yayoi migration may have imposed disease pressure on Jomon-associated groups",tier:"B",
+   desc:"Demographic discontinuity, agricultural settlement, and contact conditions make disease pressure a plausible audit target, but direct pathogen evidence is required.",
+   fc:"Weaken if ancient pathogen studies and demographic models show no transition-period disease signal.",
+   oc:null,
+   narConflicts:[],
+   fields:["genetic","demographic","archaeological"]}
+];
+
+const TW={genetic:1.0,archaeological:.85,linguistic:.65,mythological:.45,demographic:.8,circumstantial:.35};
+const SCORES={};
+HY.forEach(h=>{
+  let s=0,c=0;
+  const f=new Set();
+  EV.forEach(e=>{
+    const w=e.weight*(TW[e.type]||.5)*(e.m ? .4 : 1);
+    if(e.sup.includes(h.id)){s+=w;f.add(e.type);}
+    if(e.con.includes(h.id)) c+=w;
+  });
+  const fb=h.fc?1:.7;
+  const cb=1+.08*Math.max(0,f.size-1);
+  SCORES[h.id]=Math.max(0,Math.min(1,(s-c)/(s+c+.001)*cb*fb));
+});
+
+const TIER_ORDER={A:0,B:1,C:2,X:3,M:4};
+const sorted=[...HY].sort((a,b)=>(TIER_ORDER[a.tier]??5)-(TIER_ORDER[b.tier]??5)||(SCORES[b.id]-SCORES[a.id]));
+
+function esc(v){
+  return String(v??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch]));
+}
+
+const hlist=document.getElementById("hlist");
+sorted.forEach(h=>{
+  const t=TIERS[h.tier]||TIERS.B;
+  const d=document.createElement("div");
+  d.className="hi";
+  d.dataset.id=h.id;
+  d.innerHTML=`<div class="hi-top"><div class="tier-badge" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${t.label}</div><div class="hi-title">${esc(h.title)}</div></div><div class="hi-sub">${h.oc?'<span class="oc-warn">overclaim</span>':''}${h.narConflicts.map(()=>'<span class="ev-tag" style="color:#7c3aed;border-color:rgba(124,58,237,.25);background:rgba(124,58,237,.05)">narrative</span>').join("")}</div>`;
+  hlist.appendChild(d);
+});
+
+document.getElementById("tierleg").innerHTML=["A","B","C","X","M"].map(k=>{
+  const t=TIERS[k];
+  return `<div class="leg"><div class="ltier" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${k}</div>${esc(t.desc)}</div>`;
+}).join("");
+
+document.getElementById("edgeleg").innerHTML=Object.values(EDGETYPES).map(v=>{
+  const line=v.dash?`border-top:1.5px dashed ${v.hl};background:transparent`:`background:${v.hl}`;
+  return `<div class="leg"><div style="width:18px;height:1.5px;${line};flex-shrink:0"></div>${esc(v.l)}</div>`;
+}).join("");
+
+let selId=null;
+let hovId=null;
+const canvas=document.getElementById("gc");
+const pr=window.devicePixelRatio||1;
+function resize(){
+  const r=canvas.parentElement.getBoundingClientRect();
+  canvas.width=r.width*pr;
+  canvas.height=r.height*pr;
+  canvas.style.width=r.width+"px";
+  canvas.style.height=r.height+"px";
+}
+resize();
+const W=()=>canvas.width/pr,H=()=>canvas.height/pr,cx=()=>W()/2,cy=()=>H()/2;
+
+const nodes=[];
+HY.forEach((h,i)=>{const a=(i/HY.length)*Math.PI*2-.4;const r=Math.min(W(),H())*.28;nodes.push({id:h.id,type:"h",x:cx()+Math.cos(a)*r,y:cy()+Math.sin(a)*r,vx:0,vy:0,r:21});});
+EV.slice(0,16).forEach((e,i)=>{const a=(i/16)*Math.PI*2+.2;const r=Math.min(W(),H())*.13;nodes.push({id:e.id,type:"e",eType:e.type,isM:e.m,x:cx()+Math.cos(a)*r*(1+Math.random()*.5),y:cy()+Math.sin(a)*r*(1+Math.random()*.5),vx:0,vy:0,r:8});});
+NAR.forEach((n,i)=>{const a=(i/NAR.length)*Math.PI*2+.8;const r=Math.min(W(),H())*.35;nodes.push({id:n.id,type:"n",x:cx()+Math.cos(a)*r*(1.1+Math.random()*.2),y:cy()+Math.sin(a)*r*(1.1+Math.random()*.2),vx:0,vy:0,r:14});});
+
+const edges=[];
+EV.slice(0,16).forEach(e=>{
+  e.sup.forEach(hid=>edges.push({from:e.id,to:hid,t:"sup"}));
+  e.con.forEach(hid=>edges.push({from:e.id,to:hid,t:"con"}));
+});
+HY.forEach(h=>h.narConflicts.forEach(nc=>edges.push({from:h.id,to:nc.nid,t:nc.type})));
+
+function findNode(mx,my){
+  for(const n of nodes){
+    const dx=n.x-mx,dy=n.y-my;
+    if(Math.sqrt(dx*dx+dy*dy)<n.r+5) return n.id;
+  }
+  return null;
+}
+
+canvas.addEventListener("mousemove",e=>{
+  const r=canvas.getBoundingClientRect();
+  hovId=findNode(e.clientX-r.left,e.clientY-r.top);
+  canvas.style.cursor=hovId?"pointer":"default";
+});
+canvas.addEventListener("click",e=>{
+  const r=canvas.getBoundingClientRect();
+  const f=findNode(e.clientX-r.left,e.clientY-r.top);
+  selId=(f===selId)?null:f;
+  updateLeft();
+  updateRight();
+});
+
+function updateLeft(){
+  document.querySelectorAll(".hi").forEach(el=>{
+    const h=HY.find(x=>x.id===el.dataset.id);
+    const t=TIERS[h?.tier]||TIERS.B;
+    el.classList.toggle("sel",el.dataset.id===selId);
+    el.style.borderLeftColor=el.dataset.id===selId?t.border:"transparent";
+  });
+}
+
+document.querySelectorAll(".hi").forEach(el=>el.addEventListener("click",()=>{
+  selId=(selId===el.dataset.id)?null:el.dataset.id;
+  updateLeft();
+  updateRight();
+}));
+
+function updateRight(){
+  const dc=document.getElementById("dc");
+  if(!selId){
+    dc.innerHTML='<div id="empty">Select a node to inspect<br>details, falsifiers, and narrative conflicts.</div>';
+    return;
+  }
+  const h=HY.find(x=>x.id===selId);
+  const ev=EV.find(x=>x.id===selId);
+  const nar=NAR.find(x=>x.id===selId);
+  if(h){
+    const t=TIERS[h.tier]||TIERS.B;
+    const s=SCORES[h.id];
+    const rel=EV.filter(e=>e.sup.includes(h.id)||e.con.includes(h.id));
+    dc.innerHTML=`
+      <div class="dlbl">hypothesis</div>
+      <div class="dtitle">${esc(h.title)}</div>
+      <div class="tier-row">
+        <div class="tier-big" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${t.label}</div>
+        <div>
+          <div style="font-size:11px;font-weight:500;color:${t.color}">${esc(t.desc)}</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono)">audit support ${Math.round(s*100)}/100</div>
+        </div>
+      </div>
+      <div class="sbar-wrap"><div class="sbar"><div class="sbar-fill" style="width:${Math.round(s*100)}%;background:${t.border}"></div></div></div>
+      <div class="ddesc">${esc(h.desc)}</div>
+      ${h.oc?`<div class="oc-box"><div class="oc-lbl">overclaim warning</div><div class="oc-text">${esc(h.oc)}</div></div>`:""}
+      <div class="fc-box" style="background:${TIERS.C.bg};border:0.5px solid ${TIERS.C.border};color:${TIERS.C.color}">
+        <div class="fclbl">falsification condition</div>
+        <div class="fctext">${esc(h.fc)}</div>
+      </div>
+      ${h.narConflicts.length?`<div class="na-box">
+        <div class="na-lbl">narrative audit</div>
+        ${h.narConflicts.map(nc=>{
+          const n=NAR.find(x=>x.id===nc.nid);
+          const et=EDGETYPES[nc.type]||EDGETYPES.narrative_conflict;
+          return `<div class="na-item"><span class="na-badge" style="background:${et.hl}18;color:${et.hl};border:0.5px solid ${et.hl}55">${esc(et.l.split(" ")[0])}</span><div class="na-text">${esc(n?.title||nc.nid)}</div></div>`;
+        }).join("")}
+      </div>`:""}
+      <div class="evl-lbl">related evidence (${rel.length})</div>
+      ${rel.map(e=>{
+        const isSup=e.sup.includes(h.id);
+        const tc=TYPES[e.type]?.c||"#888";
+        return `<div class="ev-item" onclick="window._sel('${e.id}')" style="background:${isSup?"rgba(22,163,74,.03)":"rgba(220,38,38,.03)"};border-color:${isSup?"rgba(22,163,74,.18)":"rgba(220,38,38,.18)"}">
+          <div class="ev-top">
+            <span class="ev-rel" style="color:${isSup?"#16a34a":"#dc2626"}">${isSup?"supports":"counters"}</span>
+            <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}12">${esc(TYPES[e.type]?.l||e.type)}</span>
+            ${e.m?'<span class="m-tag">M</span>':""}
+          </div>
+          <div class="ev-title">${esc(e.title)}</div>
+          <div class="ev-src">${esc(e.source)}</div>
+        </div>`;
+      }).join("")}`;
+  }else if(ev){
+    const tc=TYPES[ev.type]?.c||"#888";
+    const related=[...ev.sup.map(id=>({id,rel:"support"})),...ev.con.map(id=>({id,rel:"counter"}))];
+    dc.innerHTML=`
+      <div class="dlbl">evidence</div>
+      <div class="dtitle">${esc(ev.title)}</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}12">${esc(TYPES[ev.type]?.l||ev.type)}</span>
+        ${ev.m?'<span class="m-tag">M analogy</span>':""}
+        <span style="font-size:10px;padding:1px 5px;border-radius:3px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">weight ${ev.weight}</span>
+      </div>
+      ${ev.m?`<div class="oc-box"><div class="oc-lbl">M-tag</div><div class="oc-text">This is analogy or mythic evidence. It is useful for audit structure, but it cannot serve as direct proof.</div></div>`:""}
+      <div class="src-box"><div class="fclbl" style="color:#1d4ed8">source</div><div style="font-size:10px;font-family:var(--font-mono);color:#1d4ed8;line-height:1.5">${esc(ev.source)}${ev.doi?`<br>DOI: ${esc(ev.doi)}`:""}</div></div>
+      <div class="evl-lbl">linked hypotheses</div>
+      ${related.map(({id,rel})=>{
+        const h=HY.find(x=>x.id===id);
+        if(!h) return "";
+        const t=TIERS[h.tier]||TIERS.B;
+        return `<div class="ev-item" onclick="window._sel('${id}')" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)">
+          <div class="ev-top"><span class="ev-rel" style="color:${rel==="support"?"#16a34a":"#dc2626"}">${esc(rel)}</span><span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${t.label}</span></div>
+          <div class="ev-title">${esc(h.title)}</div>
+        </div>`;
+      }).join("")}`;
+  }else if(nar){
+    const challenged=HY.filter(h=>h.narConflicts.some(nc=>nc.nid===nar.id));
+    dc.innerHTML=`
+      <div class="dlbl">${nar.type==="paper"?"paper frame":"narrative frame"}</div>
+      <div class="dtitle">${esc(nar.title)}</div>
+      <div class="na-box"><div class="na-text">This node is a consensus, popular, paper, or interpretive frame that one or more hypotheses are challenging. It is not rejected by the graph; it is made inspectable.</div></div>
+      <div class="evl-lbl">challenged hypotheses (${challenged.length})</div>
+      ${challenged.map(h=>{
+        const t=TIERS[h.tier]||TIERS.B;
+        return `<div class="ev-item" onclick="window._sel('${h.id}')" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)">
+          <div class="ev-top"><span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${t.label}</span></div>
+          <div class="ev-title">${esc(h.title)}</div>
+        </div>`;
+      }).join("")}`;
+  }
+}
+window._sel=id=>{selId=(selId===id)?null:id;updateLeft();updateRight();};
+
+function sim(){
+  const K=.006,rep=2200,grav=.0012,damp=.87,w=W(),h=H();
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y;
+      const d=Math.sqrt(dx*dx+dy*dy)+.1,f=rep/(d*d);
+      nodes[i].vx-=f*dx/d;nodes[i].vy-=f*dy/d;
+      nodes[j].vx+=f*dx/d;nodes[j].vy+=f*dy/d;
+    }
+  }
+  edges.forEach(edge=>{
+    const a=nodes.find(n=>n.id===edge.from),b=nodes.find(n=>n.id===edge.to);
+    if(!a||!b) return;
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.1;
+    const tgt=(a.type==="h"&&b.type==="n")||(a.type==="n"&&b.type==="h")?180:(a.type==="h"&&b.type==="h"?160:100);
+    const f=K*(d-tgt);
+    a.vx+=f*dx/d;a.vy+=f*dy/d;
+    b.vx-=f*dx/d;b.vy-=f*dy/d;
+  });
+  nodes.forEach(n=>{
+    n.vx+=(cx()-n.x)*grav;n.vy+=(cy()-n.y)*grav;
+    n.vx*=damp;n.vy*=damp;n.x+=n.vx;n.y+=n.vy;
+    n.x=Math.max(28,Math.min(w-28,n.x));n.y=Math.max(28,Math.min(h-28,n.y));
+  });
+}
+
+function drawDiamond(ctx,x,y,r,fill,stroke){
+  ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x+r*.8,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.8,y);ctx.closePath();
+  ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();
+}
+
+function draw(){
+  const ctx=canvas.getContext("2d");
+  ctx.setTransform(pr,0,0,pr,0,0);
+  ctx.clearRect(0,0,W(),H());
+  sim();
+  edges.forEach(edge=>{
+    const a=nodes.find(n=>n.id===edge.from),b=nodes.find(n=>n.id===edge.to);
+    if(!a||!b) return;
+    const isSel=selId&&(edge.from===selId||edge.to===selId);
+    const et=EDGETYPES[edge.t]||EDGETYPES.sup;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=isSel?et.hl:et.c;ctx.lineWidth=isSel?1.5:.8;
+    if(et.dash) ctx.setLineDash([4,3]); else ctx.setLineDash([]);
+    ctx.stroke();ctx.setLineDash([]);
+  });
+  nodes.forEach(n=>{
+    const isSel=n.id===selId,isHov=n.id===hovId;
+    if(n.type==="h"){
+      const h=HY.find(x=>x.id===n.id);const t=TIERS[h?.tier]||TIERS.B;
+      if(isSel||isHov){ctx.beginPath();ctx.arc(n.x,n.y,n.r+7,0,Math.PI*2);ctx.fillStyle=t.color+"20";ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=t.bg;ctx.fill();ctx.strokeStyle=t.border;ctx.lineWidth=isSel?2:1;ctx.stroke();
+      ctx.fillStyle=t.color;ctx.font="bold 10px monospace";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(t.label,n.x,n.y);
+    }else if(n.type==="e"){
+      const c=TYPES[n.eType]?.c||"#888";
+      if(isHov||isSel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ctx.fillStyle=c+"28";ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=c+"22";ctx.fill();
+      if(n.isM){ctx.setLineDash([3,2]);ctx.strokeStyle=c+"88";} else {ctx.setLineDash([]);ctx.strokeStyle=c+"77";}
+      ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    }else if(n.type==="n"){
+      const c="rgba(124,58,237,.7)";
+      const fill="rgba(124,58,237,.08)";
+      if(isHov||isSel) drawDiamond(ctx,n.x,n.y,n.r+4,"rgba(124,58,237,.12)",c);
+      drawDiamond(ctx,n.x,n.y,n.r,fill,c);
+    }
+  });
+  ctx.font="9.5px system-ui,sans-serif";ctx.textAlign="center";ctx.textBaseline="top";
+  nodes.filter(n=>n.type==="h").forEach(n=>{
+    const h=HY.find(x=>x.id===n.id);if(!h) return;
+    const lbl=h.title.length>18?h.title.slice(0,18)+"...":h.title;
+    ctx.fillStyle="rgba(0,0,0,.55)";ctx.fillText(lbl,n.x,n.y+n.r+3);
+  });
+  nodes.filter(n=>n.type==="n").forEach(n=>{
+    const nr=NAR.find(x=>x.id===n.id);if(!nr) return;
+    const lbl=nr.title.length>16?nr.title.slice(0,16)+"...":nr.title;
+    ctx.fillStyle="rgba(124,58,237,.7)";ctx.fillText(lbl,n.x,n.y+n.r+4);
+  });
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+window.addEventListener("resize",resize);
+</script>
+</body>
+</html>

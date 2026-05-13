@@ -1,0 +1,111 @@
+{
+  "domain": "social_science",
+  "label": "Social science",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier"
+  ],
+  "accepted_evidence_types": [
+    "observational_association",
+    "survey",
+    "panel_data",
+    "randomized_policy_trial",
+    "natural_experiment",
+    "difference_in_differences",
+    "instrumental_variable"
+  ],
+  "weakened_evidence_types": [
+    "correlation_only",
+    "survey_only",
+    "uncontrolled_before_after"
+  ],
+  "tier_restrictions": [
+    "Correlation-only evidence cannot support causal policy proof.",
+    "Policy causation claims require identification strategy, confounder discussion, time window, and comparison group."
+  ],
+  "required_falsifier_style": [
+    "effect disappears after controls",
+    "pre-trend assumption fails",
+    "comparison region shows same trend without policy",
+    "measurement method changed during period"
+  ],
+  "a_tier_requires_any_evidence_tag": [
+    "randomized_policy_trial",
+    "natural_experiment",
+    "difference_in_differences",
+    "instrumental_variable",
+    "replicated_causal_design"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "correlation_to_causation",
+      "trigger_terms": [
+        "correlation",
+        "observational",
+        "survey",
+        "same region"
+      ],
+      "overclaim_terms": [
+        "causes",
+        "causal",
+        "definitely caused",
+        "proves policy",
+        "mandatory policy recommendation"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "correlation_only_causal_proof",
+      "evidence_tags_any": [
+        "observational",
+        "correlation_only",
+        "survey"
+      ],
+      "claim_terms_any": [
+        "caused",
+        "definitely caused",
+        "causal proof",
+        "proves policy",
+        "must adopt"
+      ],
+      "allowed_evidence_tags_any": [
+        "randomized_policy_trial",
+        "natural_experiment",
+        "difference_in_differences",
+        "instrumental_variable",
+        "replicated_causal_design"
+      ],
+      "message": "Correlation-only evidence cannot support a causal policy claim.",
+      "suggested_fix": "Add an identification strategy, confounder checks, time window, and counterfactual comparison."
+    }
+  ],
+  "required_metadata_when_claim_terms": [
+    {
+      "claim_terms_any": [
+        "caused",
+        "causal proof",
+        "definitely caused"
+      ],
+      "required_fields": [
+        "identification_strategy",
+        "confounder_discussion",
+        "time_window",
+        "comparison_group"
+      ]
+    }
+  ]
+}

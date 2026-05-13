@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epistemic Audit Graph Demo</title>
+<style>
+:root{
+  --color-border-tertiary:#d9dee7;
+  --border-radius-lg:10px;
+  --font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --color-text-primary:#1f2933;
+  --color-text-secondary:#667085;
+  --color-background-primary:#fff;
+  --color-background-secondary:#f2f5f8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{margin:0;padding:14px;background:#f7f7f4;color:var(--color-text-primary);font-family:var(--font-sans)}
+button{font-family:inherit}
+a{color:#315f9e}
+#topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:10px}
+#brand{min-width:300px;max-width:560px}
+#brand h1{font-size:18px;line-height:1.25;font-weight:650;margin-bottom:4px}
+#brand p{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+#domainGrid{display:grid;grid-template-columns:repeat(6,minmax(118px,1fr));gap:6px;flex:1}
+.domain-card{border:0.5px solid var(--color-border-tertiary);border-radius:7px;background:var(--color-background-primary);padding:7px}
+.domain-title{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-secondary);line-height:1.25;min-height:24px}
+.domain-theme{font-size:9px;line-height:1.35;color:var(--color-text-secondary);margin:4px 0 6px;height:24px;overflow:hidden}
+.case-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.casebtn{cursor:pointer;border:0.5px solid var(--color-border-tertiary);border-radius:5px;background:var(--color-background-secondary);padding:4px 5px;font-size:10px;text-align:center;color:var(--color-text-primary);transition:background .1s,border-color .1s}
+.casebtn:hover,.casebtn.sel{background:#fff;border-color:#8792a5}
+.casebtn.reject.sel{background:rgba(220,38,38,.06);border-color:rgba(220,38,38,.45);color:#b91c1c}
+.casebtn span{display:block;font-weight:600}
+.casebtn em{display:block;font-style:normal;font-size:8px;color:var(--color-text-secondary);margin-top:1px}
+.casebtn.reject em{color:#dc2626}
+#wrap{display:flex;height:600px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;font-family:var(--font-sans);font-size:13px;background:var(--color-background-primary)}
+#left{width:215px;border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+#lhead{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;flex-shrink:0}
+#hlist{flex:1;overflow-y:auto}
+.hi{cursor:pointer;padding:8px 12px;border-left:2px solid transparent;transition:background .1s}
+.hi:hover{background:var(--color-background-secondary)}
+.hi.sel{background:var(--color-background-secondary)}
+.hi-top{display:flex;align-items:flex-start;gap:7px;margin-bottom:3px}
+.tier-badge{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;font-family:var(--font-mono);flex-shrink:0;margin-top:1px}
+.hi-title{font-size:11px;line-height:1.4;color:var(--color-text-primary)}
+.hi-sub{display:flex;align-items:center;gap:5px;padding-left:25px;flex-wrap:wrap}
+.ev-tag{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.oc-warn{font-size:9px;color:#dc2626;padding:1px 4px;border-radius:3px;background:rgba(220,38,38,.08);border:0.5px solid rgba(220,38,38,.25)}
+#llegs{padding:10px 12px;border-top:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+#llegs p{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px}
+.leg{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-size:10px;color:var(--color-text-secondary)}
+.ldot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ltier{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;font-family:monospace;flex-shrink:0}
+#center{flex:1;position:relative;overflow:hidden;background:var(--color-background-primary)}
+#gc{width:100%;height:100%;display:block}
+#overlay{position:absolute;top:8px;left:8px;font-size:9px;color:var(--color-text-secondary);line-height:1.6;pointer-events:none;background:var(--color-background-primary);padding:4px 7px;border-radius:5px;border:0.5px solid var(--color-border-tertiary);opacity:.88}
+#statusPills{position:absolute;bottom:8px;left:8px;right:8px;display:flex;gap:5px;flex-wrap:wrap;pointer-events:none}
+.pill{font-size:9px;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:5px;padding:3px 6px;opacity:.92}
+#right{width:240px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:12px}
+#empty{color:var(--color-text-secondary);font-size:12px;text-align:center;margin-top:50px;line-height:1.9}
+.dlbl{font-size:10px;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase}
+.dtitle{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
+.tier-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.tier-big{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;font-family:monospace}
+.tier-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.45}
+.sbar-wrap{margin-bottom:10px}
+.sbar-row{display:flex;justify-content:space-between;margin-bottom:3px;font-size:10px;color:var(--color-text-secondary)}
+.sbar{height:3px;background:var(--color-border-tertiary);border-radius:2px}
+.sbar-fill{height:100%;border-radius:2px;transition:width .5s}
+.ddesc{font-size:11px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:10px}
+.fc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px}
+.fclbl{font-size:9px;margin-bottom:3px;letter-spacing:.08em;font-weight:500;text-transform:uppercase}
+.fctext{font-size:10px;line-height:1.55}
+.oc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(220,38,38,.06);border:0.5px solid rgba(220,38,38,.2)}
+.oc-lbl{font-size:9px;color:#dc2626;margin-bottom:3px;font-weight:500;text-transform:uppercase}
+.oc-text{font-size:10px;color:#b91c1c;line-height:1.5;margin-bottom:3px}
+.verdict-box{padding:10px;border-radius:7px;margin-bottom:10px;border:0.5px solid}
+.verdict-out{background:rgba(220,38,38,.07);border-color:rgba(220,38,38,.28)}
+.verdict-warn{background:rgba(186,117,23,.08);border-color:rgba(186,117,23,.25)}
+.verdict-pass{background:rgba(29,158,117,.08);border-color:rgba(29,158,117,.25)}
+.verdict-kicker{font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:650}
+.verdict-title{font-size:16px;line-height:1.2;font-weight:750;margin-bottom:4px}
+.verdict-note{font-size:10px;line-height:1.55;color:var(--color-text-secondary)}
+.na-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
+.na-lbl{font-size:9px;color:var(--color-text-secondary);margin-bottom:5px;letter-spacing:.08em;text-transform:uppercase}
+.na-item{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px}
+.na-badge{font-size:8px;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.na-text{font-size:10px;color:var(--color-text-secondary);line-height:1.4}
+.evl-lbl{font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;margin-bottom:5px;text-transform:uppercase}
+.ev-item{padding:7px 8px;margin-bottom:5px;border-radius:5px;border:0.5px solid;cursor:pointer}
+.ev-item:hover{opacity:.8}
+.ev-top{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.ev-rel{font-size:9px;font-weight:500}
+.ev-type{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.m-tag{font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(136,135,128,.15);border:0.5px solid rgba(136,135,128,.4);color:#888780}
+.ev-title{font-size:10px;color:var(--color-text-secondary);line-height:1.35}
+.ev-src{font-size:9px;margin-top:3px;font-family:var(--font-mono);color:var(--color-text-secondary);opacity:.65}
+.src-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(55,138,221,.06);border:0.5px solid rgba(55,138,221,.2)}
+.legacy-links{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.small-link{display:inline-block;font-size:10px;border:0.5px solid var(--color-border-tertiary);border-radius:5px;padding:3px 5px;background:#fff;text-decoration:none}
+@media(max-width:1100px){
+  #topbar{display:block}
+  #domainGrid{grid-template-columns:repeat(3,minmax(120px,1fr));margin-top:10px}
+}
+@media(max-width:760px){
+  body{padding:10px}
+  #domainGrid{grid-template-columns:repeat(2,minmax(120px,1fr))}
+  #wrap{height:auto;display:grid;grid-template-columns:1fr}
+  #left,#right{width:auto;max-height:260px;border:0;border-bottom:0.5px solid var(--color-border-tertiary)}
+  #center{min-height:520px}
+}
+</style>
+</head>
+<body>
+<div id="topbar">
+  <div id="brand">
+    <h1>Epistemic Audit Graph</h1>
+    <p>AI structures claims. Code enforces falsifiability, source separation, domain overclaim rules, and auditability. Humans inspect and revise.</p>
+  </div>
+  <div id="domainGrid"></div>
+</div>
+
+<div id="wrap">
+  <div id="left">
+    <div id="lhead">CLAIMS - Tier / Audit support</div>
+    <div id="hlist"></div>
+    <div id="llegs">
+      <p>Tier system</p>
+      <div id="tierleg"></div>
+      <p style="margin-top:8px">Edge type</p>
+      <div id="edgeleg"></div>
+      <p style="margin-top:8px">Research demos</p>
+      <div class="legacy-links">
+        <a class="small-link" href="../demos/bronze_age_collapse/index.html">Bronze Age route</a>
+        <a class="small-link" href="../demos/kpg_extinction/index.html">K-Pg source audit</a>
+        <a class="small-link" href="../demos/ancient_history/legacy_hypothesis_credibility_v2.html">legacy original</a>
+        <a class="small-link" href="../demos/ancient_history/legacy_hypothesis_credibility_v2_en.html">legacy English</a>
+      </div>
+    </div>
+  </div>
+  <div id="center">
+    <canvas id="gc"></canvas>
+    <div id="overlay">circle: hypothesis / evidence - diamond: narrative - M: analogy or mythic evidence</div>
+    <div id="statusPills"></div>
+  </div>
+  <div id="right"><div id="dc"><div id="empty">Select a node to inspect<br>claims, evidence, risks, falsifiers, and narrative conflicts.</div></div></div>
+</div>
+
+<script>
+const TIERS={
+  A:{label:"A",desc:"direct observation within scope",bg:"rgba(29,158,117,.12)",color:"#166534",border:"#16a34a"},
+  B:{label:"B",desc:"structured but not proven",bg:"rgba(55,138,221,.1)",color:"#1d4ed8",border:"#2563eb"},
+  C:{label:"C",desc:"vulnerability or open question",bg:"rgba(186,117,23,.1)",color:"#92400e",border:"#b45309"},
+  X:{label:"X",desc:"overclaim or invalid leap",bg:"rgba(220,38,38,.08)",color:"#dc2626",border:"#dc2626"},
+  M:{label:"M",desc:"analogy or mythic evidence",bg:"rgba(136,135,128,.1)",color:"#888780",border:"#888780"}
+};
+
+const TYPES={
+  genetic:{l:"genetic",c:"#1D9E75"},
+  archaeological:{l:"archaeology",c:"#378ADD"},
+  linguistic:{l:"linguistic",c:"#BA7517"},
+  mythological:{l:"myth / text",c:"#7C3AED"},
+  biomedical:{l:"biomedical",c:"#D85A30"},
+  social:{l:"social",c:"#378ADD"},
+  climate:{l:"climate",c:"#1D9E75"},
+  ai:{l:"AI / CS",c:"#7C3AED"},
+  legal:{l:"legal / policy",c:"#BA7517"},
+  empirical:{l:"empirical",c:"#2E8CA0"},
+  circumstantial:{l:"circumstantial",c:"#888780"}
+};
+
+const EDGETYPES={
+  sup:{l:"support",c:"rgba(22,163,74,.18)",hl:"rgba(22,163,74,.6)"},
+  con:{l:"counter",c:"rgba(220,38,38,.18)",hl:"rgba(220,38,38,.6)"},
+  paper_conflict:{l:"paper conflict",c:"rgba(234,88,12,.18)",hl:"rgba(234,88,12,.6)",dash:true},
+  narrative_conflict:{l:"narrative conflict",c:"rgba(124,58,237,.15)",hl:"rgba(124,58,237,.6)",dash:true},
+  frame_conflict:{l:"frame conflict",c:"rgba(29,78,216,.15)",hl:"rgba(29,78,216,.6)",dash:true}
+};
+
+const DOMAIN_LABELS={
+  history_humanities:"History / Humanities",
+  biomedicine:"Biomedicine",
+  social_science:"Social Science",
+  climate_earth:"Climate / Earth Science",
+  ai_computer_science:"AI / Computer Science",
+  law_policy_ethics:"Law / Policy / Ethics"
+};
+
+const DOMAIN_ORDER=[
+  "history_humanities",
+  "biomedicine",
+  "social_science",
+  "climate_earth",
+  "ai_computer_science",
+  "law_policy_ethics"
+];
+
+const TYPE_WEIGHTS={
+  genetic:1.0,
+  archaeological:.85,
+  linguistic:.65,
+  mythological:.45,
+  biomedical:.8,
+  social:.7,
+  climate:.8,
+  ai:.75,
+  legal:.72,
+  empirical:.7,
+  circumstantial:.35
+};
+
+const state={
+  manifest:[],
+  reports:new Map(),
+  cases:new Map(),
+  currentPath:null,
+  caseData:null,
+  report:null,
+  HY:[],
+  EV:[],
+  NAR:[],
+  edges:[],
+  scores:{},
+  nodes:[],
+  selectedId:null,
+  hoverId:null,
+  animating:false
+};
+
+const canvas=document.getElementById("gc");
+const pr=window.devicePixelRatio||1;
+
+function esc(value){
+  return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch]));
+}
+
+async function loadJson(path){
+  const res=await fetch(path);
+  if(!res.ok) throw new Error(`${path}: ${res.status}`);
+  return res.json();
+}
+
+function byId(id){
+  return (state.caseData?.nodes||[]).find(n=>n.id===id);
+}
+
+function outgoing(id,type=null){
+  return (state.caseData?.edges||[]).filter(e=>e.from===id&&(!type||e.edge_type===type));
+}
+
+function incoming(id,type=null){
+  return (state.caseData?.edges||[]).filter(e=>e.to===id&&(!type||e.edge_type===type));
+}
+
+function tierOf(node,fallback="B"){
+  if(node?.m_tag) return "M";
+  return node?.tier||node?.provisional_tier||fallback;
+}
+
+function tierStyle(tier){
+  return TIERS[tier]||TIERS.B;
+}
+
+function short(text,max=72){
+  const s=String(text||"");
+  return s.length>max?s.slice(0,max-1)+"...":s;
+}
+
+function bodyOf(node){
+  return node?.description||node?.claim_text||node?.required_test||node?.suggested_patch||node?.citation_text||"No description recorded.";
+}
+
+function evidenceKind(ev,domain){
+  const text=[ev.evidence_type,ev.directness,...(ev.evidence_tags||[]),domain].join(" ").toLowerCase();
+  if(/dna|genetic|lineage|archaeogenetic/.test(text)) return "genetic";
+  if(/archae|ritual|artifact|dotaku|burial|material/.test(text)) return "archaeological";
+  if(/linguistic|language|svo|sov/.test(text)) return "linguistic";
+  if(/myth|motif|text|primary_text/.test(text)) return "mythological";
+  if(/bio|mouse|animal|clinical|tumor|compound|endpoint|organism/.test(text)) return "biomedical";
+  if(/social|education|policy|correlation|causal|association/.test(text)) return "social";
+  if(/climate|earth|event|model|heat|baseline|scenario|attribution/.test(text)) return "climate";
+  if(/benchmark|model_x|ai|computer|contamination|safety/.test(text)) return "ai";
+  if(/legal|court|jurisdiction|ethic|normative|law/.test(text)) return "legal";
+  if(/empirical|evaluation|outcome/.test(text)) return "empirical";
+  return "circumstantial";
+}
+
+function sourceTextForEvidence(ev){
+  const parts=[];
+  for(const id of ev.source_claim_ids||[]){
+    const sc=byId(id);
+    if(!sc) continue;
+    const src=sc.source_id?byId(sc.source_id):null;
+    parts.push(sc.title||sc.claim_text||id);
+    if(src?.title) parts.push(src.title);
+  }
+  return [...new Set(parts)].join(" / ")||"Source claim not linked.";
+}
+
+function sourceDetailsForEvidence(ev){
+  return (ev.source_claim_ids||[]).map(id=>byId(id)).filter(Boolean);
+}
+
+function claimNodes(){
+  return (state.caseData?.nodes||[]).filter(n=>n.node_type==="hypothesis"||n.node_type==="inference");
+}
+
+function riskNodesForClaim(id){
+  return (state.caseData?.nodes||[]).filter(n=>
+    n.node_type==="risk"&&((n.targets||[]).includes(id)||outgoing(id,"has_risk").some(e=>e.to===n.id))
+  );
+}
+
+function falsifierNodesForClaim(id){
+  return (state.caseData?.nodes||[]).filter(n=>
+    n.node_type==="falsifier"&&((n.would_weaken||[]).includes(id)||outgoing(id,"falsified_by").some(e=>e.to===n.id))
+  );
+}
+
+function narrativeEdgesForClaim(id){
+  const edges=[];
+  for(const e of outgoing(id)){
+    const n=byId(e.to);
+    if(n?.node_type==="narrative") edges.push({nid:n.id,type:e.edge_type||"narrative_conflict"});
+  }
+  for(const e of incoming(id)){
+    const n=byId(e.from);
+    if(n?.node_type==="narrative") edges.push({nid:n.id,type:e.edge_type||"narrative_conflict"});
+  }
+  return edges;
+}
+
+function downstreamHypotheses(inferenceId){
+  return outgoing(inferenceId).map(e=>byId(e.to)).filter(n=>n?.node_type==="hypothesis");
+}
+
+function evidenceClaims(evId){
+  const found=new Map();
+  for(const edge of outgoing(evId)){
+    const target=byId(edge.to);
+    if(target?.node_type==="hypothesis"||target?.node_type==="inference") found.set(target.id,target);
+    if(target?.node_type==="inference"){
+      for(const hyp of downstreamHypotheses(target.id)) found.set(hyp.id,hyp);
+    }
+  }
+  return [...found.values()];
+}
+
+function evidenceForClaim(claimId){
+  const found=new Map();
+  for(const edge of incoming(claimId)){
+    const source=byId(edge.from);
+    if(source?.node_type==="evidence") found.set(source.id,source);
+    if(source?.node_type==="inference"){
+      for(const inEdge of incoming(source.id)){
+        const ev=byId(inEdge.from);
+        if(ev?.node_type==="evidence") found.set(ev.id,ev);
+      }
+    }
+  }
+  for(const ev of (state.caseData?.nodes||[]).filter(n=>n.node_type==="evidence")){
+    if(evidenceClaims(ev.id).some(c=>c.id===claimId)) found.set(ev.id,ev);
+  }
+  return [...found.values()];
+}
+
+function reportFlagsForClaim(id){
+  const r=state.report||{};
+  const errors=(r.errors||[]).filter(x=>x.includes(`${id}:`)||x.includes(id));
+  const flags=[...(r.overclaim_flags||[]),...(r.m_tag_flags||[]),...(r.tier_mismatch_flags||[])];
+  return [...errors,...flags.map(f=>`validator flag: ${f}`)];
+}
+
+function syntheticNarrativeIfNeeded(narratives,hy){
+  if(narratives.length) return narratives;
+  if(state.report?.status==="REJECT"&&hy.length){
+    return [{
+      id:"n_domain_rule_frame",
+      title:"Domain rule frame challenged by this overclaim",
+      type:"frame",
+      description:"Display-only narrative node: the validator rejects this leap under the domain-specific audit rules."
+    }];
+  }
+  return narratives;
+}
+
+function buildViewModel(){
+  const c=state.caseData;
+  const r=state.report||{};
+  const domain=c?.domain||"";
+  const claims=claimNodes();
+  const narrativesRaw=(c?.nodes||[]).filter(n=>n.node_type==="narrative");
+  const narratives=syntheticNarrativeIfNeeded(narrativesRaw,claims);
+
+  state.NAR=narratives.map(n=>({
+    id:n.id,
+    title:n.title||n.id,
+    type:n.narrative_type?.includes("paper")?"paper":(n.type||"narrative"),
+    desc:bodyOf(n)
+  }));
+
+  state.HY=claims.map(node=>{
+    const evs=evidenceForClaim(node.id);
+    const risks=riskNodesForClaim(node.id);
+    const falsifiers=falsifierNodesForClaim(node.id);
+    const fc=[...(node.falsification_conditions||[]),...falsifiers.map(f=>f.required_test||f.title)].filter(Boolean);
+    const nar=narrativeEdgesForClaim(node.id);
+    if(!nar.length&&r.status==="REJECT"&&state.NAR.some(n=>n.id==="n_domain_rule_frame")){
+      nar.push({nid:"n_domain_rule_frame",type:"frame_conflict"});
+    }
+    const riskOverclaimTexts=risks
+      .filter(x=>x.tier==="X"||x.severity==="high"||x.severity==="critical")
+      .map(x=>x.suggested_patch||x.title)
+      .filter(Boolean);
+    const validatorTexts=reportFlagsForClaim(node.id).filter(Boolean);
+    return {
+      id:node.id,
+      nodeType:node.node_type,
+      title:node.title||node.id,
+      tier:tierOf(node,node.node_type==="inference"?"B":"B"),
+      desc:bodyOf(node),
+      fc:fc.length?fc.join(" "):"No falsifier or limiting condition recorded.",
+      hasMissingFalsifier:!fc.length,
+      oc:validatorTexts.join(" "),
+      hasOverclaim:riskOverclaimTexts.length>0||validatorTexts.length>0||r.status==="REJECT",
+      narConflicts:nar,
+      fields:[...new Set(evs.map(e=>evidenceKind(e,domain)))],
+      risks,
+      falsifiers,
+      evidenceIds:evs.map(e=>e.id)
+    };
+  });
+
+  state.EV=(c?.nodes||[]).filter(n=>n.node_type==="evidence").map(ev=>{
+    const sup=new Set();
+    const con=new Set();
+    for(const edge of outgoing(ev.id)){
+      const target=byId(edge.to);
+      const bucket=edge.edge_type==="refutes"?"con":"sup";
+      if(target?.node_type==="hypothesis"||target?.node_type==="inference"){
+        (bucket==="sup"?sup:con).add(target.id);
+      }
+      if(target?.node_type==="inference"){
+        for(const hyp of downstreamHypotheses(target.id)){
+          (bucket==="sup"?sup:con).add(hyp.id);
+        }
+      }
+    }
+    return {
+      id:ev.id,
+      title:ev.title||ev.id,
+      type:evidenceKind(ev,domain),
+      evidence_type:ev.evidence_type||"evidence",
+      directness:ev.directness||"",
+      weight:Number(ev.weight??.5),
+      m:Boolean(ev.m_tag),
+      source:sourceTextForEvidence(ev),
+      sourceClaims:sourceDetailsForEvidence(ev),
+      sup:[...sup],
+      con:[...con],
+      desc:bodyOf(ev)
+    };
+  });
+
+  state.edges=[];
+  for(const ev of state.EV.slice(0,16)){
+    ev.sup.forEach(hid=>state.edges.push({from:ev.id,to:hid,t:"sup"}));
+    ev.con.forEach(hid=>state.edges.push({from:ev.id,to:hid,t:"con"}));
+  }
+  for(const h of state.HY){
+    for(const nc of h.narConflicts){
+      state.edges.push({from:h.id,to:nc.nid,t:nc.type||"narrative_conflict"});
+    }
+  }
+
+  state.scores={};
+  for(const h of state.HY){
+    let s=0,counter=0;
+    const fields=new Set();
+    for(const ev of state.EV){
+      const w=ev.weight*(TYPE_WEIGHTS[ev.type]||.5)*(ev.m ? .4 : 1);
+      if(ev.sup.includes(h.id)){s+=w;fields.add(ev.type);}
+      if(ev.con.includes(h.id)) counter+=w;
+    }
+    const falsifierBonus=h.hasMissingFalsifier ? .7 : 1;
+    const fieldBonus=1+.08*Math.max(0,fields.size-1);
+    let score=Math.max(0,Math.min(1,(s-counter)/(s+counter+.001)*fieldBonus*falsifierBonus));
+    if((state.report?.status==="REJECT"||h.hasOverclaim)&&h.tier==="A") score=Math.min(score,.42);
+    state.scores[h.id]=score;
+  }
+
+  buildGraphNodes(false);
+}
+
+function sortedClaims(){
+  const order={A:0,B:1,C:2,X:3,M:4};
+  return [...state.HY].sort((a,b)=>(order[a.tier]??5)-(order[b.tier]??5)||(state.scores[b.id]-state.scores[a.id]));
+}
+
+function renderDomainGrid(){
+  const grouped=new Map();
+  for(const item of state.manifest){
+    if(!grouped.has(item.domain)) grouped.set(item.domain,{});
+    grouped.get(item.domain)[item.case_type]=item;
+  }
+  document.getElementById("domainGrid").innerHTML=DOMAIN_ORDER.map(domain=>{
+    const group=grouped.get(domain)||{};
+    const sample=group.good||group.overclaim||{};
+    return `<div class="domain-card">
+      <div class="domain-title">${esc(DOMAIN_LABELS[domain]||domain)}</div>
+      <div class="domain-theme">${esc(sample.key_warning_theme||"")}</div>
+      <div class="case-actions">
+        ${caseButtonMarkup(group.good,"Good")}
+        ${caseButtonMarkup(group.overclaim,"Over")}
+      </div>
+    </div>`;
+  }).join("");
+  document.querySelectorAll(".casebtn").forEach(btn=>btn.addEventListener("click",()=>selectCase(btn.dataset.path)));
+}
+
+function caseButtonMarkup(item,label){
+  if(!item) return `<button class="casebtn" disabled>${esc(label)}</button>`;
+  const active=item.path===state.currentPath?" sel":"";
+  const reject=item.expected==="REJECT"?" reject":"";
+  return `<button class="casebtn${active}${reject}" data-path="${esc(item.path)}" title="${esc(item.expected)}"><span>${esc(label)}</span><em>${esc(item.actual_status||item.expected)}</em></button>`;
+}
+
+function renderLegends(){
+  document.getElementById("tierleg").innerHTML=["A","B","C","X","M"].map(k=>{
+    const t=TIERS[k];
+    return `<div class="leg"><div class="ltier" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${k}</div>${esc(t.desc)}</div>`;
+  }).join("");
+  document.getElementById("edgeleg").innerHTML=Object.values(EDGETYPES).map(v=>{
+    const line=v.dash?`border-top:1.5px dashed ${v.hl};background:transparent`:`background:${v.hl}`;
+    return `<div class="leg"><div style="width:18px;height:1.5px;${line};flex-shrink:0"></div>${esc(v.l)}</div>`;
+  }).join("");
+}
+
+function renderClaimList(){
+  document.getElementById("hlist").innerHTML=sortedClaims().map(h=>{
+    const t=tierStyle(h.tier);
+    const fields=h.fields.slice(0,2).map(f=>{
+      const tp=TYPES[f]||TYPES.circumstantial;
+      return `<span class="ev-tag" style="color:${tp.c};border-color:${tp.c}40;background:${tp.c}12">${esc(tp.l)}</span>`;
+    }).join("");
+    return `<div class="hi${h.id===state.selectedId?" sel":""}" data-id="${esc(h.id)}" style="border-left-color:${h.id===state.selectedId?t.border:"transparent"}">
+      <div class="hi-top">
+        <div class="tier-badge" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${esc(h.tier)}</div>
+        <div class="hi-title">${esc(h.title)}</div>
+      </div>
+      <div class="hi-sub">
+        <span class="ev-tag" style="color:#667085;border-color:#d9dee7;background:#fff">${esc(h.nodeType)}</span>
+        ${fields}
+        ${h.hasOverclaim?`<span class="oc-warn">overclaim</span>`:""}
+      </div>
+    </div>`;
+  }).join("")||`<div id="empty">No claims recorded.</div>`;
+  document.querySelectorAll(".hi").forEach(el=>el.addEventListener("click",()=>selectNode(el.dataset.id)));
+}
+
+function renderStatusPills(){
+  const c=state.caseData,r=state.report;
+  if(!c||!r) return;
+  const items=[
+    DOMAIN_LABELS[c.domain]||c.domain,
+    c.case_type==="good"?"good case":"overclaim case",
+    `expected ${r.expected}`,
+    `actual ${r.status}`,
+    `${state.HY.length} claims`,
+    `${state.EV.length} evidence`,
+    `${state.NAR.length} narrative`
+  ];
+  document.getElementById("statusPills").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
+}
+
+function renderCaseOverview(dc){
+  const c=state.caseData,r=state.report||{};
+  const status=r.status||"UNKNOWN";
+  const out=status==="REJECT";
+  const warn=status==="PASS_WITH_WARNINGS";
+  const cls=out?"verdict-out":warn?"verdict-warn":"verdict-pass";
+  const title=out?"OUT: deterministic validator rejects this claim":warn?"PASS WITH WARNINGS: scoped but still auditable":"PASS: no blocking validator errors";
+  const note=out
+    ?"This is the demo's first-read signal: the AI may structure the claim, but code blocks the overclaim before any truth judgment is made."
+    :"This case remains inside the scoped audit frame. Warnings are still visible because the score is audit support, not truth.";
+  const reasons=[
+    ...(r.overclaim_flags||[]).map(x=>`overclaim: ${x}`),
+    ...(r.m_tag_flags||[]).map(x=>`M-tag: ${x}`),
+    ...(r.tier_mismatch_flags||[]).map(x=>`tier: ${x}`),
+    ...(r.missing_fields||[]).slice(0,4).map(x=>`missing: ${x}`),
+    ...(out?(r.errors||[]).slice(0,5):(r.warnings||[]).slice(0,4))
+  ];
+  const fixes=(r.suggested_fixes||[]).slice(0,4);
+  dc.innerHTML=`
+    <div class="dlbl">case verdict</div>
+    <div class="dtitle">${esc(c.title||c.case_id)}</div>
+    <div class="verdict-box ${cls}">
+      <div class="verdict-kicker" style="color:${out?"#dc2626":warn?"#92400e":"#166534"}">${esc(status)}</div>
+      <div class="verdict-title" style="color:${out?"#b91c1c":warn?"#92400e":"#166534"}">${esc(title)}</div>
+      <div class="verdict-note">${esc(note)}</div>
+    </div>
+    <div class="na-box">
+      <div class="na-lbl">user input</div>
+      <div class="na-text">${esc(c.user_input||"")}</div>
+    </div>
+    ${reasons.length?`<div class="${out?"oc-box":"fc-box"}" style="${out?"":"background:"+TIERS.C.bg+";border:0.5px solid "+TIERS.C.border+";color:"+TIERS.C.color}">
+      <div class="${out?"oc-lbl":"fclbl"}">${out?"why this is out":"warnings / audit notes"}</div>
+      ${reasons.map(x=>`<div class="${out?"oc-text":"fctext"}">${esc(x)}</div>`).join("")}
+    </div>`:""}
+    ${fixes.length?`<div class="src-box">
+      <div class="na-lbl">suggested fixes</div>
+      ${fixes.map(x=>`<div class="na-text">${esc(x)}</div>`).join("")}
+    </div>`:""}
+    <div class="evl-lbl">graph contents</div>
+    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes. Click any node for details.</div>`;
+}
+
+function renderDetail(){
+  const dc=document.getElementById("dc");
+  const id=state.selectedId;
+  if(!state.caseData){
+    dc.innerHTML=`<div id="empty">Loading case data...</div>`;
+    return;
+  }
+  const h=state.HY.find(x=>x.id===id);
+  const ev=state.EV.find(x=>x.id===id);
+  const nar=state.NAR.find(x=>x.id===id);
+  if(!id){
+    renderCaseOverview(dc);
+    return;
+  }
+  if(h){
+    const t=tierStyle(h.tier);
+    const score=state.scores[h.id]??0;
+    const rel=state.EV.filter(e=>e.sup.includes(h.id)||e.con.includes(h.id));
+    dc.innerHTML=`
+      <div class="dlbl">${esc(h.nodeType)}</div>
+      <div class="dtitle">${esc(h.title)}</div>
+      <div class="tier-row">
+        <div class="tier-big" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${esc(h.tier)}</div>
+        <div>
+          <div class="tier-desc" style="color:${t.color}">${esc(t.desc)}</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono)">audit support ${Math.round(score*100)}/100</div>
+        </div>
+      </div>
+      <div class="sbar-wrap">
+        <div class="sbar-row"><span>deterministic validator</span><span>${esc(state.report?.status||"")}</span></div>
+        <div class="sbar"><div class="sbar-fill" style="width:${Math.round(score*100)}%;background:${t.border}"></div></div>
+      </div>
+      <div class="ddesc">${esc(h.desc)}</div>
+      ${h.oc||h.risks.length?`<div class="oc-box">
+        <div class="oc-lbl">risks / overclaim paths</div>
+        ${h.risks.map(x=>`<div class="oc-text">${esc(x.title||x.id)}${x.suggested_patch?` - ${esc(x.suggested_patch)}`:""}</div>`).join("")}
+        ${h.oc?`<div class="oc-text">${esc(h.oc)}</div>`:""}
+      </div>`:""}
+      <div class="fc-box" style="background:${TIERS.C.bg};border:0.5px solid ${TIERS.C.border};color:${TIERS.C.color}">
+        <div class="fclbl">falsification / limiting condition</div>
+        <div class="fctext">${esc(h.fc)}</div>
+      </div>
+      ${h.narConflicts.length?`<div class="na-box">
+        <div class="na-lbl">narrative conflicts</div>
+        ${h.narConflicts.map(nc=>{
+          const n=state.NAR.find(x=>x.id===nc.nid);
+          const et=EDGETYPES[nc.type]||EDGETYPES.narrative_conflict;
+          return `<div class="na-item">
+            <span class="na-badge" style="background:${et.hl}18;color:${et.hl};border:0.5px solid ${et.hl}55">${esc(et.l.split(" ")[0])}</span>
+            <div class="na-text">${esc(n?.title||nc.nid)}</div>
+          </div>`;
+        }).join("")}
+      </div>`:""}
+      <div class="evl-lbl">related evidence (${rel.length})</div>
+      ${rel.map(e=>{
+        const isSup=e.sup.includes(h.id);
+        const tc=(TYPES[e.type]||TYPES.circumstantial).c;
+        return `<div class="ev-item" data-id="${esc(e.id)}" style="background:${isSup?"rgba(22,163,74,.03)":"rgba(220,38,38,.03)"};border-color:${isSup?"rgba(22,163,74,.18)":"rgba(220,38,38,.18)"}">
+          <div class="ev-top">
+            <span class="ev-rel" style="color:${isSup?"#16a34a":"#dc2626"}">${isSup?"supports":"counters"}</span>
+            <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}12">${esc((TYPES[e.type]||TYPES.circumstantial).l)}</span>
+            ${e.m?`<span class="m-tag">M</span>`:""}
+          </div>
+          <div class="ev-title">${esc(e.title)}</div>
+          <div class="ev-src">${esc(e.source)}</div>
+        </div>`;
+      }).join("")||`<div class="ddesc">No related evidence links.</div>`}
+      <div class="src-box"><div class="na-lbl">audit note</div><div class="na-text">${esc(state.caseData.audit_notes||state.caseData.summary||"")}</div></div>`;
+    dc.querySelectorAll(".ev-item").forEach(item=>item.addEventListener("click",()=>selectNode(item.dataset.id)));
+    return;
+  }
+  if(ev){
+    const tc=(TYPES[ev.type]||TYPES.circumstantial).c;
+    const related=[...ev.sup.map(id=>({id,rel:"support"})),...ev.con.map(id=>({id,rel:"counter"}))];
+    dc.innerHTML=`
+      <div class="dlbl">evidence</div>
+      <div class="dtitle">${esc(ev.title)}</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}12">${esc((TYPES[ev.type]||TYPES.circumstantial).l)}</span>
+        <span class="ev-type" style="color:#667085;border-color:#d9dee7">${esc(ev.directness||"scoped")}</span>
+        <span style="font-size:10px;padding:1px 5px;border-radius:3px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">weight ${esc(ev.weight)}</span>
+        ${ev.m?`<span class="m-tag">M analogy</span>`:""}
+      </div>
+      <div class="ddesc">${esc(ev.desc)}</div>
+      ${ev.m?`<div class="oc-box"><div class="oc-lbl">M-tag rule</div><div class="oc-text">Analogy-only or mythic evidence cannot directly support an A-tier claim.</div></div>`:""}
+      <div class="src-box">
+        <div class="fclbl" style="color:#1d4ed8">source separation</div>
+        ${ev.sourceClaims.map(s=>`<div class="fctext" style="color:#1d4ed8">${esc(s.title||s.id)}: ${esc(s.claim_text||"")}</div>`).join("")||`<div class="fctext" style="color:#1d4ed8">${esc(ev.source)}</div>`}
+      </div>
+      <div class="evl-lbl">linked claims</div>
+      ${related.map(({id,rel})=>{
+        const h=state.HY.find(x=>x.id===id);if(!h)return"";
+        const t=tierStyle(h.tier);
+        return `<div class="ev-item" data-id="${esc(id)}" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)">
+          <div class="ev-top"><span class="ev-rel" style="color:${rel==="support"?"#16a34a":"#dc2626"}">${esc(rel)}</span><span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${esc(h.tier)}</span></div>
+          <div class="ev-title">${esc(h.title)}</div>
+        </div>`;
+      }).join("")||`<div class="ddesc">No linked claims.</div>`}`;
+    dc.querySelectorAll(".ev-item").forEach(item=>item.addEventListener("click",()=>selectNode(item.dataset.id)));
+    return;
+  }
+  if(nar){
+    const challenged=state.HY.filter(h=>h.narConflicts.some(nc=>nc.nid===nar.id));
+    dc.innerHTML=`
+      <div class="dlbl">${nar.type==="paper"?"paper frame":"narrative frame"}</div>
+      <div class="dtitle">${esc(nar.title)}</div>
+      <div class="na-box"><div class="na-text">${esc(nar.desc)}</div></div>
+      <div class="evl-lbl">challenged claims (${challenged.length})</div>
+      ${challenged.map(h=>{
+        const t=tierStyle(h.tier);
+        return `<div class="ev-item" data-id="${esc(h.id)}" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)">
+          <div class="ev-top"><span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${esc(h.tier)}</span></div>
+          <div class="ev-title">${esc(h.title)}</div>
+        </div>`;
+      }).join("")||`<div class="ddesc">No challenged claims.</div>`}`;
+    dc.querySelectorAll(".ev-item").forEach(item=>item.addEventListener("click",()=>selectNode(item.dataset.id)));
+  }
+}
+
+function selectNode(id){
+  state.selectedId=state.selectedId===id?null:id;
+  renderClaimList();
+  renderDetail();
+}
+
+function updateLeftSelection(){
+  document.querySelectorAll(".hi").forEach(el=>{
+    const h=state.HY.find(x=>x.id===el.dataset.id);
+    const t=tierStyle(h?.tier);
+    el.classList.toggle("sel",el.dataset.id===state.selectedId);
+    el.style.borderLeftColor=el.dataset.id===state.selectedId?t.border:"transparent";
+  });
+}
+
+function W(){return canvas.width/pr}
+function H(){return canvas.height/pr}
+function cx(){return W()/2}
+function cy(){return H()/2}
+
+function resize(){
+  const r=canvas.parentElement.getBoundingClientRect();
+  const w=Math.max(480,r.width);
+  const h=Math.max(500,r.height);
+  if(canvas.width!==Math.round(w*pr)||canvas.height!==Math.round(h*pr)){
+    canvas.width=Math.round(w*pr);
+    canvas.height=Math.round(h*pr);
+    canvas.style.width=w+"px";
+    canvas.style.height=h+"px";
+    buildGraphNodes(false);
+  }
+}
+
+function buildGraphNodes(preserve=true){
+  if(!canvas.parentElement) return;
+  const old=preserve?new Map((state.nodes||[]).map(n=>[n.id,n])):new Map();
+  const nodes=[];
+  const w=canvas.parentElement.getBoundingClientRect().width||900;
+  const h=canvas.parentElement.getBoundingClientRect().height||600;
+  const min=Math.min(w,h);
+  const centerX=w/2;
+  const centerY=h/2;
+  state.HY.forEach((hy,i)=>{
+    const a=(i/Math.max(1,state.HY.length))*Math.PI*2-.4;
+    const r=min*.28;
+    const oldNode=old.get(hy.id);
+    nodes.push({id:hy.id,type:"h",x:oldNode?.x??centerX+Math.cos(a)*r,y:oldNode?.y??centerY+Math.sin(a)*r,vx:oldNode?.vx??0,vy:oldNode?.vy??0,r:hy.nodeType==="hypothesis"?21:18});
+  });
+  state.EV.slice(0,16).forEach((ev,i)=>{
+    const a=(i/16)*Math.PI*2+.2;
+    const r=min*.13;
+    const oldNode=old.get(ev.id);
+    nodes.push({id:ev.id,type:"e",eType:ev.type,isM:ev.m,x:oldNode?.x??centerX+Math.cos(a)*r*(1+Math.random()*.5),y:oldNode?.y??centerY+Math.sin(a)*r*(1+Math.random()*.5),vx:oldNode?.vx??0,vy:oldNode?.vy??0,r:8});
+  });
+  state.NAR.forEach((nar,i)=>{
+    const a=(i/Math.max(1,state.NAR.length))*Math.PI*2+.8;
+    const r=min*.35;
+    const oldNode=old.get(nar.id);
+    nodes.push({id:nar.id,type:"n",x:oldNode?.x??centerX+Math.cos(a)*r*(1.1+Math.random()*.2),y:oldNode?.y??centerY+Math.sin(a)*r*(1.1+Math.random()*.2),vx:oldNode?.vx??0,vy:oldNode?.vy??0,r:14});
+  });
+  state.nodes=nodes;
+}
+
+function findNode(mx,my){
+  for(let i=state.nodes.length-1;i>=0;i--){
+    const n=state.nodes[i];
+    const dx=n.x-mx,dy=n.y-my;
+    if(Math.sqrt(dx*dx+dy*dy)<n.r+5) return n.id;
+  }
+  return null;
+}
+
+canvas.addEventListener("mousemove",e=>{
+  const r=canvas.getBoundingClientRect();
+  state.hoverId=findNode(e.clientX-r.left,e.clientY-r.top);
+  canvas.style.cursor=state.hoverId?"pointer":"default";
+});
+
+canvas.addEventListener("click",e=>{
+  const r=canvas.getBoundingClientRect();
+  const found=findNode(e.clientX-r.left,e.clientY-r.top);
+  if(found){
+    state.selectedId=state.selectedId===found?null:found;
+    updateLeftSelection();
+    renderDetail();
+  }
+});
+
+function sim(){
+  const K=.006,rep=2200,grav=.0012,damp=.87,w=W(),h=H();
+  for(let i=0;i<state.nodes.length;i++){
+    for(let j=i+1;j<state.nodes.length;j++){
+      const a=state.nodes[i],b=state.nodes[j];
+      const dx=b.x-a.x,dy=b.y-a.y;
+      const d=Math.sqrt(dx*dx+dy*dy)+.1;
+      const f=rep/(d*d);
+      a.vx-=f*dx/d;a.vy-=f*dy/d;
+      b.vx+=f*dx/d;b.vy+=f*dy/d;
+    }
+  }
+  state.edges.forEach(edge=>{
+    const a=state.nodes.find(n=>n.id===edge.from),b=state.nodes.find(n=>n.id===edge.to);
+    if(!a||!b) return;
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.1;
+    const tgt=(a.type==="h"&&b.type==="n")||(a.type==="n"&&b.type==="h")?180:(a.type==="h"&&b.type==="h"?160:100);
+    const f=K*(d-tgt);
+    a.vx+=f*dx/d;a.vy+=f*dy/d;
+    b.vx-=f*dx/d;b.vy-=f*dy/d;
+  });
+  state.nodes.forEach(n=>{
+    n.vx+=(cx()-n.x)*grav;
+    n.vy+=(cy()-n.y)*grav;
+    n.vx*=damp;n.vy*=damp;
+    n.x+=n.vx;n.y+=n.vy;
+    n.x=Math.max(28,Math.min(w-28,n.x));
+    n.y=Math.max(28,Math.min(h-28,n.y));
+  });
+}
+
+function drawDiamond(ctx,x,y,r,fill,stroke){
+  ctx.beginPath();
+  ctx.moveTo(x,y-r);
+  ctx.lineTo(x+r*.8,y);
+  ctx.lineTo(x,y+r);
+  ctx.lineTo(x-r*.8,y);
+  ctx.closePath();
+  ctx.fillStyle=fill;
+  ctx.fill();
+  ctx.strokeStyle=stroke;
+  ctx.lineWidth=1;
+  ctx.stroke();
+}
+
+function draw(){
+  resize();
+  const ctx=canvas.getContext("2d");
+  ctx.setTransform(pr,0,0,pr,0,0);
+  ctx.clearRect(0,0,W(),H());
+  if(!state.caseData){requestAnimationFrame(draw);return;}
+  sim();
+
+  state.edges.forEach(edge=>{
+    const a=state.nodes.find(n=>n.id===edge.from),b=state.nodes.find(n=>n.id===edge.to);
+    if(!a||!b) return;
+    const isSel=state.selectedId&&(edge.from===state.selectedId||edge.to===state.selectedId);
+    const et=EDGETYPES[edge.t]||EDGETYPES.sup;
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=isSel?et.hl:et.c;
+    ctx.lineWidth=isSel?1.5:.8;
+    if(et.dash) ctx.setLineDash([4,3]);
+    else ctx.setLineDash([]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  state.nodes.forEach(n=>{
+    const isSel=n.id===state.selectedId,isHov=n.id===state.hoverId;
+    if(n.type==="h"){
+      const h=state.HY.find(x=>x.id===n.id);
+      const t=tierStyle(h?.tier);
+      if(isSel||isHov){
+        ctx.beginPath();ctx.arc(n.x,n.y,n.r+7,0,Math.PI*2);ctx.fillStyle=t.color+"20";ctx.fill();
+      }
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=t.bg;ctx.fill();ctx.strokeStyle=t.border;ctx.lineWidth=isSel?2:1;ctx.stroke();
+      ctx.fillStyle=t.color;ctx.font="bold 10px monospace";ctx.textAlign="center";ctx.textBaseline="middle";
+      ctx.fillText(t.label,n.x,n.y);
+    }else if(n.type==="e"){
+      const c=(TYPES[n.eType]||TYPES.circumstantial).c;
+      if(isHov||isSel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ctx.fillStyle=c+"28";ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=c+"22";ctx.fill();
+      if(n.isM){ctx.setLineDash([3,2]);ctx.strokeStyle=c+"88";}
+      else{ctx.setLineDash([]);ctx.strokeStyle=c+"77";}
+      ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    }else if(n.type==="n"){
+      const c="rgba(124,58,237,.7)";
+      const fill="rgba(124,58,237,.08)";
+      if(isHov||isSel) drawDiamond(ctx,n.x,n.y,n.r+4,"rgba(124,58,237,.12)",c);
+      drawDiamond(ctx,n.x,n.y,n.r,fill,c);
+    }
+  });
+
+  ctx.font="9.5px system-ui,sans-serif";
+  ctx.textAlign="center";
+  ctx.textBaseline="top";
+  state.nodes.filter(n=>n.type==="h").forEach(n=>{
+    const h=state.HY.find(x=>x.id===n.id);
+    if(!h) return;
+    ctx.fillStyle="rgba(0,0,0,.55)";
+    ctx.fillText(short(h.title,18),n.x,n.y+n.r+3);
+  });
+  state.nodes.filter(n=>n.type==="n").forEach(n=>{
+    const nar=state.NAR.find(x=>x.id===n.id);
+    if(!nar) return;
+    ctx.fillStyle="rgba(124,58,237,.7)";
+    ctx.fillText(short(nar.title,16),n.x,n.y+n.r+4);
+  });
+
+  requestAnimationFrame(draw);
+}
+
+async function selectCase(path){
+  state.currentPath=path;
+  if(!state.cases.has(path)) state.cases.set(path,await loadJson(`../${path}`));
+  state.caseData=state.cases.get(path);
+  state.report=state.reports.get(path)||{};
+  state.selectedId=null;
+  buildViewModel();
+  renderDomainGrid();
+  renderClaimList();
+  renderStatusPills();
+  renderDetail();
+}
+
+async function init(){
+  try{
+    const [manifest,reports]=await Promise.all([
+      loadJson("case_manifest.generated.json"),
+      loadJson("validation_report.generated.json")
+    ]);
+    state.manifest=manifest;
+    state.reports=new Map(reports.map(r=>[r.path,r]));
+    renderLegends();
+    renderDomainGrid();
+    const first=manifest.find(x=>x.domain==="history_humanities"&&x.case_type==="good")||manifest[0];
+    if(first) await selectCase(first.path);
+    if(!state.animating){
+      state.animating=true;
+      requestAnimationFrame(draw);
+    }
+  }catch(err){
+    document.getElementById("dc").innerHTML=`<div class="oc-box"><div class="oc-lbl">frontend data unavailable</div><div class="oc-text">${esc(err.message)}</div></div>`;
+  }
+}
+
+window.addEventListener("resize",()=>buildGraphNodes(false));
+init();
+</script>
+</body>
+</html>

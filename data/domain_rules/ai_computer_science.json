@@ -1,0 +1,109 @@
+{
+  "domain": "ai_computer_science",
+  "label": "AI / computer science",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier"
+  ],
+  "accepted_evidence_types": [
+    "benchmark_result",
+    "external_eval",
+    "independent_replication",
+    "real_world_ablation",
+    "safety_eval"
+  ],
+  "weakened_evidence_types": [
+    "leaderboard",
+    "single_benchmark",
+    "unreplicated_result",
+    "contamination_unchecked"
+  ],
+  "tier_restrictions": [
+    "Benchmark results do not imply general intelligence.",
+    "Benchmark results do not imply safety or deployment reliability.",
+    "Leaderboard result is not independent replication."
+  ],
+  "required_falsifier_style": [
+    "independent replication fails",
+    "contamination discovered",
+    "real-world task performance collapses",
+    "safety evaluation reveals major failure",
+    "score depends on prompt or hidden tool access"
+  ],
+  "a_tier_requires_any_evidence_tag": [
+    "reproduced_benchmark",
+    "external_eval",
+    "real_world_ablation",
+    "open_weights_reproduction"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "benchmark_overgeneralization",
+      "trigger_terms": [
+        "benchmark",
+        "leaderboard"
+      ],
+      "overclaim_terms": [
+        "general intelligence",
+        "safe in real world",
+        "safe",
+        "reliable in real-world deployment",
+        "agent capability proven"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "benchmark_to_general_intelligence_or_safety",
+      "evidence_tags_any": [
+        "benchmark_result",
+        "leaderboard",
+        "single_benchmark"
+      ],
+      "claim_terms_any": [
+        "general intelligence",
+        "safe",
+        "reliable in real-world deployment",
+        "real-world deployment",
+        "agent capability"
+      ],
+      "allowed_evidence_tags_any": [
+        "external_eval",
+        "real_world_ablation",
+        "safety_eval",
+        "open_weights_reproduction"
+      ],
+      "message": "Benchmark performance cannot support general intelligence, safety, or real-world reliability by itself.",
+      "suggested_fix": "Limit the claim to the benchmark protocol or add contamination checks, independent replication, transfer tests, and safety evaluations."
+    }
+  ],
+  "required_metadata_when_claim_terms": [
+    {
+      "claim_terms_any": [
+        "general intelligence",
+        "safe",
+        "reliable in real-world deployment",
+        "real-world deployment",
+        "broad capability"
+      ],
+      "required_fields": [
+        "evaluation_protocol",
+        "contamination_check",
+        "reproduction_status"
+      ]
+    }
+  ]
+}

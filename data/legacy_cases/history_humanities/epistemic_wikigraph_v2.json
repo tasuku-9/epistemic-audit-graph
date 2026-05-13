@@ -1,0 +1,469 @@
+{
+  "case_id": "epistemic_wikigraph_v2",
+  "title": "Epistemic Wikigraph v2 legacy history stress-test",
+  "status": "legacy_stress_test",
+  "source_html": "demos/ancient_history/legacy_hypothesis_credibility_v2_en.html",
+  "concept": "Claims, evidence, and challenged narratives as a force-directed epistemic audit graph with tiers, falsifiers, M-tags, and narrative conflicts.",
+  "warning": "This is a stronger internal legacy example, not the default public six-domain history case.",
+  "display_schema": {
+    "hypothesis": [
+      "id",
+      "title",
+      "tier",
+      "desc",
+      "fc",
+      "overclaim",
+      "narConflicts",
+      "fields"
+    ],
+    "evidence": [
+      "id",
+      "title",
+      "type",
+      "weight",
+      "isM",
+      "source",
+      "doi",
+      "sup",
+      "con"
+    ],
+    "narrative": [
+      "id",
+      "title",
+      "type"
+    ]
+  },
+  "rendering": {
+    "layout": "three_panel_force_graph",
+    "left_panel": "hypothesis list",
+    "center_panel": "canvas force graph",
+    "right_panel": "selected node detail",
+    "node_shapes": {
+      "hypothesis": "large circle",
+      "evidence": "small circle",
+      "narrative": "diamond"
+    },
+    "edge_types": [
+      "sup",
+      "con",
+      "paper_conflict",
+      "narrative_conflict",
+      "frame_conflict"
+    ]
+  },
+  "hypotheses": [
+    {
+      "id": "h1",
+      "title": "Jomon-associated male lines may have survived through asymmetric social incorporation",
+      "tier": "B",
+      "desc": "A paternal-lineage signal that is larger than the maternal signal can be audited as possible asymmetric incorporation. It cannot by itself prove conquest or rule.",
+      "fc": "Reject or weaken if early Kofun elite ancient DNA shows no elevated D-M55, or if the signal is fully explained by later drift and sampling.",
+      "oc": "Do not read Y-DNA frequency as proof of conquest.",
+      "narConflicts": [
+        {
+          "nid": "n1",
+          "type": "narrative_conflict"
+        }
+      ],
+      "fields": [
+        "genetic",
+        "archaeological"
+      ]
+    },
+    {
+      "id": "h2",
+      "title": "Izanami pollution motifs may preserve transformed memory of contact stress",
+      "tier": "C",
+      "desc": "The mythic structure can be tested as a transformed ritual-political memory of disease, boundary, or contact stress. It is not direct historical testimony.",
+      "fc": "Weaken if the motif is fully explained by broad myth typology without local ritual or transition-period specificity.",
+      "oc": "Myth is M-tag evidence and cannot directly prove an event.",
+      "narConflicts": [
+        {
+          "nid": "n1",
+          "type": "narrative_conflict"
+        }
+      ],
+      "fields": [
+        "mythological",
+        "demographic"
+      ]
+    },
+    {
+      "id": "h3",
+      "title": "Kegare concepts may have partly epidemiological contact roots",
+      "tier": "B",
+      "desc": "Pollution and corpse-related taboos may be examined beside agricultural settlement, storage, water, and contact contexts. The link remains abductive.",
+      "fc": "Weaken if kegare concepts are demonstrably later, unrelated to transition-period contact, or fully explained by non-epidemiological ritual chronology.",
+      "oc": null,
+      "narConflicts": [],
+      "fields": [
+        "mythological",
+        "archaeological"
+      ]
+    },
+    {
+      "id": "h4",
+      "title": "Koropokkuru may encode memory of northern maritime Jomon-related groups",
+      "tier": "B",
+      "desc": "Folklore, northern genetic structure, and Hokkaido archaeology can be audited together, but folklore remains indirect and analogy-like.",
+      "fc": "Weaken if Koropokkuru distribution and motifs are shown to be late literary construction without regional continuity.",
+      "oc": null,
+      "narConflicts": [
+        {
+          "nid": "n4",
+          "type": "frame_conflict"
+        }
+      ],
+      "fields": [
+        "mythological",
+        "genetic"
+      ]
+    },
+    {
+      "id": "h5",
+      "title": "Korean C2b lineages may have a West Liao Neolithic background",
+      "tier": "C",
+      "desc": "Deep subclade timing makes a simple recent bridge unlikely, but the broader northeast Asian background remains testable.",
+      "fc": "Weaken if subclades are shown to be unrelated to any West Liao or northeast Asian Neolithic context.",
+      "oc": "Do not use this as direct proof of Japanese migration history.",
+      "narConflicts": [
+        {
+          "nid": "n3",
+          "type": "narrative_conflict"
+        }
+      ],
+      "fields": [
+        "genetic"
+      ]
+    },
+    {
+      "id": "h6",
+      "title": "West Liao and Japanese formation should not be treated as directly equivalent",
+      "tier": "A",
+      "desc": "Available distinctions between Japanese C lineages, Korean C2b subclades, and Yayoi components make a direct equivalence claim too strong.",
+      "fc": "Weaken if securely dated ancient DNA creates a direct, specific bridge into Yayoi or Kofun Japan.",
+      "oc": null,
+      "narConflicts": [
+        {
+          "nid": "n3",
+          "type": "narrative_conflict"
+        }
+      ],
+      "fields": [
+        "genetic"
+      ]
+    },
+    {
+      "id": "h7",
+      "title": "The Trans-Eurasian language-origin claim faces lineage and linguistic pressure",
+      "tier": "A",
+      "desc": "The old stress-test treats genetic subclade timing and basic vocabulary mismatch as pressure against a simple language-family migration story.",
+      "fc": "Weaken if robust regular sound correspondences and matching ancient DNA migration routes are established.",
+      "oc": null,
+      "narConflicts": [
+        {
+          "nid": "n2",
+          "type": "paper_conflict"
+        }
+      ],
+      "fields": [
+        "genetic",
+        "linguistic"
+      ]
+    },
+    {
+      "id": "h8",
+      "title": "Ainu may preserve older Jomon-related linguistic substrate signals",
+      "tier": "B",
+      "desc": "Ainu language isolation and Jomon-related ancestry make a substrate hypothesis auditable, not proven.",
+      "fc": "Weaken if Ainu can be securely derived from a known external language family with matching historical pathway.",
+      "oc": null,
+      "narConflicts": [],
+      "fields": [
+        "genetic",
+        "linguistic"
+      ]
+    },
+    {
+      "id": "h9",
+      "title": "Incoming O1b2-associated farmers may have spoken an SVO-linked language",
+      "tier": "C",
+      "desc": "This is a linguistic contact hypothesis, not a demonstrated population-language identity.",
+      "fc": "Weaken if early incoming farmer contexts are shown to preserve SOV linguistic structure or if SVO comparison fails.",
+      "oc": "Do not equate Y-DNA, grammar, and language identity directly.",
+      "narConflicts": [],
+      "fields": [
+        "linguistic",
+        "genetic"
+      ]
+    },
+    {
+      "id": "h10",
+      "title": "Yayoi migration may have imposed disease pressure on Jomon-associated groups",
+      "tier": "B",
+      "desc": "Demographic discontinuity, agricultural settlement, and contact conditions make disease pressure a plausible audit target, but direct pathogen evidence is required.",
+      "fc": "Weaken if ancient pathogen studies and demographic models show no transition-period disease signal.",
+      "oc": null,
+      "narConflicts": [],
+      "fields": [
+        "genetic",
+        "demographic",
+        "archaeological"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e1",
+      "title": "Modern Japanese Y-DNA D-M55 is reported at substantial frequency",
+      "type": "genetic",
+      "weight": 0.95,
+      "source": "population-genetics packet; replace with reviewed citation",
+      "doi": "",
+      "sup": [
+        "h1",
+        "h10"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e2",
+      "title": "Jomon-associated mtDNA component is much smaller than paternal signal",
+      "type": "genetic",
+      "weight": 0.78,
+      "source": "population-genetics packet; replace with reviewed citation",
+      "sup": [
+        "h1",
+        "h10"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e3",
+      "title": "Korean C2b-CTS2657 split is deep and not a simple recent Mongolic signal",
+      "type": "genetic",
+      "weight": 0.85,
+      "source": "Y-tree packet; replace with reviewed citation",
+      "sup": [
+        "h5"
+      ],
+      "con": [
+        "h6",
+        "h7"
+      ],
+      "isM": false
+    },
+    {
+      "id": "e4",
+      "title": "Ainu datasets include northern Asian / Sakhalin-related signals",
+      "type": "genetic",
+      "weight": 0.8,
+      "source": "Ainu population history packet",
+      "sup": [
+        "h4"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e5",
+      "title": "Koropokkuru folklore is concentrated in northern Hokkaido traditions",
+      "type": "mythological",
+      "weight": 0.45,
+      "source": "folklore packet; analogy only",
+      "sup": [
+        "h4"
+      ],
+      "con": [],
+      "isM": true
+    },
+    {
+      "id": "e6",
+      "title": "Ritual and burial discontinuities appear around Yayoi transition contexts",
+      "type": "archaeological",
+      "weight": 0.72,
+      "source": "archaeology synthesis packet",
+      "sup": [
+        "h3"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e7",
+      "title": "Tai-Kadai and related comparison raises possible SVO-contact question",
+      "type": "linguistic",
+      "weight": 0.62,
+      "source": "comparative linguistics packet",
+      "sup": [
+        "h9"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e8",
+      "title": "Some late Yayoi contexts show sharp demographic change in ancient-DNA summaries",
+      "type": "genetic",
+      "weight": 0.82,
+      "source": "ancient-DNA synthesis packet",
+      "sup": [
+        "h10",
+        "h2"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e9",
+      "title": "Defensive settlement features and conflict archaeology appear in transition debates",
+      "type": "archaeological",
+      "weight": 0.66,
+      "source": "settlement archaeology packet",
+      "sup": [
+        "h1"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e10",
+      "title": "Ainu ancestry is modeled as Jomon-related plus later northern components",
+      "type": "genetic",
+      "weight": 0.82,
+      "source": "Ainu ancestry packet",
+      "sup": [
+        "h4",
+        "h8"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e11",
+      "title": "Rebun Island ancient individuals are relevant to northern Jomon continuity debates",
+      "type": "genetic",
+      "weight": 0.7,
+      "source": "ancient-DNA packet",
+      "sup": [
+        "h8"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e12",
+      "title": "Yayoi mainland component is not identical to a direct West Liao signal",
+      "type": "genetic",
+      "weight": 0.8,
+      "source": "population-genetics packet",
+      "sup": [
+        "h6"
+      ],
+      "con": [
+        "h5"
+      ],
+      "isM": false
+    },
+    {
+      "id": "e13",
+      "title": "Basic Japanese-Korean vocabulary correspondences remain limited",
+      "type": "linguistic",
+      "weight": 0.78,
+      "source": "comparative linguistics packet",
+      "sup": [
+        "h7"
+      ],
+      "con": [
+        "h9"
+      ],
+      "isM": false
+    },
+    {
+      "id": "e14",
+      "title": "C2b subclade separation weakens simple Korean-Mongolic bridge claims",
+      "type": "genetic",
+      "weight": 0.8,
+      "source": "Y-tree packet",
+      "sup": [
+        "h7"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e15",
+      "title": "Morphological shifts are discussed in transition-period population debates",
+      "type": "archaeological",
+      "weight": 0.55,
+      "source": "physical anthropology packet",
+      "sup": [
+        "h1"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e16",
+      "title": "Izanami motifs include pollution, death, boundary crossing, and return failure",
+      "type": "mythological",
+      "weight": 0.35,
+      "source": "Kojiki / Nihon Shoki motif packet",
+      "sup": [
+        "h2",
+        "h3"
+      ],
+      "con": [],
+      "isM": true
+    },
+    {
+      "id": "e17",
+      "title": "Agricultural storage, water, and corpse-handling contexts are plausible disease settings",
+      "type": "archaeological",
+      "weight": 0.58,
+      "source": "Yayoi subsistence packet",
+      "sup": [
+        "h3",
+        "h2"
+      ],
+      "con": [],
+      "isM": false
+    },
+    {
+      "id": "e18",
+      "title": "Comparative foundation myths can preserve social memory but rarely direct event records",
+      "type": "mythological",
+      "weight": 0.35,
+      "source": "comparative mythology packet",
+      "sup": [
+        "h2"
+      ],
+      "con": [],
+      "isM": true
+    }
+  ],
+  "narratives": [
+    {
+      "id": "n1",
+      "title": "Passive Jomon survival narrative",
+      "type": "narrative"
+    },
+    {
+      "id": "n2",
+      "title": "Trans-Eurasian language-origin frame",
+      "type": "paper"
+    },
+    {
+      "id": "n3",
+      "title": "Japan and West Liao River cultural-continuity frame",
+      "type": "narrative"
+    },
+    {
+      "id": "n4",
+      "title": "Ainu as only post-Jomon northern remnant frame",
+      "type": "narrative"
+    }
+  ]
+}

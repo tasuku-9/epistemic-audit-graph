@@ -1,0 +1,153 @@
+{
+  "domain": "history_humanities",
+  "label": "History / humanities",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier",
+    "narrative"
+  ],
+  "accepted_evidence_types": [
+    "archaeogenetic_observation",
+    "ritual_archaeology",
+    "primary_text_motif",
+    "secure_stratigraphy",
+    "direct_philology"
+  ],
+  "weakened_evidence_types": [
+    "mythic_text",
+    "heuristic_analogy",
+    "modern_y_dna_frequency",
+    "comparative_parallel"
+  ],
+  "tier_restrictions": [
+    "M-tag and analogy-only evidence cannot support A-tier claims.",
+    "Mythic or comparative material must not be treated as direct historical record.",
+    "Y-DNA frequency alone must not prove conquest or social dominance."
+  ],
+  "required_falsifier_style": [
+    "ancient DNA contrary observation",
+    "internal archaeological chronology explanation",
+    "independent myth-typology explanation"
+  ],
+  "max_m_tag_weight_for_a_tier": 0.0,
+  "a_tier_requires_any_evidence_tag": [
+    "primary_text_with_context",
+    "ancient_dna",
+    "secure_stratigraphy",
+    "dated_artifact",
+    "direct_philology",
+    "elite_ancient_dna"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "myth_as_direct_history",
+      "trigger_terms": [
+        "myth",
+        "legend",
+        "folklore",
+        "記紀",
+        "神話",
+        "mythic"
+      ],
+      "overclaim_terms": [
+        "proves",
+        "direct proof",
+        "directly records",
+        "historical fact",
+        "直接記録",
+        "歴史事件"
+      ],
+      "reject_when_asserted": true
+    },
+    {
+      "id": "y_dna_proves_conquest",
+      "trigger_terms": [
+        "D-M55",
+        "Y-DNA",
+        "paternal lineage",
+        "父系"
+      ],
+      "overclaim_terms": [
+        "conquest",
+        "conquered",
+        "proves",
+        "確実",
+        "征服"
+      ],
+      "reject_when_asserted": true
+    },
+    {
+      "id": "ritual_discontinuity_single_cause",
+      "trigger_terms": [
+        "dotaku",
+        "銅鐸",
+        "ritual discontinuity"
+      ],
+      "overclaim_terms": [
+        "proves",
+        "single cause",
+        "definitively",
+        "確実",
+        "直接記録"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "y_dna_frequency_alone_conquest",
+      "evidence_tags_any": [
+        "modern_y_dna",
+        "paternal_lineage"
+      ],
+      "claim_terms_any": [
+        "conquest",
+        "conquered",
+        "征服"
+      ],
+      "message": "Y-DNA frequency alone cannot prove conquest or dominance.",
+      "suggested_fix": "Reframe as a possible social signal and require ancient DNA, burial context, and independent archaeological support."
+    },
+    {
+      "id": "m_tag_as_direct_history",
+      "evidence_tags_any": [
+        "mythic_text",
+        "m_tag"
+      ],
+      "claim_terms_any": [
+        "directly records",
+        "direct historical record",
+        "直接記録",
+        "歴史事件"
+      ],
+      "message": "M-tag or mythic evidence cannot be used as direct historical evidence.",
+      "suggested_fix": "Treat mythic structure as narrative or ritual-political memory hypothesis, not direct record."
+    },
+    {
+      "id": "ritual_discontinuity_single_cause",
+      "evidence_tags_any": [
+        "ritual_discontinuity"
+      ],
+      "claim_terms_any": [
+        "single cause",
+        "conquest",
+        "征服",
+        "確実"
+      ],
+      "message": "Ritual discontinuity cannot be treated as single-cause proof.",
+      "suggested_fix": "Add internal chronology alternatives and material-culture transition tests."
+    }
+  ]
+}

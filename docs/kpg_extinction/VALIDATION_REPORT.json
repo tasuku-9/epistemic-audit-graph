@@ -1,0 +1,14 @@
+{
+  "generated": "2026-05-13T04:31:19.124224+00:00",
+  "errors": [],
+  "counts": {
+    "wiki_pages": 11,
+    "claims": 15,
+    "evidence": 20,
+    "sources": 15,
+    "relations": 196,
+    "composition_maps": 4,
+    "narratives": 5,
+    "questions": 5
+  }
+}

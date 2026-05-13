@@ -1,0 +1,293 @@
+{
+  "case_id": "law_policy_ethics_good_legal_empirical_normative_separated",
+  "domain": "law_policy_ethics",
+  "case_type": "good",
+  "title": "Legal, empirical, and normative claims are not the same",
+  "japanese_title": "法的主張・政策効果・価値判断の分離",
+  "summary": "A legal finding is separated from effectiveness and ethical desirability.",
+  "user_input": "A court found Policy X legal in a specific jurisdiction and legal context. That legal finding should be separated from empirical claims about policy effectiveness and normative claims about whether the policy is ethically desirable.",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "legal_empirical_normative_split",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "B-tier because legal validity is scoped, while empirical and normative claims require separate evidence.",
+  "audit_notes": "The case uses three separated hypotheses rather than one blended truth claim.",
+  "key_warning_theme": "Jurisdiction, legal authority, outcome measure, and value premise must stay explicit.",
+  "nodes": [
+    {
+      "id": "src_court",
+      "node_type": "source",
+      "title": "Court decision on Policy X",
+      "source_type": "case_law",
+      "citation_text": "Sample source packet for Court decision on Policy X; replace with reviewed citation before real use."
+    },
+    {
+      "id": "src_eval",
+      "node_type": "source",
+      "title": "Policy X evaluation placeholder",
+      "source_type": "policy_evaluation",
+      "citation_text": "Sample source packet for Policy X evaluation placeholder; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_legal",
+      "node_type": "source_claim",
+      "title": "Legal finding",
+      "source_id": "src_court",
+      "claim_text": "A court found Policy X legal in a specific jurisdiction and legal context.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_eval",
+      "node_type": "source_claim",
+      "title": "Policy effectiveness separate",
+      "source_id": "src_eval",
+      "claim_text": "Empirical effectiveness requires separate policy evaluation evidence.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_legal_scope",
+      "node_type": "hypothesis",
+      "title": "Policy X is legal within the scoped jurisdiction and legal context",
+      "description": "The legal finding is scoped to jurisdiction, date, court level, and legal issue; it does not establish effectiveness or ethical desirability.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "B-tier because the legal source directly supports a scoped legal claim only.",
+      "falsification_conditions": [
+        "The legal claim is reversed on appeal.",
+        "The claim is limited by jurisdiction.",
+        "A policy evaluation finds no empirical effect.",
+        "The normative claim depends on a contested value premise."
+      ],
+      "jurisdiction": "specific jurisdiction",
+      "date": "specified decision date",
+      "court_level": "specified court level",
+      "legal_issue": "validity of Policy X",
+      "value_premise": "ethical desirability requires explicit value premise",
+      "counter_principle": "rights, equity, or proportionality may conflict"
+    },
+    {
+      "id": "e_legal",
+      "node_type": "evidence",
+      "title": "Scoped legal validity finding",
+      "evidence_type": "case_law",
+      "directness": "direct",
+      "weight": 0.68,
+      "source_claim_ids": [
+        "sc_legal"
+      ],
+      "evidence_tags": [
+        "case_law",
+        "binding_precedent",
+        "legal_validity"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "jurisdiction": "specific jurisdiction",
+      "date": "specified decision date",
+      "court_level": "specified court level",
+      "legal_issue": "validity of Policy X"
+    },
+    {
+      "id": "e_eval_gap",
+      "node_type": "evidence",
+      "title": "Need separate policy evaluation",
+      "evidence_type": "policy_evaluation",
+      "directness": "indirect",
+      "weight": 0.32,
+      "source_claim_ids": [
+        "sc_eval"
+      ],
+      "evidence_tags": [
+        "policy_evaluation",
+        "impact_assessment"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "outcome_measure": "not specified in legal source"
+    },
+    {
+      "id": "i_legal_scope",
+      "node_type": "inference",
+      "title": "Legal scope only",
+      "description": "The court finding supports legal validity in context, not empirical effectiveness or ethical correctness.",
+      "depends_on": [
+        "e_legal",
+        "e_eval_gap"
+      ],
+      "source_claim_ids": [
+        "sc_legal",
+        "sc_eval"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_legal_empirical",
+      "node_type": "risk",
+      "title": "Legal-to-empirical overclaim",
+      "risk_type": "normative_to_empirical",
+      "risk_tags": [
+        "normative_to_empirical"
+      ],
+      "targets": [
+        "h_legal_scope"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Separate legal validity, empirical effectiveness, and normative desirability claims."
+    },
+    {
+      "id": "f_reversal",
+      "node_type": "falsifier",
+      "title": "Reversal on appeal or jurisdictional limit",
+      "would_weaken": [
+        "h_legal_scope"
+      ],
+      "required_test": "Track appellate reversal, later authority, and jurisdictional limits."
+    },
+    {
+      "id": "n_law_equals_good",
+      "node_type": "narrative",
+      "title": "Legal means effective and ethical narrative",
+      "narrative_type": "public_policy_frame",
+      "description": "Public debate often treats legality as policy success or moral correctness."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_court",
+      "to": "sc_legal",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_eval",
+      "to": "sc_eval",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_legal",
+      "to": "e_legal",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_eval",
+      "to": "e_eval_gap",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_legal",
+      "to": "i_legal_scope",
+      "edge_type": "supports",
+      "strength": 0.68
+    },
+    {
+      "from": "e_eval_gap",
+      "to": "i_legal_scope",
+      "edge_type": "supports",
+      "strength": 0.25
+    },
+    {
+      "from": "i_legal_scope",
+      "to": "h_legal_scope",
+      "edge_type": "supports",
+      "strength": 0.62
+    },
+    {
+      "from": "h_legal_scope",
+      "to": "r_legal_empirical",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_legal_scope",
+      "to": "f_reversal",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_legal_scope",
+      "to": "n_law_equals_good",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "jurisdiction": "specific jurisdiction",
+  "date": "specified decision date",
+  "court_level": "specified court level",
+  "legal_issue": "validity of Policy X in legal context",
+  "value_premise": "ethical desirability requires an explicit value premise",
+  "counter_principle": "rights, equity, or proportionality may conflict",
+  "hypotheses": [
+    {
+      "id": "h_legal_scope",
+      "title": "Policy X is legal within the scoped jurisdiction and legal context",
+      "tier": "B",
+      "description": "The legal finding is scoped to jurisdiction, date, court level, and legal issue; it does not establish effectiveness or ethical desirability."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_legal",
+      "title": "Legal finding",
+      "claim_text": "A court found Policy X legal in a specific jurisdiction and legal context."
+    },
+    {
+      "id": "sc_eval",
+      "title": "Policy effectiveness separate",
+      "claim_text": "Empirical effectiveness requires separate policy evaluation evidence."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_legal",
+      "title": "Scoped legal validity finding",
+      "tier": "A",
+      "directness": "direct"
+    },
+    {
+      "id": "e_eval_gap",
+      "title": "Need separate policy evaluation",
+      "tier": "A",
+      "directness": "indirect"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_legal_scope",
+      "title": "Legal scope only",
+      "tier": "B",
+      "description": "The court finding supports legal validity in context, not empirical effectiveness or ethical correctness."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_legal_empirical",
+      "title": "Legal-to-empirical overclaim",
+      "tier": "C",
+      "risk_type": "normative_to_empirical"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_reversal",
+      "title": "Reversal on appeal or jurisdictional limit"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_law_equals_good",
+      "title": "Legal means effective and ethical narrative",
+      "description": "Public debate often treats legality as policy success or moral correctness."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EpistemicAuditCase",
+  "type": "object",
+  "required": [
+    "case_id",
+    "domain",
+    "case_type",
+    "title",
+    "user_input",
+    "nodes",
+    "edges",
+    "validator_expected_result",
+    "expected_validation"
+  ],
+  "properties": {
+    "case_id": { "type": "string" },
+    "domain": {
+      "enum": [
+        "history_humanities",
+        "biomedicine",
+        "social_science",
+        "climate_earth",
+        "ai_computer_science",
+        "law_policy_ethics"
+      ]
+    },
+    "case_type": { "enum": ["good", "overclaim", "mixed", "regression"] },
+    "title": { "type": "string" },
+    "japanese_title": { "type": "string" },
+    "summary": { "type": "string" },
+    "user_input": { "type": "string" },
+    "source_status": { "type": "string" },
+    "directness": { "type": "string" },
+    "tier": { "type": "string" },
+    "provisional_tier": { "type": "string" },
+    "reason_for_tier": { "type": "string" },
+    "audit_notes": { "type": "string" },
+    "validator_expected_result": {
+      "enum": ["PASS", "PASS_WITH_WARNINGS", "REJECT", "FAIL_VALIDATION", "PASS_OR_PASS_WITH_WARNINGS"]
+    },
+    "validator_expected_warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "node_type", "title"],
+        "properties": {
+          "id": { "type": "string" },
+          "node_type": {
+            "enum": [
+              "source",
+              "source_claim",
+              "evidence",
+              "inference",
+              "hypothesis",
+              "falsifier",
+              "risk",
+              "narrative",
+              "assumption",
+              "change_request",
+              "SourceNode",
+              "SourceClaimNode",
+              "EvidenceNode",
+              "InferenceNode",
+              "HypothesisNode",
+              "FalsifierNode",
+              "RiskNode",
+              "NarrativeNode",
+              "AssumptionNode",
+              "ChangeRequest"
+            ]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "claim_text": { "type": "string" },
+          "tier": { "type": "string" },
+          "provisional_tier": { "type": "string" },
+          "reason_for_tier": { "type": "string" },
+          "source_claim_ids": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidence_tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "falsification_conditions": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "edge_type"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "edge_type": { "type": "string" },
+          "strength": { "type": "number" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "expected_validation": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "enum": ["valid", "invalid", "PASS", "PASS_WITH_WARNINGS", "REJECT", "FAIL_VALIDATION"]
+        },
+        "expected_error_contains": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "expected_warning_contains": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": true
+}

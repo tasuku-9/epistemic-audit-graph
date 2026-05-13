@@ -1,0 +1,180 @@
+{
+  "case_id": "social_science_overclaim_correlation_to_causation_rejected",
+  "domain": "social_science",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: correlation treated as policy causation",
+  "japanese_title": "相関から政策因果を断定する過剰主張を拒否",
+  "summary": "A same-region before/after association is asserted as definite causation.",
+  "user_input": "Education spending rose and test scores rose in the same region, so increasing education spending definitely caused the improvement.",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected: causal policy claim lacks identification strategy, confounder discussion, time window, and comparison group.",
+  "audit_notes": "The case intentionally omits causal design metadata.",
+  "key_warning_theme": "Correlation-only evidence is used as causal proof.",
+  "nodes": [
+    {
+      "id": "src_education",
+      "node_type": "source",
+      "title": "Regional education spending observational report",
+      "source_type": "report",
+      "citation_text": "Sample source packet for Regional education spending observational report; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_correlation",
+      "node_type": "source_claim",
+      "title": "Same-region correlation",
+      "source_id": "src_education",
+      "claim_text": "Spending and scores rose in the same region.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_cause",
+      "node_type": "hypothesis",
+      "title": "Increased spending definitely caused score improvement",
+      "description": "The correlation proves a causal policy effect and increasing spending definitely caused the improvement.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: observational correlation cannot establish policy causation.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_correlation",
+      "node_type": "evidence",
+      "title": "Same-region spending-score correlation",
+      "evidence_type": "observational_association",
+      "directness": "observational",
+      "weight": 0.8,
+      "source_claim_ids": [
+        "sc_correlation"
+      ],
+      "evidence_tags": [
+        "observational",
+        "correlation_only"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "i_causal_jump",
+      "node_type": "inference",
+      "title": "Correlation-to-causation jump",
+      "description": "The inference treats a same-region correlation as causal proof without identification strategy or counterfactual.",
+      "depends_on": [
+        "e_correlation"
+      ],
+      "source_claim_ids": [
+        "sc_correlation"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_correlation",
+      "node_type": "risk",
+      "title": "Correlation used as causation",
+      "risk_type": "correlation_to_causation",
+      "risk_tags": [
+        "correlation_to_causation"
+      ],
+      "targets": [
+        "h_cause"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Add an identification strategy and counterfactual or reduce to association."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_cause"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_education",
+      "to": "sc_correlation",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_correlation",
+      "to": "e_correlation",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_correlation",
+      "to": "i_causal_jump",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "i_causal_jump",
+      "to": "h_cause",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_cause",
+      "to": "r_correlation",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_cause",
+      "title": "Increased spending definitely caused score improvement",
+      "tier": "A",
+      "description": "The correlation proves a causal policy effect and increasing spending definitely caused the improvement."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_correlation",
+      "title": "Same-region correlation",
+      "claim_text": "Spending and scores rose in the same region."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_correlation",
+      "title": "Same-region spending-score correlation",
+      "tier": "A",
+      "directness": "observational"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_causal_jump",
+      "title": "Correlation-to-causation jump",
+      "tier": "X",
+      "description": "The inference treats a same-region correlation as causal proof without identification strategy or counterfactual."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_correlation",
+      "title": "Correlation used as causation",
+      "tier": "X",
+      "risk_type": "correlation_to_causation"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": []
+}

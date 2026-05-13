@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bronze Age Collapse WikiGraph</title>
+<style>
+:root{
+  --color-border-tertiary:#d9dee7;
+  --border-radius-lg:10px;
+  --font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --color-text-primary:#1f2933;
+  --color-text-secondary:#667085;
+  --color-background-primary:#fff;
+  --color-background-secondary:#f2f5f8;
+}
+html,body{margin:0;min-height:100%;background:#f7f7f4;color:var(--color-text-primary);font-family:var(--font-sans)}
+body{padding:14px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+
+<h1 class="sr-only">Epistemic WikiGraph v2 — Bronze Age Collapse (~1200 BCE)</h1>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#root{display:flex;flex-direction:column;height:620px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;font-family:var(--font-sans)}
+#tabs{display:flex;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+.tab{padding:8px 14px;font-size:11px;cursor:pointer;border-right:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);line-height:1.4}
+.tab:hover{background:var(--color-background-secondary)}
+.tab.act{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+#purpose{font-size:10px;color:var(--color-text-secondary);padding:5px 14px;border-bottom:0.5px solid var(--color-border-tertiary);flex-shrink:0;font-style:italic}
+#body{display:flex;flex:1;overflow:hidden}
+#left{width:205px;border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+#lh{padding:8px 11px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:10px;color:var(--color-text-secondary);flex-shrink:0}
+#cl{flex:1;overflow-y:auto}
+.ci{cursor:pointer;padding:8px 11px;border-left:2px solid transparent;border-bottom:0.5px solid var(--color-border-tertiary)}
+.ci:hover,.ci.sel{background:var(--color-background-secondary)}
+.ci-top{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px}
+.tb{width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;font-family:monospace;flex-shrink:0;margin-top:1px}
+.ci-title{font-size:10px;line-height:1.4;color:var(--color-text-primary)}
+.ci-bars{padding-left:22px;display:flex;flex-direction:column;gap:2px}
+.br{display:flex;align-items:center;gap:4px}
+.bl{font-size:8px;color:var(--color-text-secondary);width:18px;flex-shrink:0}
+.bb{flex:1;height:3px;background:var(--color-border-tertiary);border-radius:2px}
+.bf{height:100%;border-radius:2px}
+.aw{font-size:8px;color:#dc2626;padding:1px 3px;border-radius:2px;background:rgba(220,38,38,.1);margin-top:2px;padding-left:22px}
+#ll{padding:8px 11px;border-top:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+#ll p{font-size:9px;color:var(--color-text-secondary);margin-bottom:4px}
+.lg{display:flex;align-items:center;gap:4px;margin-bottom:2px;font-size:9px;color:var(--color-text-secondary)}
+#center{flex:1;position:relative;overflow:hidden}
+#gc{width:100%;height:100%;display:block}
+.ht{position:absolute;bottom:8px;right:8px;font-size:9px;color:var(--color-text-secondary);pointer-events:none;font-family:monospace}
+#right{width:235px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:11px}
+.dl{font-size:9px;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:4px}
+.dt{font-size:12px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:8px}
+.tr{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.tb2{width:26px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;font-family:monospace}
+.fa{margin-bottom:10px}
+.fal{font-size:9px;color:var(--color-text-secondary);margin-bottom:4px}
+.ar{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.an{font-size:9px;color:var(--color-text-secondary);width:40px;flex-shrink:0}
+.ab{flex:1;height:4px;background:var(--color-border-tertiary);border-radius:2px}
+.af{height:100%;border-radius:2px}
+.av{font-size:9px;font-family:monospace;color:var(--color-text-secondary);width:28px}
+.dd{font-size:10px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.fb{padding:7px 8px;border-radius:5px;margin-bottom:8px}
+.nb{padding:7px 8px;border-radius:5px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);margin-bottom:8px}
+.wb{padding:7px 8px;border-radius:5px;margin-bottom:8px;background:rgba(234,179,8,.06);border:0.5px solid rgba(234,179,8,.25)}
+.el{font-size:9px;color:var(--color-text-secondary);margin-bottom:4px}
+.ei{padding:5px 7px;margin-bottom:4px;border-radius:4px;border:0.5px solid;cursor:pointer;font-size:9px}
+.ei:hover{opacity:.8}
+.et2{display:flex;align-items:center;gap:4px;margin-bottom:2px;flex-wrap:wrap}
+.ty{font-size:8px;padding:1px 3px;border-radius:2px;border:0.5px solid}
+.mt{font-size:8px;padding:1px 3px;border-radius:2px;background:rgba(136,135,128,.15);border:0.5px solid rgba(136,135,128,.4);color:#888780}
+.qb{padding:7px 8px;border-radius:5px;background:rgba(186,117,23,.06);border:0.5px solid rgba(186,117,23,.2);margin-bottom:6px}
+</style>
+
+<div id="root">
+<div id="tabs"></div>
+<div id="purpose"></div>
+<div id="body">
+  <div id="left">
+    <div id="lh">Claims — this map</div>
+    <div id="cl"></div>
+    <div id="ll">
+      <p>Node types</p>
+      <div class="lg"><svg width="10" height="10"><polygon points="5,1 9,3.5 9,6.5 5,9 1,6.5 1,3.5" fill="rgba(100,116,139,.3)" stroke="#64748b" stroke-width="1"/></svg>Wiki page</div>
+      <div class="lg"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="rgba(55,138,221,.3)" stroke="#378ADD" stroke-width="1"/></svg>Claim</div>
+      <div class="lg"><svg width="10" height="10"><circle cx="5" cy="5" r="3" fill="rgba(29,158,117,.3)" stroke="#1D9E75" stroke-width="1"/></svg>Evidence</div>
+      <div class="lg"><svg width="10" height="10"><polygon points="5,1 9,5 5,9 1,5" fill="rgba(124,58,237,.2)" stroke="#7C3AED" stroke-width="1"/></svg>Narrative</div>
+      <div class="lg"><svg width="10" height="10"><rect x="1" y="1" width="8" height="8" rx="2" fill="rgba(186,117,23,.2)" stroke="#BA7517" stroke-width="1"/></svg>Open question</div>
+    </div>
+  </div>
+  <div id="center"><canvas id="gc"></canvas><div class="ht">click node for detail</div></div>
+  <div id="right"><div id="dc" style="color:var(--color-text-secondary);font-size:11px;text-align:center;margin-top:40px;line-height:2">Select a node<br>or a claim on the left</div></div>
+</div>
+</div>
+
+<script>
+const D=matchMedia('(prefers-color-scheme: dark)').matches;
+const DATA={
+maps:[
+  {id:"map:causes",title:"Causes of Collapse",seeds:["page:climate","page:sea_peoples","page:systems","page:archaeology"],purpose:"What caused the ~1200 BCE collapse? Separating single-cause narratives from multi-factor evidence."},
+  {id:"map:sea_peoples",title:"Who Were the Sea Peoples?",seeds:["page:sea_peoples","page:ancient_dna","page:textual"],purpose:"Origins, identity, and causal role of the Sea Peoples — separating source claims from inferences."},
+  {id:"map:survival",title:"Why Did Egypt Survive?",seeds:["page:egypt","page:climate","page:systems"],purpose:"Regional variation: testing collapse theories against Egyptian survival as a falsification check."}
+],
+pages:[
+  {id:"page:climate",title:"Climate & Drought Evidence",contains:["claim:h1","evidence:e1","evidence:e2","evidence:e11"],status:"open"},
+  {id:"page:sea_peoples",title:"Sea Peoples",contains:["claim:h2","claim:h8","evidence:e3","evidence:e4","evidence:e12"],status:"open"},
+  {id:"page:systems",title:"Systems Collapse Theory",contains:["claim:h3","claim:h7","evidence:e5","evidence:e6"],status:"open"},
+  {id:"page:archaeology",title:"Archaeological Destruction Layers",contains:["claim:h5","evidence:e7","evidence:e8","evidence:e13"],status:"open"},
+  {id:"page:ancient_dna",title:"Ancient DNA Evidence",contains:["claim:h8","evidence:e9","evidence:e12"],status:"open"},
+  {id:"page:textual",title:"Textual & Epigraphic Sources",contains:["claim:h2","claim:h6","evidence:e3","evidence:e10"],status:"open"},
+  {id:"page:egypt",title:"Egyptian Survival",contains:["claim:h4","evidence:e14","evidence:e15"],status:"open"},
+  {id:"page:trade",title:"Trade Network Collapse",contains:["claim:h6","evidence:e5","evidence:e10"],status:"open"}
+],
+claims:[
+  {id:"claim:h1",title:"Climate change/drought was a primary contributing factor",tier:"B",
+   desc:"Paleoclimate proxies show severe multi-decadal drought across the Eastern Mediterranean ~1200–1150 BCE, likely stressing agricultural output and population stability.",
+   fc:"If high-resolution climate records from the period show no significant drought signal, or if drought postdates the destruction layers by more than a generation, the climate role weakens substantially.",
+   oc:null,eval:{credibility:0.72,controversy:0.35,testability:0.85,speculation:0.30},
+   audit:{sa:false,cs:false,notes:"Demo data. Requires expert review before use."},
+   nc:[{nid:"narrative:n2",type:"frame_conflict"}]},
+  {id:"claim:h2",title:"Sea Peoples invasion was a direct cause of widespread destruction",tier:"C",
+   desc:"Egyptian texts and archaeology document Sea Peoples attacks, but whether they caused the collapse or exploited an already-collapsing system remains contested.",
+   fc:"If destruction layers consistently predate Sea Peoples activity at the same sites, their causal role is weakened. If aDNA shows Sea Peoples were already present before destructions, the 'invasion' framing weakens.",
+   oc:"Popular narrative often treats Sea Peoples as the primary cause; evidence supports them as one actor among several.",
+   eval:{credibility:0.48,controversy:0.78,testability:0.82,speculation:0.55},
+   audit:{sa:false,cs:false,notes:"Demo data. Requires expert review."},
+   nc:[{nid:"narrative:n1",type:"narrative_conflict"}]},
+  {id:"claim:h3",title:"Palace economy fragility made cascading collapse inevitable",tier:"B",
+   desc:"LBA palatial economies were highly interconnected and specialized, with little redundancy. A threshold disruption in one node could propagate systemically.",
+   fc:"If societies with equally interconnected economies survived the same period intact, the fragility-specific explanation weakens. Comparative cases (e.g., Egypt) must be explained.",
+   oc:null,eval:{credibility:0.61,controversy:0.42,testability:0.65,speculation:0.48},
+   audit:{sa:false,cs:false,notes:"Demo data."},
+   nc:[{nid:"narrative:n2",type:"frame_conflict"}]},
+  {id:"claim:h4",title:"Internal rebellions and social upheaval contributed to collapse",tier:"C",
+   desc:"Some texts hint at lower-class or pastoral uprisings. Collapse of redistributive palace economies may have triggered internal resistance.",
+   fc:"If no textual or archaeological evidence of internal conflict is found at collapse sites, and if external disruption accounts for all destruction patterns, internal rebellion is weakened as a factor.",
+   oc:null,eval:{credibility:0.38,controversy:0.42,testability:0.60,speculation:0.60},
+   audit:{sa:false,cs:false,notes:"Demo data."},nc:[]},
+  {id:"claim:h5",title:"Earthquakes contributed to specific destruction events",tier:"C",
+   desc:"Seismic evidence has been proposed for several destructions (e.g., Tiryns, Mycenae). However, earthquake-caused destruction is only confirmed at a subset of sites.",
+   fc:"If seismological and archaeoseismic analysis shows no earthquake events coincident with the main destruction horizon, the earthquake factor is limited to isolated cases, not a systemic cause.",
+   oc:null,eval:{credibility:0.42,controversy:0.35,testability:0.88,speculation:0.38},
+   audit:{sa:false,cs:false,notes:"Demo data."},nc:[]},
+  {id:"claim:h6",title:"Trade network disruption preceded and amplified political collapse",tier:"B",
+   desc:"LBA texts show evidence of disrupted tin and copper supply before destruction layers. Without metal, palace economies could not maintain military and administrative capacity.",
+   fc:"If luxury metal supply continued normally until the destruction events, or if destruction predates trade disruption, this sequence-based hypothesis weakens.",
+   oc:null,eval:{credibility:0.65,controversy:0.28,testability:0.78,speculation:0.35},
+   audit:{sa:false,cs:false,notes:"Demo data."},nc:[]},
+  {id:"claim:h7",title:"Multiple simultaneous stressors made recovery impossible",tier:"A",
+   desc:"Current scholarly consensus holds that no single cause explains the collapse. Climate stress, migration, trade disruption, and internal pressure interacted to push interconnected systems past recovery thresholds.",
+   fc:"If a single-factor explanation (climate alone, or Sea Peoples alone) is shown to account for the full spatial and temporal pattern of collapses with no residual, the multi-causal model loses its key advantage.",
+   oc:null,eval:{credibility:0.80,controversy:0.22,testability:0.70,speculation:0.28},
+   audit:{sa:false,cs:false,notes:"Demo data."},nc:[{nid:"narrative:n1",type:"narrative_conflict"}]},
+  {id:"claim:h8",title:"Mycenaeans/Aegeans constituted part of the Sea Peoples",tier:"C",
+   desc:"Some aDNA and cultural evidence links Sea Peoples-associated populations to Aegean origins. However, the Sea Peoples were likely heterogeneous, not a single ethnic group.",
+   fc:"If aDNA from Sea Peoples-associated Levantine Iron Age I populations shows no Aegean ancestry signal, the Mycenaean-component hypothesis weakens significantly.",
+   oc:"Identifying any group as 'the Sea Peoples' is an overclaim — the term covers multiple distinct groups.",
+   eval:{credibility:0.45,controversy:0.65,testability:0.90,speculation:0.52},
+   audit:{sa:false,cs:false,notes:"Demo data."},nc:[]}
+],
+evidence:[
+  {id:"evidence:e1",title:"Lake Van / Sea of Galilee pollen records: severe drought ~1200 BCE",type:"climatological",weight:0.85,isM:false,src:"Brandon Drake (2012), Journal of Archaeological Science",sup:["claim:h1"],con:[]},
+  {id:"evidence:e2",title:"Speleothem (cave stalagmite) isotope data: multi-decadal dry period, Levant",type:"climatological",weight:0.82,isM:false,src:"Kaniewski et al. (2010), PNAS",sup:["claim:h1"],con:[]},
+  {id:"evidence:e3",title:"Medinet Habu inscriptions: Ramesses III's account of Sea Peoples (~1177 BCE)",type:"historical_text",weight:0.78,isM:false,src:"Primary source, Medinet Habu temple, ~1175 BCE",sup:["claim:h2"],con:[]},
+  {id:"evidence:e4",title:"Ugarit 'last tablet': request for grain and warning of ships",type:"historical_text",weight:0.80,isM:false,src:"RS 18.38, Ugarit archive, ~1185 BCE",sup:["claim:h2","claim:h6"],con:[]},
+  {id:"evidence:e5",title:"Linear B tablets from Pylos: military mobilization, resource anxiety, no return",type:"historical_text",weight:0.85,isM:false,src:"Pylos Linear B archive, ~1180 BCE",sup:["claim:h3","claim:h6"],con:[]},
+  {id:"evidence:e6",title:"Widespread hoarding deposits across collapse horizon",type:"archaeological",weight:0.70,isM:false,src:"Multiple LBA sites, summarized in Cline (2014)",sup:["claim:h3"],con:[]},
+  {id:"evidence:e7",title:"Synchronous destruction layers at Ugarit, Hattusa, Megiddo, Tiryns (~1185–1175 BCE)",type:"archaeological",weight:0.88,isM:false,src:"Radiocarbon dating, Finkelstein & Piasetzky (2010)",sup:["claim:h7"],con:[]},
+  {id:"evidence:e8",title:"Archaeoseismic evidence at specific Mycenaean sites (Tiryns, Mycenae)",type:"archaeological",weight:0.65,isM:false,src:"Stiros & Jones (1996); Klaus-Günter Hinzen studies",sup:["claim:h5"],con:[]},
+  {id:"evidence:e9",title:"aDNA from Iron Age I Levantine populations: Aegean ancestry signal",type:"genetic",weight:0.80,isM:false,src:"Harney et al. (2018); Harney et al. (2021), PLOS Genetics",sup:["claim:h8"],con:[]},
+  {id:"evidence:e10",title:"Disrupted tin and copper trade routes evidenced in Ugarit/Levantine texts before destructions",type:"historical_text",weight:0.72,isM:false,src:"Knapp & Manning (2016), Annual Review of Anthropology",sup:["claim:h6","claim:h3"],con:[]},
+  {id:"evidence:e11",title:"Stable carbon isotope data from wheat grains at destruction-layer sites: drought stress markers",type:"climatological",weight:0.75,isM:false,src:"Kaniewski et al. (2013), PLOS ONE",sup:["claim:h1"],con:[]},
+  {id:"evidence:e12",title:"Philistine aDNA: distinct Aegean ancestry, not Canaanite",type:"genetic",weight:0.82,isM:false,src:"Feldman et al. (2019), Science Advances",sup:["claim:h8"],con:[]},
+  {id:"evidence:e13",title:"Egypt repels Sea Peoples but palace economies of peers collapse — Egypt survives",type:"archaeological",weight:0.78,isM:false,src:"Comparative record, multiple sources",sup:["claim:h7"],con:["claim:h2"]},
+  {id:"evidence:e14",title:"Egyptian New Kingdom records: continued administration and tribute after ~1177 BCE",type:"historical_text",weight:0.80,isM:false,src:"Egyptian New Kingdom records, Ramesside period",sup:["claim:h3"],con:[]},
+  {id:"evidence:e15",title:"Myth of Atlantis as Bronze Age memory — Plato's account",type:"mythological",weight:0.15,isM:true,src:"Plato, Timaeus and Critias, ~360 BCE",sup:[],con:[]}
+],
+sources:{},
+narratives:[
+  {id:"narrative:n1",title:"Sea Peoples caused the Bronze Age Collapse (single-cause popular narrative)",type:"narrative"},
+  {id:"narrative:n2",title:"Bronze Age civilizations were stable until suddenly destroyed by external shock",type:"narrative"},
+  {id:"narrative:n3",title:"The Bronze Age Collapse was a complete civilizational Dark Age — total discontinuity",type:"narrative"}
+],
+questions:[
+  {id:"question:q1",title:"Precise timing: did collapse events happen simultaneously or sequentially?",tests:["high_resolution_radiocarbon","stratigraphic_sequence"],claims:["claim:h2","claim:h7"]},
+  {id:"question:q2",title:"Genetic origins of Sea Peoples populations across different sites",tests:["ancient_dna","isotope_analysis"],claims:["claim:h8"]},
+  {id:"question:q3",title:"What structural differences allowed Egypt and Assyria to survive?",tests:["comparative_economy","administrative_record_analysis"],claims:["claim:h3","claim:h7"]}
+]
+};
+
+const TR={A:{l:'A',c:D?'#4ade80':'#166534',bg:D?'rgba(29,158,117,.25)':'rgba(29,158,117,.12)',b:D?'#4ade80':'#16a34a'},B:{l:'B',c:D?'#60a5fa':'#1d4ed8',bg:D?'rgba(55,138,221,.25)':'rgba(55,138,221,.1)',b:D?'#60a5fa':'#2563eb'},C:{l:'C',c:D?'#facc15':'#92400e',bg:D?'rgba(186,117,23,.25)':'rgba(186,117,23,.1)',b:D?'#facc15':'#b45309'},X:{l:'X',c:D?'#f87171':'#dc2626',bg:D?'rgba(248,113,113,.2)':'rgba(220,38,38,.08)',b:D?'#f87171':'#dc2626'}};
+const TP={climatological:{l:'Climate',c:'#0ea5e9'},archaeological:{l:'Archaeology',c:'#378ADD'},genetic:{l:'Genetics',c:'#1D9E75'},historical_text:{l:'Primary Text',c:'#BA7517'},mythological:{l:'Myth/Analogy',c:'#7C3AED'},demographic:{l:'Demographic',c:'#D85A30'},circumstantial:{l:'Circumstantial',c:'#888780'}};
+const AC={credibility:D?'#4ade80':'#16a34a',controversy:D?'#f97316':'#ea580c',testability:D?'#60a5fa':'#2563eb',speculation:D?'#c084fc':'#7c3aed'};
+
+let curMap=0,selId=null;
+
+function getNodes(mi){
+  const map=DATA.maps[mi];
+  const ss=new Set(map.seeds);
+  const pages=DATA.pages.filter(p=>ss.has(p.id));
+  const cIds=new Set(pages.flatMap(p=>p.contains).filter(id=>id.startsWith('claim:')));
+  const ev=DATA.evidence.filter(e=>e.sup.some(s=>cIds.has(s))||e.con.some(c=>cIds.has(c)));
+  const nIds=new Set(DATA.claims.filter(c=>cIds.has(c.id)).flatMap(c=>c.nc.map(n=>n.nid)));
+  const qs=DATA.questions.filter(q=>q.claims.some(c=>cIds.has(c)));
+  return{pages:pages.filter(p=>p.contains.length>0),claims:DATA.claims.filter(c=>cIds.has(c.id)),evidence:ev,narratives:DATA.narratives.filter(n=>nIds.has(n.id)),questions:qs};
+}
+
+const tabsEl=document.getElementById('tabs');
+DATA.maps.forEach((m,i)=>{
+  const el=document.createElement('div');el.className='tab'+(i===0?' act':'');
+  el.textContent=m.title;el.onclick=()=>sw(i);tabsEl.appendChild(el);
+});
+
+function sw(i){curMap=i;selId=null;
+  document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('act',j===i));
+  document.getElementById('purpose').textContent=DATA.maps[i].purpose;
+  bL();bG();uR();
+}
+document.getElementById('purpose').textContent=DATA.maps[0].purpose;
+
+function bL(){
+  const cl=document.getElementById('cl');cl.innerHTML='';
+  const{claims}=getNodes(curMap);
+  claims.forEach(c=>{
+    const t=TR[c.tier]||TR.C,e=c.eval||{};
+    const w=!c.audit.sa||!c.audit.cs;
+    const el=document.createElement('div');el.className='ci'+(selId===c.id?' sel':'');el.dataset.id=c.id;
+    el.style.borderLeftColor=selId===c.id?t.b:'transparent';
+    el.innerHTML=`<div class="ci-top"><div class="tb" style="background:${t.bg};color:${t.c};border:0.5px solid ${t.b}">${t.l}</div><div class="ci-title">${c.title}</div></div><div class="ci-bars">${['credibility','controversy','testability','speculation'].map(ax=>`<div class="br"><div class="bl">${ax==='credibility'?'cred':ax==='controversy'?'cont':ax==='testability'?'test':'spec'}</div><div class="bb"><div class="bf" style="width:${Math.round((e[ax]||0)*100)}%;background:${AC[ax]}"></div></div></div>`).join('')}</div>${w?'<div class="aw">⚠ unaudited</div>':''}`;
+    el.onclick=()=>{selId=(selId===c.id)?null:c.id;bL();bG();uR();};
+    cl.appendChild(el);
+  });
+}
+
+const cv=document.getElementById('gc');
+const pr=window.devicePixelRatio||1;
+let ns=[],es=[];
+function rsz(){const r=cv.parentElement.getBoundingClientRect();cv.width=r.width*pr;cv.height=r.height*pr;cv.style.width=r.width+'px';cv.style.height=r.height+'px';}
+rsz();
+const W=()=>cv.width/pr,H=()=>cv.height/pr,CX=()=>W()/2,CY=()=>H()/2;
+
+function bG(){
+  const{pages,claims,evidence,narratives,questions}=getNodes(curMap);
+  const w=W(),h=H();ns=[];es=[];
+  const ang=(i,tot,r)=>{const a=(i/tot)*Math.PI*2-Math.PI/2;return{x:CX()+Math.cos(a)*r,y:CY()+Math.sin(a)*r};};
+  const or=Math.min(w,h)*.3,mr=Math.min(w,h)*.19,ir=Math.min(w,h)*.09;
+  pages.forEach((p,i)=>{const pos=ang(i,pages.length,or);ns.push({id:p.id,tp:'page',title:p.title,...pos,vx:0,vy:0,r:26});});
+  claims.forEach((c,i)=>{const pos=ang(i,claims.length,mr);ns.push({id:c.id,tp:'claim',tier:c.tier,...pos,vx:0,vy:0,r:19});});
+  evidence.slice(0,14).forEach((e,i)=>{const pos=ang(i,Math.min(14,evidence.length),ir);ns.push({id:e.id,tp:'evid',eType:e.type,isM:e.isM,x:pos.x+(Math.random()-.5)*20,y:pos.y+(Math.random()-.5)*20,vx:0,vy:0,r:8});});
+  narratives.forEach((n,i)=>{const a=((i+.5)/narratives.length)*Math.PI*2-.7;const r2=Math.min(w,h)*.38;ns.push({id:n.id,tp:'nar',x:CX()+Math.cos(a)*r2,y:CY()+Math.sin(a)*r2,vx:0,vy:0,r:13});});
+  questions.forEach((q,i)=>{const a=((i+.3)/questions.length)*Math.PI*2+.3;const r2=Math.min(w,h)*.32;ns.push({id:q.id,tp:'qst',x:CX()+Math.cos(a)*r2,y:CY()+Math.sin(a)*r2,vx:0,vy:0,r:10});});
+  const cSet=new Set(claims.map(c=>c.id));
+  evidence.slice(0,14).forEach(e=>{e.sup.forEach(id=>{if(cSet.has(id))es.push({f:e.id,t:id,k:'sup'});});e.con.forEach(id=>{if(cSet.has(id))es.push({f:e.id,t:id,k:'con'});});});
+  claims.forEach(c=>{c.nc.forEach(nc=>es.push({f:c.id,t:nc.nid,k:nc.type}));const pg=pages.find(p=>p.contains.includes(c.id));if(pg)es.push({f:pg.id,t:c.id,k:'contains'});});
+  questions.forEach(q=>{q.claims.forEach(cid=>{if(cSet.has(cid))es.push({f:q.id,t:cid,k:'question'});});});
+}
+bL();bG();
+
+const EC={sup:{c:D?'rgba(74,222,128,.2)':'rgba(22,163,74,.15)',h:D?'rgba(74,222,128,.6)':'rgba(22,163,74,.55)',d:false},con:{c:D?'rgba(248,113,113,.2)':'rgba(220,38,38,.15)',h:D?'rgba(248,113,113,.6)':'rgba(220,38,38,.55)',d:false},contains:{c:D?'rgba(100,116,139,.12)':'rgba(100,116,139,.10)',h:D?'rgba(100,116,139,.5)':'rgba(100,116,139,.45)',d:false},narrative_conflict:{c:D?'rgba(192,132,252,.2)':'rgba(124,58,237,.12)',h:D?'rgba(192,132,252,.6)':'rgba(124,58,237,.55)',d:true},frame_conflict:{c:D?'rgba(96,165,250,.2)':'rgba(29,78,216,.12)',h:D?'rgba(96,165,250,.6)':'rgba(29,78,216,.55)',d:true},question:{c:D?'rgba(186,117,23,.2)':'rgba(186,117,23,.12)',h:D?'rgba(186,117,23,.6)':'rgba(186,117,23,.55)',d:true}};
+
+let hov=null;
+function fn(mx,my){for(const n of ns){const dx=n.x-mx,dy=n.y-my;if(Math.sqrt(dx*dx+dy*dy)<n.r+5)return n.id;}return null;}
+cv.addEventListener('mousemove',e=>{const r=cv.getBoundingClientRect();hov=fn(e.clientX-r.left,e.clientY-r.top);cv.style.cursor=hov?'pointer':'default';});
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();const f=fn(e.clientX-r.left,e.clientY-r.top);selId=(f===selId)?null:f;bL();bG();uR();});
+
+function sim(){
+  const K=.005,rep=2000,grav=.001,damp=.88,w=W(),h=H();
+  for(let i=0;i<ns.length;i++){for(let j=i+1;j<ns.length;j++){const dx=ns[j].x-ns[i].x,dy=ns[j].y-ns[i].y,d=Math.sqrt(dx*dx+dy*dy)+.1,f=rep/(d*d);ns[i].vx-=f*dx/d;ns[i].vy-=f*dy/d;ns[j].vx+=f*dx/d;ns[j].vy+=f*dy/d;}}
+  es.forEach(e=>{const a=ns.find(n=>n.id===e.f),b=ns.find(n=>n.id===e.t);if(!a||!b)return;const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.1;const tgt=a.tp==='page'?200:e.k==='contains'?120:90;const f=K*(d-tgt);a.vx+=f*dx/d;a.vy+=f*dy/d;b.vx-=f*dx/d;b.vy-=f*dy/d;});
+  ns.forEach(n=>{n.vx+=(CX()-n.x)*grav;n.vy+=(CY()-n.y)*grav;n.vx*=damp;n.vy*=damp;n.x+=n.vx;n.y+=n.vy;n.x=Math.max(28,Math.min(w-28,n.x));n.y=Math.max(28,Math.min(h-28,n.y));});
+}
+
+function hex(ctx,x,y,r,f,s,sel){ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;ctx.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));}ctx.closePath();ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=sel?2:1;ctx.stroke();}
+function dia(ctx,x,y,r,f,s){ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x+r*.8,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.8,y);ctx.closePath();ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=1;ctx.stroke();}
+function sqr(ctx,x,y,r,f,s){ctx.beginPath();ctx.roundRect(x-r,y-r,r*2,r*2,3);ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=1;ctx.stroke();}
+
+function draw(){
+  const ctx=cv.getContext('2d');ctx.setTransform(pr,0,0,pr,0,0);ctx.clearRect(0,0,W(),H());
+  sim();
+  es.forEach(e=>{
+    const a=ns.find(n=>n.id===e.f),b=ns.find(n=>n.id===e.t);if(!a||!b)return;
+    const isSel=selId&&(e.f===selId||e.t===selId),et=EC[e.k]||EC.sup;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=isSel?et.h:et.c;ctx.lineWidth=isSel?1.5:.7;
+    if(et.d)ctx.setLineDash([4,3]);else ctx.setLineDash([]);
+    ctx.stroke();ctx.setLineDash([]);
+  });
+  ns.forEach(n=>{
+    const isSel=n.id===selId,isHov=n.id===hov;
+    if(n.tp==='page'){
+      const pc=D?'rgba(100,116,139,.45)':'rgba(100,116,139,.3)',ps=D?'#94a3b8':'#64748b';
+      if(isSel||isHov){ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;ctx.lineTo(n.x+(n.r+5)*Math.cos(a),n.y+(n.r+5)*Math.sin(a));}ctx.closePath();ctx.fillStyle=ps+'25';ctx.fill();}
+      hex(ctx,n.x,n.y,n.r,pc,ps,isSel);
+    } else if(n.tp==='claim'){
+      const t=TR[n.tier]||TR.C;
+      if(isSel||isHov){ctx.beginPath();ctx.arc(n.x,n.y,n.r+6,0,Math.PI*2);ctx.fillStyle=t.c+'20';ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=t.bg;ctx.fill();ctx.strokeStyle=t.b;ctx.lineWidth=isSel?2:1;ctx.stroke();
+      ctx.fillStyle=t.c;ctx.font='bold 9px monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t.l,n.x,n.y);
+    } else if(n.tp==='evid'){
+      const c=TP[n.eType]?TP[n.eType].c:'#888';
+      if(isHov||isSel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ctx.fillStyle=c+'28';ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle=c+(D?'33':'22');ctx.fill();
+      if(n.isM)ctx.setLineDash([2,2]);else ctx.setLineDash([]);
+      ctx.strokeStyle=c+(D?'99':'77');ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    } else if(n.tp==='nar'){
+      const c=D?'rgba(192,132,252,.7)':'rgba(124,58,237,.65)';
+      if(isHov||isSel)dia(ctx,n.x,n.y,n.r+4,D?'rgba(192,132,252,.15)':'rgba(124,58,237,.1)',c);
+      dia(ctx,n.x,n.y,n.r,D?'rgba(192,132,252,.12)':'rgba(124,58,237,.08)',c);
+    } else if(n.tp==='qst'){
+      const c=D?'#facc15':'#b45309';
+      if(isHov||isSel){ctx.beginPath();ctx.roundRect(n.x-n.r-4,n.y-n.r-4,(n.r+4)*2,(n.r+4)*2,4);ctx.fillStyle=c+'25';ctx.fill();}
+      sqr(ctx,n.x,n.y,n.r,D?'rgba(186,117,23,.2)':'rgba(186,117,23,.1)',c);
+      ctx.fillStyle=c;ctx.font='bold 8px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('?',n.x,n.y);
+    }
+  });
+  ctx.font='8.5px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+  ns.filter(n=>n.tp==='claim').forEach(n=>{const c=DATA.claims.find(x=>x.id===n.id);if(!c)return;const l=c.title.length>14?c.title.slice(0,14)+'…':c.title;ctx.fillStyle=D?'rgba(255,255,255,.55)':'rgba(0,0,0,.5)';ctx.fillText(l,n.x,n.y+n.r+3);});
+  ns.filter(n=>n.tp==='nar').forEach(n=>{const nr=DATA.narratives.find(x=>x.id===n.id);if(!nr)return;const l=nr.title.length>12?nr.title.slice(0,12)+'…':nr.title;ctx.fillStyle=D?'rgba(192,132,252,.65)':'rgba(124,58,237,.65)';ctx.fillText(l,n.x,n.y+n.r+3);});
+  ns.filter(n=>n.tp==='page').forEach(n=>{ctx.fillStyle=D?'rgba(148,163,184,.6)':'rgba(71,85,105,.6)';ctx.font='8px sans-serif';ctx.fillText(n.title.length>12?n.title.slice(0,12)+'…':n.title,n.x,n.y+n.r+3);});
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+function uR(){
+  const dc=document.getElementById('dc');
+  if(!selId){dc.innerHTML='<div style="color:var(--color-text-secondary);font-size:11px;text-align:center;margin-top:40px;line-height:2">Select a node<br>or a claim on the left</div>';return;}
+  const cl=DATA.claims.find(x=>x.id===selId),ev=DATA.evidence.find(x=>x.id===selId);
+  const nar=DATA.narratives.find(x=>x.id===selId),qst=DATA.questions.find(x=>x.id===selId);
+  const pg=DATA.pages.find(x=>x.id===selId);
+
+  if(cl){
+    const t=TR[cl.tier]||TR.C,e=cl.eval||{};
+    const warn=!cl.audit.sa||!cl.audit.cs;
+    const rel=DATA.evidence.filter(ev2=>ev2.sup.includes(cl.id)||ev2.con.includes(cl.id));
+    const qs=DATA.questions.filter(q=>q.claims.includes(cl.id));
+    dc.innerHTML=`<div class="dl">CLAIM</div><div class="dt">${cl.title}</div><div class="tr"><div class="tb2" style="background:${t.bg};color:${t.c};border:0.5px solid ${t.b}">${t.l}</div><div style="font-size:10px;color:${t.c};font-weight:500">${t.l==='A'?'Relatively supported':t.l==='B'?'Consistent, not proven':t.l==='C'?'Testable question':'Unsupported'}</div></div><div class="fa"><div class="fal">4-axis evaluation</div>${Object.entries(e).map(([k,v])=>`<div class="ar"><div class="an">${k.slice(0,5)}</div><div class="ab"><div class="af" style="width:${Math.round(v*100)}%;background:${AC[k]||'#888'}"></div></div><div class="av">${v.toFixed(2)}</div></div>`).join('')}</div><div class="dd">${cl.desc}</div>${warn?`<div class="wb"><div style="font-size:9px;font-weight:500;color:${D?'#fbbf24':'#92400e'};margin-bottom:2px">⚠ Audit warnings</div><div style="font-size:9px;color:${D?'#fde68a':'#b45309'};line-height:1.5">${!cl.audit.sa?'Sources not yet audited. ':''}${!cl.audit.cs?'Counter-evidence not fully searched.':''}</div></div>`:''}<div class="fb" style="background:${D?'rgba(180,83,9,.1)':'rgba(180,83,9,.05)'};border:0.5px solid ${D?'rgba(180,83,9,.3)':'rgba(180,83,9,.2)'}"><div style="font-size:9px;margin-bottom:2px;font-weight:500;color:${D?'#fb923c':'#92400e'}">Falsification condition</div><div style="font-size:9px;line-height:1.55;color:${D?'#fdba74':'#b45309'}">${cl.fc}</div></div>${cl.oc?`<div style="padding:7px 8px;border-radius:5px;margin-bottom:8px;background:rgba(220,38,38,.06);border:0.5px solid rgba(220,38,38,.2)"><div style="font-size:9px;color:#dc2626;margin-bottom:2px;font-weight:500">Overclaim note</div><div style="font-size:9px;color:#b91c1c;line-height:1.5">${cl.oc}</div></div>`:''}${cl.nc.length?`<div class="nb"><div style="font-size:9px;color:var(--color-text-secondary);margin-bottom:4px">Narrative audit</div>${cl.nc.map(nc=>{const n=DATA.narratives.find(x=>x.id===nc.nid);return`<div style="display:flex;align-items:flex-start;gap:4px;margin-bottom:3px"><span style="font-size:8px;padding:1px 4px;border-radius:2px;background:${D?'rgba(192,132,252,.15)':'rgba(124,58,237,.08)'};color:${D?'#c084fc':'#7c3aed'};border:0.5px solid ${D?'rgba(192,132,252,.3)':'rgba(124,58,237,.2)'};flex-shrink:0">challenge</span><div style="font-size:9px;color:var(--color-text-secondary);line-height:1.4">${n?n.title:nc.nid}</div></div>`;}).join('')}</div>`:''}<div class="el">${rel.length} related evidence items</div>${rel.map(ev2=>{const isSup=ev2.sup.includes(cl.id);const tc=TP[ev2.type]?TP[ev2.type].c:'#888';return`<div class="ei" style="background:${isSup?(D?'rgba(74,222,128,.05)':'rgba(22,163,74,.03)'):(D?'rgba(248,113,113,.05)':'rgba(220,38,38,.03)')};border-color:${isSup?(D?'rgba(74,222,128,.2)':'rgba(22,163,74,.15)'):(D?'rgba(248,113,113,.2)':'rgba(220,38,38,.15)')}" onclick="window._s('${ev2.id}')"><div class="et2"><span style="font-size:9px;font-weight:500;color:${isSup?(D?'#4ade80':'#16a34a'):(D?'#f87171':'#dc2626')}">${isSup?'▲':'▼'}</span><span class="ty" style="color:${tc};border-color:${tc}40;background:${tc}15">${TP[ev2.type]?TP[ev2.type].l:ev2.type}</span>${ev2.isM?'<span class="mt">M</span>':''}</div><div style="font-size:9px;color:var(--color-text-secondary)">${ev2.title}</div><div style="font-size:8px;color:var(--color-text-secondary);margin-top:2px;font-family:monospace;opacity:.7">${ev2.src}</div></div>`;}).join('')}${qs.length?`<div class="el" style="margin-top:6px">Open questions</div>${qs.map(q=>`<div class="qb" onclick="window._s('${q.id}')"><div style="font-size:10px;font-weight:500;color:${D?'#fbbf24':'#92400e'};margin-bottom:2px">? ${q.title}</div><div style="font-size:9px;color:var(--color-text-secondary)">${q.tests.join(' / ')}</div></div>`).join('')}`:''}`;
+  } else if(ev){
+    const tc=TP[ev.type]?TP[ev.type].c:'#888';
+    const rh=DATA.claims.filter(c=>ev.sup.includes(c.id)||ev.con.includes(c.id));
+    dc.innerHTML=`<div class="dl">EVIDENCE</div><div class="dt">${ev.title}</div><div style="display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap"><span class="ty" style="color:${tc};border-color:${tc}40;background:${tc}15">${TP[ev.type]?TP[ev.type].l:ev.type}</span>${ev.isM?'<span class="mt">M — analogy</span>':''}<span style="font-size:9px;padding:1px 4px;border-radius:2px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">weight ${ev.weight}</span></div>${ev.isM?`<div style="padding:6px 8px;border-radius:4px;background:rgba(136,135,128,.1);border:0.5px solid rgba(136,135,128,.3);margin-bottom:8px;font-size:9px;color:#888780">M-tag: methodological analogy. Not treated as direct evidence. Score is dampened.</div>`:''}<div style="padding:6px 8px;border-radius:4px;background:rgba(55,138,221,.06);border:0.5px solid rgba(55,138,221,.2);margin-bottom:8px"><div style="font-size:9px;font-weight:500;color:${D?'#60a5fa':'#1d4ed8'};margin-bottom:2px">Source</div><div style="font-size:9px;font-family:monospace;color:${D?'#93c5fd':'#1d4ed8'};line-height:1.5">${ev.src}</div></div><div class="el">Related claims</div>${rh.map(c=>{const isSup=ev.sup.includes(c.id);const t=TR[c.tier]||TR.C;return`<div class="ei" style="background:${isSup?(D?'rgba(74,222,128,.05)':'rgba(22,163,74,.03)'):(D?'rgba(248,113,113,.05)':'rgba(220,38,38,.03)')};border-color:${isSup?(D?'rgba(74,222,128,.2)':'rgba(22,163,74,.15)'):(D?'rgba(248,113,113,.2)':'rgba(220,38,38,.15)')}" onclick="window._s('${c.id}')"><div class="et2"><span style="font-size:9px;font-weight:500;color:${isSup?(D?'#4ade80':'#16a34a'):(D?'#f87171':'#dc2626')}">${isSup?'▲':'▼'}</span><div class="tb" style="width:14px;height:14px;border-radius:2px;background:${t.bg};color:${t.c};border:0.5px solid ${t.b};font-size:7px">${t.l}</div></div><div style="font-size:9px;color:var(--color-text-secondary)">${c.title}</div></div>`;}).join('')}`;
+  } else if(nar){
+    const ch=DATA.claims.filter(c=>c.nc.some(n=>n.nid===nar.id));
+    dc.innerHTML=`<div class="dl">NARRATIVE</div><div class="dt">${nar.title}</div><div style="padding:6px 8px;border-radius:4px;background:${D?'rgba(192,132,252,.1)':'rgba(124,58,237,.05)'};border:0.5px solid ${D?'rgba(192,132,252,.25)':'rgba(124,58,237,.2)'};margin-bottom:8px;font-size:9px;color:${D?'#c084fc':'#7c3aed'}">A widely-held narrative or popular framing that claims in this graph challenge or qualify.</div><div class="el">Claims challenging this narrative (${ch.length})</div>${ch.map(c=>{const nc=c.nc.find(x=>x.nid===nar.id);const t=TR[c.tier]||TR.C;return`<div class="ei" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)" onclick="window._s('${c.id}')"><div class="et2"><div class="tb" style="width:14px;height:14px;border-radius:2px;background:${t.bg};color:${t.c};border:0.5px solid ${t.b};font-size:7px">${t.l}</div><span style="font-size:8px;padding:1px 3px;border-radius:2px;color:${D?'#c084fc':'#7c3aed'};border:0.5px solid ${D?'rgba(192,132,252,.3)':'rgba(124,58,237,.25)'};background:${D?'rgba(192,132,252,.1)':'rgba(124,58,237,.05)'}">${nc?.type==='frame_conflict'?'frame conflict':'narrative conflict'}</span></div><div style="font-size:9px;color:var(--color-text-secondary)">${c.title}</div></div>`;}).join('')}`;
+  } else if(qst){
+    dc.innerHTML=`<div class="dl">OPEN QUESTION</div><div class="dt">${qst.title}</div><div class="qb" style="margin-bottom:8px"><div style="font-size:9px;font-weight:500;color:${D?'#fbbf24':'#92400e'};margin-bottom:2px">How to test</div><div style="font-size:9px;color:var(--color-text-secondary)">${qst.tests.join(' / ')}</div></div><div class="el">Related claims</div>${DATA.claims.filter(c=>qst.claims.includes(c.id)).map(c=>{const t=TR[c.tier]||TR.C;return`<div class="ei" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)" onclick="window._s('${c.id}')"><div class="tb" style="width:14px;height:14px;border-radius:2px;background:${t.bg};color:${t.c};border:0.5px solid ${t.b};font-size:7px;margin-bottom:3px">${t.l}</div><div style="font-size:9px;color:var(--color-text-secondary)">${c.title}</div></div>`;}).join('')}`;
+  } else if(pg){
+    dc.innerHTML=`<div class="dl">WIKI PAGE</div><div class="dt">${pg.title}</div><div style="font-size:9px;padding:3px 6px;border-radius:3px;display:inline-block;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);margin-bottom:8px;color:var(--color-text-secondary)">${pg.status}</div><div class="el">Contains (${pg.contains.length} nodes)</div>${pg.contains.map(id=>{const c=DATA.claims.find(x=>x.id===id),e=DATA.evidence.find(x=>x.id===id);if(c){const t=TR[c.tier]||TR.C;return`<div class="ei" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)" onclick="window._s('${c.id}')"><div class="et2"><div class="tb" style="width:14px;height:14px;border-radius:2px;background:${t.bg};color:${t.c};border:0.5px solid ${t.b};font-size:7px">${t.l}</div><span style="font-size:9px;color:var(--color-text-secondary)">claim</span></div><div style="font-size:9px;color:var(--color-text-secondary)">${c.title}</div></div>`;}if(e){const tc=TP[e.type]?TP[e.type].c:'#888';return`<div class="ei" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)" onclick="window._s('${e.id}')"><div class="et2"><span class="ty" style="color:${tc};border-color:${tc}40;background:${tc}15">${TP[e.type]?TP[e.type].l:e.type}</span>${e.isM?'<span class="mt">M</span>':''}</div><div style="font-size:9px;color:var(--color-text-secondary)">${e.title}</div></div>`;}return'';}).join('')}`;
+  }
+}
+window._s=id=>{selId=(selId===id)?null:id;bL();bG();uR();};
+uR();
+window.addEventListener('resize',()=>{rsz();bG();});
+</script>
+
+</body>
+</html>

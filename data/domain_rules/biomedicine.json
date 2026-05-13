@@ -1,0 +1,128 @@
+{
+  "domain": "biomedicine",
+  "label": "Biomedicine",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier"
+  ],
+  "accepted_evidence_types": [
+    "animal_model",
+    "in_vitro",
+    "human_rct",
+    "systematic_review",
+    "clinical_guideline",
+    "large_human_cohort"
+  ],
+  "weakened_evidence_types": [
+    "animal_model",
+    "in_vitro",
+    "surrogate_endpoint",
+    "small_sample"
+  ],
+  "tier_restrictions": [
+    "Animal-model or in-vitro evidence alone cannot support direct human clinical efficacy.",
+    "Direct treatment advice is out of scope for this prototype."
+  ],
+  "required_falsifier_style": [
+    "human trial fails primary endpoint",
+    "independent replication fails",
+    "effect disappears at clinically relevant dose",
+    "adverse effects outweigh benefit"
+  ],
+  "a_tier_requires_any_evidence_tag": [
+    "human_rct",
+    "systematic_review",
+    "clinical_guideline",
+    "large_human_cohort"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "animal_to_human",
+      "trigger_terms": [
+        "mouse",
+        "mice",
+        "animal model",
+        "in vitro"
+      ],
+      "overclaim_terms": [
+        "effective treatment",
+        "clinical efficacy",
+        "cures",
+        "proves human",
+        "human cancer",
+        "patient advice"
+      ],
+      "reject_when_asserted": true
+    },
+    {
+      "id": "direct_patient_advice",
+      "trigger_terms": [
+        "patient",
+        "dose",
+        "take",
+        "treatment recommendation"
+      ],
+      "overclaim_terms": [
+        "should take",
+        "recommend",
+        "clinical advice"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "animal_model_to_human_clinical",
+      "evidence_tags_any": [
+        "animal_model",
+        "mouse_model",
+        "in_vitro"
+      ],
+      "claim_terms_any": [
+        "human clinical efficacy",
+        "cures human cancer",
+        "cures",
+        "human cancer",
+        "clinical treatment"
+      ],
+      "allowed_evidence_tags_any": [
+        "human_rct",
+        "systematic_review",
+        "clinical_guideline",
+        "large_human_cohort"
+      ],
+      "message": "Animal-model or in-vitro evidence alone cannot support direct human clinical efficacy.",
+      "suggested_fix": "Limit the claim to preclinical candidate status or add human clinical evidence."
+    }
+  ],
+  "required_metadata_when_claim_terms": [
+    {
+      "strong_assertion_only": true,
+      "claim_terms_any": [
+        "human clinical efficacy",
+        "cures human cancer",
+        "cures",
+        "clinical treatment",
+        "patient advice"
+      ],
+      "required_fields": [
+        "organism",
+        "endpoint",
+        "intervention_condition",
+        "human_evidence"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+[
+  {
+    "path": "data/sample_cases/ai_computer_science/good_benchmark_scoped.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "ai_computer_science_good_benchmark_scoped",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_benchmark: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/ai_computer_science/overclaim_benchmark_to_agi_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "ai_computer_science_overclaim_benchmark_to_agi_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_agi_safe: hypothesis requires at least one falsification condition",
+      "h_agi_safe: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_agi_safe: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: benchmark_overgeneralization",
+      "h_agi_safe: Benchmark performance cannot support general intelligence, safety, or real-world reliability by itself.",
+      "missing required field: h_agi_safe:contamination_check",
+      "missing required field: h_agi_safe:reproduction_status",
+      "h_agi_safe: A-tier lacks required domain evidence tags: ['external_eval', 'open_weights_reproduction', 'real_world_ablation', 'reproduced_benchmark']"
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_benchmark: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [
+      "h_agi_safe:contamination_check",
+      "h_agi_safe:reproduction_status"
+    ],
+    "overclaim_flags": [
+      "benchmark_overgeneralization",
+      "benchmark_to_general_intelligence_or_safety"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_unresolved_high_risk",
+      "a_tier_missing_domain_evidence_tag"
+    ],
+    "suggested_fixes": [
+      "h_agi_safe: add a falsifier or limiting condition",
+      "h_agi_safe: link at least one FalsifierNode with falsified_by",
+      "Limit the claim to the benchmark protocol or add contamination checks, independent replication, transfer tests, and safety evaluations."
+    ]
+  },
+  {
+    "path": "data/sample_cases/biomedicine/good_mouse_model_scoped.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "biomedicine_good_mouse_model_scoped",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_mouse: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/biomedicine/overclaim_mouse_to_human_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "biomedicine_overclaim_mouse_to_human_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_cure: hypothesis requires at least one falsification condition",
+      "h_cure: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_cure: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: animal_to_human",
+      "h_cure: Animal-model or in-vitro evidence alone cannot support direct human clinical efficacy.",
+      "missing required field: h_cure:intervention_condition",
+      "missing required field: h_cure:human_evidence",
+      "h_cure: A-tier lacks required domain evidence tags: ['clinical_guideline', 'human_rct', 'large_human_cohort', 'systematic_review']"
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_mouse: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [
+      "h_cure:intervention_condition",
+      "h_cure:human_evidence"
+    ],
+    "overclaim_flags": [
+      "animal_to_human",
+      "animal_model_to_human_clinical"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_unresolved_high_risk",
+      "a_tier_missing_domain_evidence_tag"
+    ],
+    "suggested_fixes": [
+      "h_cure: add a falsifier or limiting condition",
+      "h_cure: link at least one FalsifierNode with falsified_by",
+      "Limit the claim to preclinical candidate status or add human clinical evidence."
+    ]
+  },
+  {
+    "path": "data/sample_cases/climate_earth/good_event_model_attribution_scoped.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "climate_earth_good_event_model_attribution_scoped",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_heat: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/climate_earth/overclaim_single_event_model_proof_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "climate_earth_overclaim_single_event_model_proof_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_model_proven: hypothesis requires at least one falsification condition",
+      "h_model_proven: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_model_proven: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: single_event_to_trend",
+      "domain overclaim pattern missing RiskNode: model_projection_as_certainty",
+      "domain overclaim asserted: model_projection_as_certainty",
+      "h_model_proven: A single event cannot prove or disprove a long-term trend or model.",
+      "missing required field: h_model_proven:scenario",
+      "missing required field: h_model_proven:uncertainty_range",
+      "missing required field: h_model_proven:time_horizon",
+      "missing required field: h_model_proven:region",
+      "missing required field: h_model_proven:observational_baseline",
+      "h_model_proven: A-tier lacks required domain evidence tags: ['attribution_study', 'model_ensemble', 'multi_decadal_observation', 'paleoclimate_proxy']"
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_weather: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [
+      "h_model_proven:scenario",
+      "h_model_proven:uncertainty_range",
+      "h_model_proven:time_horizon",
+      "h_model_proven:region",
+      "h_model_proven:observational_baseline"
+    ],
+    "overclaim_flags": [
+      "single_event_to_trend",
+      "model_projection_as_certainty",
+      "single_event_long_term_trend"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_unresolved_high_risk",
+      "a_tier_missing_domain_evidence_tag"
+    ],
+    "suggested_fixes": [
+      "h_model_proven: add a falsifier or limiting condition",
+      "h_model_proven: link at least one FalsifierNode with falsified_by",
+      "Add a RiskNode tagged model_projection_as_certainty",
+      "Separate event observation from trend/model attribution and add baseline, scale, scenario, and uncertainty."
+    ]
+  },
+  {
+    "path": "data/sample_cases/history_humanities/good_egm_jomon_dotaku_kiki_scoped.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "history_humanities_good_egm_jomon_dotaku_kiki_scoped",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_genetics: source has citation_text but no doi/url",
+      "src_dotaku: source has citation_text but no doi/url",
+      "src_kiki: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/history_humanities/overclaim_egm_jomon_dotaku_kiki_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "history_humanities_overclaim_egm_jomon_dotaku_kiki_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_conquest_certainty: hypothesis requires at least one falsification condition",
+      "h_conquest_certainty: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_conquest_certainty: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: myth_as_direct_history",
+      "domain overclaim asserted: y_dna_proves_conquest",
+      "domain overclaim asserted: ritual_discontinuity_single_cause",
+      "h_conquest_certainty: Y-DNA frequency alone cannot prove conquest or dominance.",
+      "h_conquest_certainty: M-tag or mythic evidence cannot be used as direct historical evidence.",
+      "h_conquest_certainty: Ritual discontinuity cannot be treated as single-cause proof."
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_packet: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [
+      "myth_as_direct_history",
+      "y_dna_proves_conquest",
+      "ritual_discontinuity_single_cause",
+      "y_dna_frequency_alone_conquest",
+      "m_tag_as_direct_history"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_unresolved_high_risk"
+    ],
+    "suggested_fixes": [
+      "h_conquest_certainty: add a falsifier or limiting condition",
+      "h_conquest_certainty: link at least one FalsifierNode with falsified_by",
+      "Reframe as a possible social signal and require ancient DNA, burial context, and independent archaeological support.",
+      "Treat mythic structure as narrative or ritual-political memory hypothesis, not direct record.",
+      "Add internal chronology alternatives and material-culture transition tests."
+    ]
+  },
+  {
+    "path": "data/sample_cases/law_policy_ethics/good_legal_empirical_normative_separated.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "law_policy_ethics_good_legal_empirical_normative_separated",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_court: source has citation_text but no doi/url",
+      "src_eval: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/law_policy_ethics/overclaim_legal_to_effective_ethical_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "law_policy_ethics_overclaim_legal_to_effective_ethical_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_effective_ethical: hypothesis requires at least one falsification condition",
+      "h_effective_ethical: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_effective_ethical: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: normative_to_empirical",
+      "h_effective_ethical: Legal validity cannot directly prove empirical effectiveness or ethical correctness.",
+      "missing required field: h_effective_ethical:jurisdiction",
+      "missing required field: h_effective_ethical:date",
+      "missing required field: h_effective_ethical:court_level",
+      "missing required field: h_effective_ethical:legal_issue",
+      "missing required field: h_effective_ethical:value_premise",
+      "missing required field: h_effective_ethical:counter_principle"
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_court: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [
+      "h_effective_ethical:jurisdiction",
+      "h_effective_ethical:date",
+      "h_effective_ethical:court_level",
+      "h_effective_ethical:legal_issue",
+      "h_effective_ethical:value_premise",
+      "h_effective_ethical:counter_principle"
+    ],
+    "overclaim_flags": [
+      "normative_to_empirical",
+      "legal_validity_to_empirical_or_ethical"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_unresolved_high_risk"
+    ],
+    "suggested_fixes": [
+      "h_effective_ethical: add a falsifier or limiting condition",
+      "h_effective_ethical: link at least one FalsifierNode with falsified_by",
+      "Separate legal, empirical, and normative hypotheses and add policy evaluation evidence or explicit value premises."
+    ]
+  },
+  {
+    "path": "data/sample_cases/social_science/good_observational_association_scoped.json",
+    "expected": "PASS_WITH_WARNINGS",
+    "matched": true,
+    "case_id": "social_science_good_observational_association_scoped",
+    "status": "PASS_WITH_WARNINGS",
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_education: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [],
+    "overclaim_flags": [],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [],
+    "suggested_fixes": []
+  },
+  {
+    "path": "data/sample_cases/social_science/overclaim_correlation_to_causation_rejected.json",
+    "expected": "REJECT",
+    "matched": true,
+    "case_id": "social_science_overclaim_correlation_to_causation_rejected",
+    "status": "REJECT",
+    "valid": false,
+    "errors": [
+      "h_cause: hypothesis requires at least one falsification condition",
+      "h_cause: hypothesis requires a linked FalsifierNode or limiting_conditions",
+      "h_cause: A-tier requires at least one non-M direct/model/benchmark supporting evidence node",
+      "h_cause: A-tier hypothesis has unresolved high/critical risk",
+      "domain overclaim asserted: correlation_to_causation",
+      "h_cause: Correlation-only evidence cannot support a causal policy claim.",
+      "missing required field: h_cause:identification_strategy",
+      "missing required field: h_cause:confounder_discussion",
+      "missing required field: h_cause:time_window",
+      "missing required field: h_cause:comparison_group",
+      "h_cause: A-tier lacks required domain evidence tags: ['difference_in_differences', 'instrumental_variable', 'natural_experiment', 'randomized_policy_trial', 'replicated_causal_design']"
+    ],
+    "warnings": [
+      "case source_status is sample_unverified; citations need expert review",
+      "src_education: source has citation_text but no doi/url"
+    ],
+    "missing_fields": [
+      "h_cause:identification_strategy",
+      "h_cause:confounder_discussion",
+      "h_cause:time_window",
+      "h_cause:comparison_group"
+    ],
+    "overclaim_flags": [
+      "correlation_to_causation",
+      "correlation_only_causal_proof"
+    ],
+    "m_tag_flags": [],
+    "tier_mismatch_flags": [
+      "a_tier_missing_direct_domain_evidence",
+      "a_tier_unresolved_high_risk",
+      "a_tier_missing_domain_evidence_tag"
+    ],
+    "suggested_fixes": [
+      "h_cause: add a falsifier or limiting condition",
+      "h_cause: link at least one FalsifierNode with falsified_by",
+      "Add an identification strategy, confounder checks, time window, and counterfactual comparison."
+    ]
+  }
+]

@@ -1,0 +1,125 @@
+{
+  "domain": "climate_earth",
+  "label": "Climate / earth science",
+  "required_case_fields": [
+    "user_input",
+    "source_status",
+    "directness",
+    "reason_for_tier",
+    "audit_notes"
+  ],
+  "required_node_types": [
+    "source",
+    "source_claim",
+    "evidence",
+    "inference",
+    "hypothesis",
+    "risk",
+    "falsifier"
+  ],
+  "accepted_evidence_types": [
+    "weather_observation",
+    "model_projection",
+    "model_ensemble",
+    "attribution_study",
+    "multi_decadal_observation",
+    "paleoclimate_proxy"
+  ],
+  "weakened_evidence_types": [
+    "single_event",
+    "one_year_anomaly",
+    "single_station_observation"
+  ],
+  "tier_restrictions": [
+    "A single event cannot prove or disprove a long-term trend.",
+    "Model projections require scenario, uncertainty range, spatial scale, and time horizon.",
+    "Observation, model projection, and attribution claim must remain separate."
+  ],
+  "required_falsifier_style": [
+    "long-term observations persistently fall outside model uncertainty range",
+    "alternative model explains observations better",
+    "attribution analysis fails under counterfactual comparison"
+  ],
+  "a_tier_requires_any_evidence_tag": [
+    "multi_decadal_observation",
+    "model_ensemble",
+    "attribution_study",
+    "paleoclimate_proxy"
+  ],
+  "overclaim_patterns": [
+    {
+      "id": "single_event_to_trend",
+      "trigger_terms": [
+        "single event",
+        "one year",
+        "one storm",
+        "one hot year",
+        "cold week",
+        "this year"
+      ],
+      "overclaim_terms": [
+        "proves climate trend",
+        "completely proven",
+        "disproves climate",
+        "warming is false",
+        "proves global"
+      ],
+      "reject_when_asserted": true
+    },
+    {
+      "id": "model_projection_as_certainty",
+      "trigger_terms": [
+        "model",
+        "projection",
+        "scenario"
+      ],
+      "overclaim_terms": [
+        "is certain",
+        "completely proven",
+        "guaranteed"
+      ],
+      "reject_when_asserted": true
+    }
+  ],
+  "forbidden_support_patterns": [
+    {
+      "id": "single_event_long_term_trend",
+      "evidence_tags_any": [
+        "single_event",
+        "one_year_anomaly",
+        "single_station_observation"
+      ],
+      "claim_terms_any": [
+        "long-term model",
+        "long-term warming is false",
+        "completely proven",
+        "proves climate trend",
+        "disproves climate"
+      ],
+      "allowed_evidence_tags_any": [
+        "multi_decadal_observation",
+        "model_ensemble",
+        "attribution_study",
+        "paleoclimate_proxy"
+      ],
+      "message": "A single event cannot prove or disprove a long-term trend or model.",
+      "suggested_fix": "Separate event observation from trend/model attribution and add baseline, scale, scenario, and uncertainty."
+    }
+  ],
+  "required_metadata_when_claim_terms": [
+    {
+      "claim_terms_any": [
+        "attribution",
+        "model projection",
+        "long-term model"
+      ],
+      "required_fields": [
+        "scenario",
+        "uncertainty_range",
+        "time_horizon",
+        "region",
+        "observational_baseline"
+      ]
+    }
+  ]
+}

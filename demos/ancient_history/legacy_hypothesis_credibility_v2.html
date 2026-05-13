@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>仮説信憑性フレーム v2：A/B/C/Xティア・ナラティブ監査付き</title>
+<style>
+:root{
+  --color-border-tertiary:#d9dee7;
+  --border-radius-lg:10px;
+  --font-sans:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  --color-text-primary:#1f2933;
+  --color-text-secondary:#667085;
+  --color-background-primary:#fff;
+  --color-background-secondary:#f2f5f8;
+}
+body{margin:0;padding:16px;background:#f7f7f4;color:var(--color-text-primary);font-family:var(--font-sans)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.legacy-banner{margin:0 0 12px;padding:10px 12px;border:1px solid #d9dee7;border-radius:8px;background:#fff;color:#1f2933;font-size:13px;line-height:1.5}
+.legacy-banner a{color:#315f9e;font-weight:700}
+.legacy-banner strong{font-weight:800}
+</style>
+</head>
+<body>
+<div class="legacy-banner">
+  <strong>Legacy history-only stress-test:</strong>
+  このページは旧 ancient_history 専用HTMLです。6ジャンル全部のハッカソン用デモは
+  <a href="../../frontend/index.html">frontend/index.html</a>
+  を開いてください。
+</div>
+<h2 class="sr-only">仮説信憑性フレーム v2：A/B/C/Xティア・ナラティブ監査付き</h2>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#wrap{display:flex;height:600px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden;font-family:var(--font-sans);font-size:13px}
+#left{width:215px;border-right:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
+#lhead{padding:10px 12px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;flex-shrink:0}
+#hlist{flex:1;overflow-y:auto}
+.hi{cursor:pointer;padding:8px 12px;border-left:2px solid transparent;transition:background .1s}
+.hi:hover{background:var(--color-background-secondary)}
+.hi.sel{background:var(--color-background-secondary)}
+.hi-top{display:flex;align-items:flex-start;gap:7px;margin-bottom:3px}
+.tier-badge{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;font-family:var(--font-mono);flex-shrink:0;margin-top:1px}
+.hi-title{font-size:11px;line-height:1.4;color:var(--color-text-primary)}
+.hi-sub{display:flex;align-items:center;gap:5px;padding-left:25px;flex-wrap:wrap}
+.ev-tag{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.oc-warn{font-size:9px;color:#dc2626;padding:1px 4px;border-radius:3px;background:rgba(220,38,38,.08);border:0.5px solid rgba(220,38,38,.25)}
+#llegs{padding:10px 12px;border-top:0.5px solid var(--color-border-tertiary);flex-shrink:0}
+#llegs p{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px}
+.leg{display:flex;align-items:center;gap:5px;margin-bottom:3px;font-size:10px;color:var(--color-text-secondary)}
+.ldot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ltier{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;font-family:monospace;flex-shrink:0}
+#center{flex:1;position:relative;overflow:hidden}
+#gc{width:100%;height:100%;display:block}
+#overlay{position:absolute;top:8px;left:8px;font-size:9px;color:var(--color-text-secondary);line-height:1.6;pointer-events:none;background:var(--color-background-primary);padding:4px 7px;border-radius:5px;border:0.5px solid var(--color-border-tertiary);opacity:.85}
+#right{width:240px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:12px}
+#empty{color:var(--color-text-secondary);font-size:12px;text-align:center;margin-top:50px;line-height:1.9}
+.dlbl{font-size:10px;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:5px}
+.dtitle{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
+.tier-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.tier-big{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;font-family:monospace}
+.tier-desc{font-size:11px;color:var(--color-text-secondary)}
+.sbar-wrap{margin-bottom:10px}
+.sbar-row{display:flex;justify-content:space-between;margin-bottom:3px}
+.sbar{height:3px;background:var(--color-border-tertiary);border-radius:2px}
+.sbar-fill{height:100%;border-radius:2px;transition:width .5s}
+.ddesc{font-size:11px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:10px}
+.fc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px}
+.fclbl{font-size:9px;margin-bottom:3px;letter-spacing:.08em;font-weight:500}
+.fctext{font-size:10px;line-height:1.55}
+.oc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(220,38,38,.06);border:0.5px solid rgba(220,38,38,.2)}
+.oc-lbl{font-size:9px;color:#dc2626;margin-bottom:3px;font-weight:500}
+.oc-text{font-size:10px;color:#b91c1c;line-height:1.5}
+.na-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
+.na-lbl{font-size:9px;color:var(--color-text-secondary);margin-bottom:5px;letter-spacing:.08em}
+.na-item{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px}
+.na-badge{font-size:8px;padding:1px 4px;border-radius:3px;flex-shrink:0;margin-top:1px}
+.na-text{font-size:10px;color:var(--color-text-secondary);line-height:1.4}
+.evl-lbl{font-size:10px;color:var(--color-text-secondary);letter-spacing:.08em;margin-bottom:5px}
+.ev-item{padding:7px 8px;margin-bottom:5px;border-radius:5px;border:0.5px solid;cursor:pointer}
+.ev-item:hover{opacity:.8}
+.ev-top{display:flex;align-items:center;gap:5px;margin-bottom:3px;flex-wrap:wrap}
+.ev-rel{font-size:9px;font-weight:500}
+.ev-type{font-size:9px;padding:1px 4px;border-radius:3px;border:0.5px solid}
+.m-tag{font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(136,135,128,.15);border:0.5px solid rgba(136,135,128,.4);color:#888780}
+.ev-title{font-size:10px;color:var(--color-text-secondary);line-height:1.35}
+.ev-src{font-size:9px;margin-top:3px;font-family:var(--font-mono);color:var(--color-text-secondary);opacity:.65}
+.src-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(55,138,221,.06);border:0.5px solid rgba(55,138,221,.2)}
+</style>
+
+<div id="wrap">
+<div id="left">
+  <div id="lhead">仮説一覧 — Tier / スコア順</div>
+  <div id="hlist"></div>
+  <div id="llegs">
+    <p>Tierシステム</p>
+    <div id="tierleg"></div>
+    <p style="margin-top:8px">エッジ種別</p>
+    <div id="edgeleg"></div>
+  </div>
+</div>
+<div id="center">
+  <canvas id="gc"></canvas>
+  <div id="overlay">● 仮説　○ 証拠　◇ 通説ナラティブ　M アナロジー</div>
+</div>
+<div id="right"><div id="dc"><div id="empty">ノードをクリックして<br>詳細・ナラティブ監査を表示</div></div></div>
+</div>
+
+<script>
+const isDark=matchMedia('(prefers-color-scheme: dark)').matches;
+
+const TIERS={
+  A:{label:'A',desc:'既存データで比較的支持',bg:isDark?'rgba(29,158,117,.25)':'rgba(29,158,117,.12)',color:isDark?'#4ade80':'#166534',border:isDark?'#4ade80':'#16a34a'},
+  B:{label:'B',desc:'整合的だが未証明',bg:isDark?'rgba(55,138,221,.25)':'rgba(55,138,221,.1)',color:isDark?'#60a5fa':'#1d4ed8',border:isDark?'#60a5fa':'#2563eb'},
+  C:{label:'C',desc:'テスト可能な問い',bg:isDark?'rgba(186,117,23,.25)':'rgba(186,117,23,.1)',color:isDark?'#facc15':'#92400e',border:isDark?'#facc15':'#b45309'},
+  X:{label:'X',desc:'根拠不足・overclaim',bg:isDark?'rgba(248,113,113,.2)':'rgba(220,38,38,.08)',color:isDark?'#f87171':'#dc2626',border:isDark?'#f87171':'#dc2626'},
+  M:{label:'M',desc:'方法論的アナロジー',bg:isDark?'rgba(136,135,128,.2)':'rgba(136,135,128,.1)',color:'#888780',border:'#888780'}
+};
+
+const TYPES={
+  genetic:{l:'遺伝子',c:'#1D9E75'},
+  archaeological:{l:'考古学',c:'#378ADD'},
+  linguistic:{l:'言語学',c:'#BA7517'},
+  mythological:{l:'神話・文献',c:'#7C3AED'},
+  demographic:{l:'人口統計',c:'#D85A30'},
+  circumstantial:{l:'状況証拠',c:'#888780'}
+};
+
+const EDGETYPES={
+  sup:{l:'支持',c:isDark?'rgba(74,222,128,.22)':'rgba(22,163,74,.18)',hl:isDark?'rgba(74,222,128,.7)':'rgba(22,163,74,.6)'},
+  con:{l:'反証',c:isDark?'rgba(248,113,113,.22)':'rgba(220,38,38,.18)',hl:isDark?'rgba(248,113,113,.7)':'rgba(220,38,38,.6)'},
+  paper_conflict:{l:'論文との矛盾',c:isDark?'rgba(251,146,60,.22)':'rgba(234,88,12,.18)',hl:isDark?'rgba(251,146,60,.7)':'rgba(234,88,12,.6)',dash:true},
+  narrative_conflict:{l:'通説との矛盾',c:isDark?'rgba(192,132,252,.22)':'rgba(124,58,237,.15)',hl:isDark?'rgba(192,132,252,.7)':'rgba(124,58,237,.6)',dash:true},
+  frame_conflict:{l:'解釈の対立',c:isDark?'rgba(96,165,250,.22)':'rgba(29,78,216,.15)',hl:isDark?'rgba(96,165,250,.7)':'rgba(29,78,216,.6)',dash:true}
+};
+
+const NAR=[
+  {id:'n1',title:'弥生が縄文を人口・文化的に置き換えた',type:'narrative'},
+  {id:'n2',title:'トランスユーラシア言語起源説（ロビーツ2021）',type:'paper'},
+  {id:'n3',title:'日本と西遼河文明の文化的接続（俗説）',type:'narrative'},
+  {id:'n4',title:'アイヌはオホーツク・擦文の後裔（通説）',type:'narrative'}
+];
+
+const EV=[
+  {id:'e1',title:'Y染色体D系統 35%（本土日本人）',type:'genetic',weight:.95,m:false,source:'Cooke et al. 2021, Science Advances',doi:'10.1126/sciadv.abh2419',sup:['h1','h10'],con:[]},
+  {id:'e2',title:'常染色体縄文成分 約12%',type:'genetic',weight:.95,m:false,source:'Cooke et al. 2021, Science Advances',doi:'10.1126/sciadv.abh2419',sup:['h1','h10'],con:[]},
+  {id:'e3',title:'韓国C2b-CTS2657 TMRCA ~10,600年前',type:'genetic',weight:.85,m:false,source:'YFull MTree; ISOGG 2024',sup:['h5'],con:['h6','h7']},
+  {id:'e4',title:'アイヌC = 北アジア・サハリン起源',type:'genetic',weight:.80,m:false,source:'Kim et al. 2011',sup:['h4'],con:[]},
+  {id:'e5',title:'コロポックル最強伝承地 = 十勝内陸',type:'mythological',weight:.50,m:true,source:'Wikipedia; 芽室町郷土読本',sup:['h4'],con:[]},
+  {id:'e6',title:'甕棺墓の縄文期における存在',type:'archaeological',weight:.80,m:false,source:'縄文・弥生考古学総覧',sup:['h3'],con:[]},
+  {id:'e7',title:'タイ・カダイ語族 = SVO語順',type:'linguistic',weight:.75,m:false,source:'一般言語学',sup:['h9'],con:[]},
+  {id:'e8',title:'弥生期縄文人口の急激な減少（DNA）',type:'genetic',weight:.85,m:false,source:'東京大学 2019; JST',sup:['h10','h2'],con:[]},
+  {id:'e9',title:'弥生集落の環濠（防御施設）',type:'archaeological',weight:.75,m:false,source:'吉野ヶ里等考古学',sup:['h1'],con:[]},
+  {id:'e10',title:'アイヌ = 縄文70-80% + オホーツク20-30%',type:'genetic',weight:.85,m:false,source:'Adachi et al. 2011',sup:['h4'],con:[]},
+  {id:'e11',title:'礼文島縄文人 D1a2a2a（3800年前）',type:'genetic',weight:.90,m:false,source:'Kanzawa-Kiriyama et al.',sup:['h8'],con:[]},
+  {id:'e12',title:'弥生大陸成分 = 西遼河・アムール系',type:'genetic',weight:.85,m:false,source:'Cooke et al. 2021',sup:['h5'],con:['h6']},
+  {id:'e13',title:'日韓基礎語彙の非対応（漢語除く）',type:'linguistic',weight:.80,m:false,source:'比較言語学',sup:['h9'],con:['h7']},
+  {id:'e14',title:'C2b-CTS2657とC2b-F3796の系統分岐',type:'genetic',weight:.85,m:false,source:'YFull MTree; ISOGG 2024',sup:[],con:['h7']},
+  {id:'e15',title:'近畿弥生期縄文形質個体の高地位副葬',type:'archaeological',weight:.55,m:false,source:'形態学的研究（部分的）',sup:['h1'],con:[]},
+  {id:'e16',title:'イザナミ神話「穢れ・死・逃走・禊」構造',type:'mythological',weight:.35,m:true,source:'古事記（712年）; 日本書紀（720年）',sup:['h2','h3'],con:[]},
+  {id:'e17',title:'弥生農耕：貯水・肥溜め・有機肥料',type:'archaeological',weight:.70,m:false,source:'弥生農耕考古学',sup:['h3','h2'],con:[]},
+  {id:'e18',title:'アイヌ神話の起源方向 = 南（青森）',type:'mythological',weight:.40,m:true,source:'アイヌ口承文芸研究',sup:['h8'],con:[]},
+  {id:'e19',title:'日本のC系統 = C1a1（縄文固有）',type:'genetic',weight:.90,m:false,source:'Kim et al. 2011; ISOGG',sup:['h6'],con:[]},
+  {id:'e20',title:'アメリカ・豪先住民の処女地疫病事例',type:'demographic',weight:.70,m:true,source:'歴史人口学',sup:['h10'],con:[]}
+];
+
+const HY=[
+  {id:'h1',title:'縄文が弥生を制圧・支配した',tier:'B',
+   desc:'Y染色体D35%・常染色体12%の乖離は、縄文男性が支配者として弥生女性と優先的に交配した証拠。少数支配層モデル。',
+   fc:'弥生初期高地位副葬遺骨が全てO系統であれば反証。縄文形質遺骨が低地位に集中すれば反証。',
+   oc:null,
+   narConflicts:[{nid:'n1',type:'narrative_conflict'}],
+   fields:['genetic','archaeological']},
+  {id:'h2',title:'イザナミ神話＝縄文の農耕接触体験',tier:'C',
+   desc:'黄泉への侵入・死の持ち帰り・禊の構造が縄文の農耕集落略奪・疫病持ち帰りと対応する。ただしM証拠が中心。',
+   fc:'同型の神話構造が農耕接触のない文化にも存在すれば反証。',
+   oc:'神話構造の一致をanalogical reasoningとして扱う必要あり。直接証拠はない。',
+   narConflicts:[{nid:'n1',type:'narrative_conflict'}],
+   fields:['mythological','demographic']},
+  {id:'h3',title:'穢れ思想＝農耕接触の疫学的起源',tier:'B',
+   desc:'稲作の貯水・肥溜め・死体肥料が実際に疫病源であり、縄文の「穢れ」概念はその経験的認識から生まれた。',
+   fc:'穢れ概念が農耕接触前の縄文期に確認されれば反証。',
+   oc:null,
+   narConflicts:[],
+   fields:['mythological','archaeological']},
+  {id:'h4',title:'コロポックル＝先行北海道縄文人',tier:'B',
+   desc:'伝承地が十勝内陸（オホーツク沿岸でない）から、コロポックルはオホーツク文化人でなく先行縄文人。フキは屋根材の意味。',
+   fc:'コロポックル伝承地がオホーツク文化遺跡と地理的に一致すれば反証。',
+   oc:null,
+   narConflicts:[{nid:'n4',type:'frame_conflict'}],
+   fields:['mythological','archaeological']},
+  {id:'h5',title:'韓国C2b＝西遼河新石器起源',tier:'A',
+   desc:'韓国C2b-CTS2657はTMRCA約10,600年前で、モンゴルC2b-F3796（約3,700年前）と系統が異なる。朝鮮半島の西遼河遺伝的連続性。',
+   fc:'韓国C2bサブクレードがモンゴルC2bと同一系統と示されれば反証。',
+   oc:null,
+   narConflicts:[],
+   fields:['genetic']},
+  {id:'h6',title:'西遼河と日本は遺伝的・文化的に無関係',tier:'A',
+   desc:'日本のC系統はC1a1（縄文固有）でC2b-CTS2657はほぼゼロ。弥生O1b2は長江・山東系であり西遼河系ではない。',
+   fc:'C2b-CTS2657が弥生期遺骨から有意に検出されれば反証。',
+   oc:null,
+   narConflicts:[{nid:'n3',type:'narrative_conflict'}],
+   fields:['genetic']},
+  {id:'h7',title:'トランスユーラシア仮説は成立困難',tier:'A',
+   desc:'韓国C2bとモンゴルC2bが1万年前に既に分岐、O1b2がSVO語族と関連、日韓基礎語彙の非対応により困難。',
+   fc:'日韓語の非借用基礎語彙に体系的音韻対応が発見されれば反証。',
+   oc:null,
+   narConflicts:[{nid:'n2',type:'paper_conflict'}],
+   fields:['genetic','linguistic']},
+  {id:'h8',title:'アイヌ語は縄文語の最有力継承候補',tier:'B',
+   desc:'縄文人の最直接の遺伝的子孫（D70-80%）、弥生影響最小地域で保存、孤立語としての古さ。',
+   fc:'アイヌ語と他の既知語族の系統的関係が証明されれば反証。',
+   oc:null,
+   narConflicts:[],
+   fields:['genetic','linguistic']},
+  {id:'h9',title:'O1b2の祖先言語はSVO系',tier:'B',
+   desc:'O1b2は長江・タイカダイ・オーストロネシア語族系と関連しSVO語順。日韓語SOVはO1b2由来でなく縄文語・西遼河語の基層を反映。',
+   fc:'O1b2古代集団の文化的記録にSOV語序が確認されれば反証。',
+   oc:null,
+   narConflicts:[],
+   fields:['linguistic','genetic']},
+  {id:'h10',title:'弥生流入による縄文人口の疫病崩壊',tier:'B',
+   desc:'大陸農耕集団の集団感染症に対し、1万年以上孤立した縄文人は免疫がなく打撃を受けた。DNA解析で人口急減確認済。',
+   fc:'縄文晩期人骨の古病理分析で弥生渡来前から感染症痕跡が高頻度に見られれば反証。',
+   oc:null,
+   narConflicts:[],
+   fields:['genetic','demographic']}
+];
+
+const TW={genetic:1.0,archaeological:.85,linguistic:.65,mythological:.45,demographic:.80,circumstantial:.35};
+const SCORES={};
+HY.forEach(h=>{
+  let s=0,c=0; const f=new Set();
+  EV.forEach(e=>{
+    const w=e.weight*(TW[e.type]||.5)*(e.m?.4:1);
+    if(e.sup.includes(h.id)){s+=w;f.add(e.type);}
+    if(e.con.includes(h.id))c+=w;
+  });
+  const fb=h.fc?1:.7,cb=1+.08*Math.max(0,f.size-1);
+  SCORES[h.id]=Math.max(0,Math.min(1,(s-c)/(s+c+.001)*cb*fb));
+});
+
+const TIER_ORDER={A:0,B:1,C:2,X:3};
+const sorted=[...HY].sort((a,b)=>(TIER_ORDER[a.tier]??4)-(TIER_ORDER[b.tier]??4)||(SCORES[b.id]-SCORES[a.id]));
+
+const hlist=document.getElementById('hlist');
+sorted.forEach(h=>{
+  const t=TIERS[h.tier]||TIERS.B;
+  const d=document.createElement('div');
+  d.className='hi'; d.dataset.id=h.id;
+  d.innerHTML=`<div class="hi-top"><div class="tier-badge" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${t.label}</div><div class="hi-title">${h.title}</div></div><div class="hi-sub">${h.oc?'<span class="oc-warn">⚠ overclaim</span>':''}${h.narConflicts.map(nc=>`<span class="ev-tag" style="color:${isDark?'#c084fc':'#7c3aed'};border-color:${isDark?'rgba(192,132,252,.3)':'rgba(124,58,237,.25)'};background:${isDark?'rgba(192,132,252,.1)':'rgba(124,58,237,.05)'}">⊘ 通説</span>`).join('')}</div>`;
+  hlist.appendChild(d);
+});
+
+const tleg=document.getElementById('tierleg');
+['A','B','C','X','M'].forEach(k=>{
+  const t=TIERS[k];
+  tleg.innerHTML+=`<div class="leg"><div class="ltier" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${k}</div>${t.desc}</div>`;
+});
+const eleg=document.getElementById('edgeleg');
+Object.entries(EDGETYPES).forEach(([k,v])=>{
+  eleg.innerHTML+=`<div class="leg"><div style="width:18px;height:1.5px;background:${v.hl};flex-shrink:0;border-top:${v.dash?`1.5px dashed ${v.hl}`:'none'}"></div>${v.l}</div>`;
+});
+
+let selId=null;
+const canvas=document.getElementById('gc');
+const pr=window.devicePixelRatio||1;
+function resize(){const r=canvas.parentElement.getBoundingClientRect();canvas.width=r.width*pr;canvas.height=r.height*pr;canvas.style.width=r.width+'px';canvas.style.height=r.height+'px';}
+resize();
+const W=()=>canvas.width/pr,H=()=>canvas.height/pr,cx=()=>W()/2,cy=()=>H()/2;
+
+const nodes=[];
+HY.forEach((h,i)=>{const a=(i/HY.length)*Math.PI*2-.4;const r=Math.min(W(),H())*.28;nodes.push({id:h.id,type:'h',x:cx()+Math.cos(a)*r,y:cy()+Math.sin(a)*r,vx:0,vy:0,r:21});});
+EV.slice(0,16).forEach((e,i)=>{const a=(i/16)*Math.PI*2+.2;const r=Math.min(W(),H())*.13;nodes.push({id:e.id,type:'e',eType:e.type,isM:e.m,x:cx()+Math.cos(a)*r*(1+Math.random()*.5),y:cy()+Math.sin(a)*r*(1+Math.random()*.5),vx:0,vy:0,r:8});});
+NAR.forEach((n,i)=>{const a=(i/NAR.length)*Math.PI*2+.8;const r=Math.min(W(),H())*.35;nodes.push({id:n.id,type:'n',x:cx()+Math.cos(a)*r*(1.1+Math.random()*.2),y:cy()+Math.sin(a)*r*(1.1+Math.random()*.2),vx:0,vy:0,r:14});});
+
+const edges=[];
+EV.slice(0,16).forEach(e=>{
+  e.sup.forEach(hid=>edges.push({from:e.id,to:hid,t:'sup'}));
+  e.con.forEach(hid=>edges.push({from:e.id,to:hid,t:'con'}));
+});
+HY.forEach(h=>h.narConflicts.forEach(nc=>edges.push({from:h.id,to:nc.nid,t:nc.type})));
+
+let hovId=null;
+function findNode(mx,my){for(const n of nodes){const dx=n.x-mx,dy=n.y-my;if(Math.sqrt(dx*dx+dy*dy)<n.r+5)return n.id;}return null;}
+canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();hovId=findNode(e.clientX-r.left,e.clientY-r.top);canvas.style.cursor=hovId?'pointer':'default';});
+canvas.addEventListener('click',e=>{const r=canvas.getBoundingClientRect();const f=findNode(e.clientX-r.left,e.clientY-r.top);selId=(f===selId)?null:f;updateLeft();updateRight();});
+
+function updateLeft(){
+  document.querySelectorAll('.hi').forEach(el=>{
+    const id=el.dataset.id,sel=id===selId;
+    el.classList.toggle('sel',sel);
+    const h=HY.find(x=>x.id===id);
+    const t=TIERS[h?.tier]||TIERS.B;
+    el.style.borderLeftColor=sel?t.border:'transparent';
+  });
+}
+document.querySelectorAll('.hi').forEach(el=>el.addEventListener('click',()=>{selId=(selId===el.dataset.id)?null:el.dataset.id;updateLeft();updateRight();}));
+
+function updateRight(){
+  const dc=document.getElementById('dc');
+  if(!selId){dc.innerHTML='<div id="empty">ノードをクリックして<br>詳細・ナラティブ監査を表示</div>';return;}
+  const h=HY.find(x=>x.id===selId);
+  const ev=EV.find(x=>x.id===selId);
+  const nar=NAR.find(x=>x.id===selId);
+  if(h){
+    const t=TIERS[h.tier]||TIERS.B;
+    const s=SCORES[h.id];
+    const rel=EV.filter(e=>e.sup.includes(h.id)||e.con.includes(h.id));
+    dc.innerHTML=`
+      <div class="dlbl">仮説</div>
+      <div class="dtitle">${h.title}</div>
+      <div class="tier-row">
+        <div class="tier-big" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${t.label}</div>
+        <div>
+          <div style="font-size:11px;font-weight:500;color:${t.color}">${t.desc}</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono)">スコア ${Math.round(s*100)}/100</div>
+        </div>
+      </div>
+      <div class="sbar-wrap">
+        <div class="sbar"><div class="sbar-fill" style="width:${Math.round(s*100)}%;background:${t.border}"></div></div>
+      </div>
+      <div class="ddesc">${h.desc}</div>
+      ${h.oc?`<div class="oc-box"><div class="oc-lbl">⚠ Overclaim警告</div><div class="oc-text">${h.oc}</div></div>`:''}
+      <div class="fc-box" style="background:${isDark?'rgba(180,83,9,.1)':'rgba(180,83,9,.05)'};border:0.5px solid ${isDark?'rgba(180,83,9,.3)':'rgba(180,83,9,.2)'}">
+        <div class="fclbl" style="color:${isDark?'#fb923c':'#92400e'}">反証可能条件</div>
+        <div class="fctext" style="color:${isDark?'#fdba74':'#b45309'}">${h.fc}</div>
+      </div>
+      ${h.narConflicts.length?`<div class="na-box">
+        <div class="na-lbl">ナラティブ監査</div>
+        ${h.narConflicts.map(nc=>{
+          const n=NAR.find(x=>x.id===nc.nid);
+          const et=EDGETYPES[nc.type];
+          return `<div class="na-item">
+            <span class="na-badge" style="background:${isDark?'rgba(192,132,252,.15)':'rgba(124,58,237,.08)'};color:${isDark?'#c084fc':'#7c3aed'};border:0.5px solid ${isDark?'rgba(192,132,252,.3)':'rgba(124,58,237,.2)'}">${nc.type==='paper_conflict'?'論文':'通説'}</span>
+            <div class="na-text">${n?.title||nc.nid}</div>
+          </div>`;
+        }).join('')}
+      </div>`:''}
+      <div class="evl-lbl">関連証拠 (${rel.length}件)</div>
+      ${rel.map(e=>{
+        const isSup=e.sup.includes(h.id);
+        const tc=TYPES[e.type]?.c||'#888';
+        return `<div class="ev-item" style="background:${isSup?(isDark?'rgba(74,222,128,.05)':'rgba(22,163,74,.03)'):(isDark?'rgba(248,113,113,.05)':'rgba(220,38,38,.03)')};border-color:${isSup?(isDark?'rgba(74,222,128,.2)':'rgba(22,163,74,.15)'):(isDark?'rgba(248,113,113,.2)':'rgba(220,38,38,.15)')}" onclick="window._sel('${e.id}')">
+          <div class="ev-top">
+            <span class="ev-rel" style="color:${isSup?(isDark?'#4ade80':'#16a34a'):(isDark?'#f87171':'#dc2626')}">${isSup?'▲':'▼'}</span>
+            <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}15">${TYPES[e.type]?.l||e.type}</span>
+            ${e.m?'<span class="m-tag">M アナロジー</span>':''}
+          </div>
+          <div class="ev-title">${e.title}</div>
+          <div class="ev-src">${e.source}</div>
+        </div>`;
+      }).join('')}`;
+  } else if(ev){
+    const tc=TYPES[ev.type]?.c||'#888';
+    const rh=[...ev.sup.map(id=>({id,rel:'sup'})),...ev.con.map(id=>({id,rel:'con'}))];
+    dc.innerHTML=`
+      <div class="dlbl">証拠</div>
+      <div class="dtitle">${ev.title}</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="ev-type" style="color:${tc};border-color:${tc}40;background:${tc}15">${TYPES[ev.type]?.l||ev.type}</span>
+        ${ev.m?'<span class="m-tag">M アナロジー（証拠ではない）</span>':''}
+        <span style="font-size:10px;padding:1px 5px;border-radius:3px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">重み ${ev.weight}</span>
+      </div>
+      ${ev.m?`<div style="padding:7px 9px;border-radius:5px;background:rgba(136,135,128,.1);border:0.5px solid rgba(136,135,128,.3);margin-bottom:10px;font-size:10px;color:#888780">このノードはMタグ：EGMの分類では方法論的アナロジーとして扱われ、直接証拠としてのスコアは減衰されます。</div>`:''}
+      <div class="src-box">
+        <div class="fclbl" style="color:${isDark?'#60a5fa':'#1d4ed8'}">出典</div>
+        <div style="font-size:10px;font-family:var(--font-mono);color:${isDark?'#93c5fd':'#1d4ed8'};line-height:1.5">${ev.source}${ev.doi?`<br>DOI: ${ev.doi}`:''}</div>
+      </div>
+      <div class="evl-lbl">関連仮説</div>
+      ${rh.map(({id,rel})=>{
+        const h=HY.find(x=>x.id===id);if(!h)return'';
+        const isSup=rel==='sup';const t=TIERS[h.tier]||TIERS.B;
+        return `<div class="ev-item" style="background:${isSup?(isDark?'rgba(74,222,128,.05)':'rgba(22,163,74,.03)'):(isDark?'rgba(248,113,113,.05)':'rgba(220,38,38,.03)')};border-color:${isSup?(isDark?'rgba(74,222,128,.2)':'rgba(22,163,74,.15)'):(isDark?'rgba(248,113,113,.2)':'rgba(220,38,38,.15)')}" onclick="window._sel('${id}')">
+          <div class="ev-top"><span class="ev-rel" style="color:${isSup?(isDark?'#4ade80':'#16a34a'):(isDark?'#f87171':'#dc2626')}">${isSup?'▲':'▼'}</span><span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${t.label}</span></div>
+          <div class="ev-title">${h.title}</div>
+        </div>`;
+      }).join('')}`;
+  } else if(nar){
+    const challenged=HY.filter(h=>h.narConflicts.some(nc=>nc.nid===nar.id));
+    dc.innerHTML=`
+      <div class="dlbl">${nar.type==='paper'?'対象論文':'通説ナラティブ'}</div>
+      <div class="dtitle">${nar.title}</div>
+      <div style="padding:7px 9px;border-radius:5px;background:${isDark?'rgba(192,132,252,.1)':'rgba(124,58,237,.05)'};border:0.5px solid ${isDark?'rgba(192,132,252,.25)':'rgba(124,58,237,.2)'};margin-bottom:10px;font-size:10px;color:${isDark?'#c084fc':'#7c3aed'}">
+        ${nar.type==='paper'?'特定の論文・学説に対する直接的な対立':'文書化されていないが学界・一般に流通する通説への挑戦'}
+      </div>
+      <div class="evl-lbl">この通説に挑戦する仮説 (${challenged.length}件)</div>
+      ${challenged.map(h=>{
+        const nc=h.narConflicts.find(x=>x.nid===nar.id);
+        const et=EDGETYPES[nc.type];const t=TIERS[h.tier]||TIERS.B;
+        return `<div class="ev-item" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)" onclick="window._sel('${h.id}')">
+          <div class="ev-top">
+            <span class="tier-badge" style="width:16px;height:16px;border-radius:3px;background:${t.bg};color:${t.color};border:0.5px solid ${t.border};font-size:8px">${t.label}</span>
+            <span style="font-size:9px;padding:1px 4px;border-radius:3px;color:${isDark?'#c084fc':'#7c3aed'};border:0.5px solid ${isDark?'rgba(192,132,252,.3)':'rgba(124,58,237,.25)'};background:${isDark?'rgba(192,132,252,.1)':'rgba(124,58,237,.05)'}">${nc.type==='paper_conflict'?'論文矛盾':nc.type==='frame_conflict'?'解釈対立':'通説矛盾'}</span>
+          </div>
+          <div class="ev-title">${h.title}</div>
+        </div>`;
+      }).join('')}`;
+  }
+}
+window._sel=id=>{selId=(selId===id)?null:id;updateLeft();updateRight();};
+
+function sim(){
+  const K=.006,rep=2200,grav=.0012,damp=.87,w=W(),h=H();
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const dx=nodes[j].x-nodes[i].x,dy=nodes[j].y-nodes[i].y;
+      const d=Math.sqrt(dx*dx+dy*dy)+.1,f=rep/(d*d);
+      nodes[i].vx-=f*dx/d;nodes[i].vy-=f*dy/d;
+      nodes[j].vx+=f*dx/d;nodes[j].vy+=f*dy/d;
+    }
+  }
+  edges.forEach(edge=>{
+    const a=nodes.find(n=>n.id===edge.from),b=nodes.find(n=>n.id===edge.to);
+    if(!a||!b)return;
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)+.1;
+    const tgt=a.type==='h'&&b.type==='n'?180:a.type==='h'&&b.type==='h'?160:100;
+    const f=K*(d-tgt);
+    a.vx+=f*dx/d;a.vy+=f*dy/d;b.vx-=f*dx/d;b.vy-=f*dy/d;
+  });
+  nodes.forEach(n=>{
+    n.vx+=(cx()-n.x)*grav;n.vy+=(cy()-n.y)*grav;
+    n.vx*=damp;n.vy*=damp;n.x+=n.vx;n.y+=n.vy;
+    n.x=Math.max(28,Math.min(w-28,n.x));n.y=Math.max(28,Math.min(h-28,n.y));
+  });
+}
+
+function drawDiamond(ctx,x,y,r,fill,stroke){
+  ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x+r*.8,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r*.8,y);ctx.closePath();
+  ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();
+}
+
+function draw(){
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(pr,0,0,pr,0,0);
+  ctx.clearRect(0,0,W(),H());
+  sim();
+
+  edges.forEach(edge=>{
+    const a=nodes.find(n=>n.id===edge.from),b=nodes.find(n=>n.id===edge.to);
+    if(!a||!b)return;
+    const isSel=selId&&(edge.from===selId||edge.to===selId);
+    const et=EDGETYPES[edge.t]||EDGETYPES.sup;
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=isSel?et.hl:et.c;
+    ctx.lineWidth=isSel?1.5:.8;
+    if(et.dash){ctx.setLineDash([4,3]);}else{ctx.setLineDash([]);}
+    ctx.stroke();ctx.setLineDash([]);
+  });
+
+  nodes.forEach(n=>{
+    const isSel=n.id===selId,isHov=n.id===hovId;
+    if(n.type==='h'){
+      const h=HY.find(x=>x.id===n.id);const t=TIERS[h?.tier]||TIERS.B;
+      if(isSel||isHov){ctx.beginPath();ctx.arc(n.x,n.y,n.r+7,0,Math.PI*2);ctx.fillStyle=t.color+'20';ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=t.bg;ctx.fill();ctx.strokeStyle=t.border;ctx.lineWidth=isSel?2:1;ctx.stroke();
+      ctx.fillStyle=t.color;ctx.font=`bold 10px monospace`;ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(t.label,n.x,n.y);
+    } else if(n.type==='e'){
+      const c=TYPES[n.eType]?.c||'#888';
+      if(isHov||isSel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+3,0,Math.PI*2);ctx.fillStyle=c+'28';ctx.fill();}
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=c+(isDark?'33':'22');ctx.fill();
+      if(n.isM){ctx.setLineDash([3,2]);ctx.strokeStyle=c+'88';}
+      else{ctx.setLineDash([]);ctx.strokeStyle=c+(isDark?'99':'77');}
+      ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+    } else if(n.type==='n'){
+      const c=isDark?'rgba(192,132,252,.8)':'rgba(124,58,237,.7)';
+      const fill=isDark?'rgba(192,132,252,.12)':'rgba(124,58,237,.08)';
+      if(isHov||isSel){drawDiamond(ctx,n.x,n.y,n.r+4,isDark?'rgba(192,132,252,.18)':'rgba(124,58,237,.12)',c);}
+      drawDiamond(ctx,n.x,n.y,n.r,fill,c);
+    }
+  });
+
+  ctx.font=`9.5px var(--font-sans,sans-serif)`;
+  ctx.textAlign='center';ctx.textBaseline='top';
+  nodes.filter(n=>n.type==='h').forEach(n=>{
+    const h=HY.find(x=>x.id===n.id);if(!h)return;
+    const lbl=h.title.length>12?h.title.slice(0,12)+'…':h.title;
+    ctx.fillStyle=isDark?'rgba(255,255,255,.6)':'rgba(0,0,0,.55)';
+    ctx.fillText(lbl,n.x,n.y+n.r+3);
+  });
+  nodes.filter(n=>n.type==='n').forEach(n=>{
+    const nr=NAR.find(x=>x.id===n.id);if(!nr)return;
+    const lbl=nr.title.length>10?nr.title.slice(0,10)+'…':nr.title;
+    ctx.fillStyle=isDark?'rgba(192,132,252,.7)':'rgba(124,58,237,.7)';
+    ctx.fillText(lbl,n.x,n.y+n.r+4);
+  });
+
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+window.addEventListener('resize',resize);
+</script>
+</body>
+</html>

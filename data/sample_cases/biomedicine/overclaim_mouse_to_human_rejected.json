@@ -1,0 +1,183 @@
+{
+  "case_id": "biomedicine_overclaim_mouse_to_human_rejected",
+  "domain": "biomedicine",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: mouse result cures human cancer",
+  "japanese_title": "マウス結果からヒトがん治療効果を断定する過剰主張を拒否",
+  "summary": "Mouse tumor reduction is asserted as a human cancer cure.",
+  "user_input": "A mouse experiment showed that Compound X reduced tumors, so Compound X cures human cancer.",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected: A-tier clinical claim lacks human evidence and required clinical metadata.",
+  "audit_notes": "No direct patient advice should be derived from this case.",
+  "key_warning_theme": "Animal model alone is used as human clinical proof.",
+  "nodes": [
+    {
+      "id": "src_mouse",
+      "node_type": "source",
+      "title": "Mouse tumor model experiment",
+      "source_type": "paper",
+      "citation_text": "Sample source packet for Mouse tumor model experiment; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_mouse",
+      "node_type": "source_claim",
+      "title": "Mouse tumor reduction",
+      "source_id": "src_mouse",
+      "claim_text": "Compound X reduced tumors in mice under experimental conditions.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_cure",
+      "node_type": "hypothesis",
+      "title": "Compound X cures human cancer",
+      "description": "A mouse animal model result proves human clinical efficacy and cures human cancer.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: animal-model evidence alone cannot establish a human clinical treatment claim.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_mouse",
+      "node_type": "evidence",
+      "title": "Mouse tumor reduction",
+      "evidence_type": "animal_model",
+      "directness": "direct",
+      "weight": 0.82,
+      "source_claim_ids": [
+        "sc_mouse"
+      ],
+      "evidence_tags": [
+        "animal_model",
+        "mouse_model",
+        "surrogate_endpoint"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "organism": "mouse",
+      "endpoint": "tumor size"
+    },
+    {
+      "id": "i_clinical_jump",
+      "node_type": "inference",
+      "title": "Mouse-to-human clinical leap",
+      "description": "The inference jumps from mouse tumor reduction to human clinical efficacy and cure.",
+      "depends_on": [
+        "e_mouse"
+      ],
+      "source_claim_ids": [
+        "sc_mouse"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_animal_human",
+      "node_type": "risk",
+      "title": "Animal model treated as human efficacy",
+      "risk_type": "animal_to_human",
+      "risk_tags": [
+        "animal_to_human"
+      ],
+      "targets": [
+        "h_cure"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Limit to preclinical evidence or add human clinical trials."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_cure"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_mouse",
+      "to": "sc_mouse",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_mouse",
+      "to": "e_mouse",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_mouse",
+      "to": "i_clinical_jump",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "i_clinical_jump",
+      "to": "h_cure",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_cure",
+      "to": "r_animal_human",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_cure",
+      "title": "Compound X cures human cancer",
+      "tier": "A",
+      "description": "A mouse animal model result proves human clinical efficacy and cures human cancer."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_mouse",
+      "title": "Mouse tumor reduction",
+      "claim_text": "Compound X reduced tumors in mice under experimental conditions."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_mouse",
+      "title": "Mouse tumor reduction",
+      "tier": "A",
+      "directness": "direct"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_clinical_jump",
+      "title": "Mouse-to-human clinical leap",
+      "tier": "X",
+      "description": "The inference jumps from mouse tumor reduction to human clinical efficacy and cure."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_animal_human",
+      "title": "Animal model treated as human efficacy",
+      "tier": "X",
+      "risk_type": "animal_to_human"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": []
+}

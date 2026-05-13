@@ -1,0 +1,182 @@
+{
+  "case_id": "ai_computer_science_overclaim_benchmark_to_agi_rejected",
+  "domain": "ai_computer_science",
+  "case_type": "overclaim",
+  "title": "Rejected overclaim: benchmark to general intelligence and safety",
+  "japanese_title": "ベンチマークから汎用知能・安全性を断定する過剰主張を拒否",
+  "summary": "A 90% benchmark score is asserted as general intelligence and deployment safety.",
+  "user_input": "Model X scored 90% on Benchmark B, so it is generally intelligent, safe, and reliable in real-world deployment.",
+  "validator_expected_result": "REJECT",
+  "validator_expected_warnings": [],
+  "expected_validation": {
+    "status": "REJECT"
+  },
+  "source_status": "sample_unverified",
+  "directness": "overclaimed",
+  "tier": "A",
+  "provisional_tier": "A",
+  "reason_for_tier": "Rejected: benchmark result lacks contamination check, reproduction status, transfer evidence, and safety evaluation.",
+  "audit_notes": "This case keeps the source claim separate but rejects the overextended inference.",
+  "key_warning_theme": "Benchmark score alone is used for general intelligence, safety, and deployment reliability.",
+  "nodes": [
+    {
+      "id": "src_benchmark",
+      "node_type": "source",
+      "title": "Leaderboard report",
+      "source_type": "benchmark_report",
+      "citation_text": "Sample source packet for Leaderboard report; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_score",
+      "node_type": "source_claim",
+      "title": "Benchmark score",
+      "source_id": "src_benchmark",
+      "claim_text": "Model X scored 90% on Benchmark B.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_agi_safe",
+      "node_type": "hypothesis",
+      "title": "Model X is generally intelligent, safe, and reliable in real-world deployment",
+      "description": "Benchmark B proves general intelligence, safety, and reliable real-world deployment.",
+      "tier": "A",
+      "provisional_tier": "A",
+      "reason_for_tier": "Rejected: benchmark score alone cannot support broad intelligence or safety.",
+      "falsification_conditions": []
+    },
+    {
+      "id": "e_score",
+      "node_type": "evidence",
+      "title": "90% benchmark score",
+      "evidence_type": "benchmark_result",
+      "directness": "benchmark",
+      "weight": 0.88,
+      "source_claim_ids": [
+        "sc_score"
+      ],
+      "evidence_tags": [
+        "benchmark_result",
+        "leaderboard",
+        "single_benchmark"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "i_agi_jump",
+      "node_type": "inference",
+      "title": "Benchmark-to-AGI/safety jump",
+      "description": "The inference treats a benchmark score as proof of general intelligence and safety.",
+      "depends_on": [
+        "e_score"
+      ],
+      "source_claim_ids": [
+        "sc_score"
+      ],
+      "tier": "X"
+    },
+    {
+      "id": "r_benchmark",
+      "node_type": "risk",
+      "title": "Benchmark overgeneralization",
+      "risk_type": "benchmark_overgeneralization",
+      "risk_tags": [
+        "benchmark_overgeneralization"
+      ],
+      "targets": [
+        "h_agi_safe"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Add independent replication, contamination audit, real-world transfer tests, and safety evaluations."
+    },
+    {
+      "id": "f_missing_required",
+      "node_type": "falsifier",
+      "title": "Required falsifier was not linked to the asserted claim",
+      "would_weaken": [
+        "h_agi_safe"
+      ],
+      "required_test": "A valid strong claim would need a concrete contrary observation, limiting condition, or test."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_benchmark",
+      "to": "sc_score",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_score",
+      "to": "e_score",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_score",
+      "to": "i_agi_jump",
+      "edge_type": "supports",
+      "strength": 0.9
+    },
+    {
+      "from": "i_agi_jump",
+      "to": "h_agi_safe",
+      "edge_type": "supports",
+      "strength": 0.95
+    },
+    {
+      "from": "h_agi_safe",
+      "to": "r_benchmark",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    }
+  ],
+  "evaluation_protocol": "not specified",
+  "hypotheses": [
+    {
+      "id": "h_agi_safe",
+      "title": "Model X is generally intelligent, safe, and reliable in real-world deployment",
+      "tier": "A",
+      "description": "Benchmark B proves general intelligence, safety, and reliable real-world deployment."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_score",
+      "title": "Benchmark score",
+      "claim_text": "Model X scored 90% on Benchmark B."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_score",
+      "title": "90% benchmark score",
+      "tier": "A",
+      "directness": "benchmark"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_agi_jump",
+      "title": "Benchmark-to-AGI/safety jump",
+      "tier": "X",
+      "description": "The inference treats a benchmark score as proof of general intelligence and safety."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_benchmark",
+      "title": "Benchmark overgeneralization",
+      "tier": "X",
+      "risk_type": "benchmark_overgeneralization"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_missing_required",
+      "title": "Required falsifier was not linked to the asserted claim"
+    }
+  ],
+  "narrative_nodes": []
+}

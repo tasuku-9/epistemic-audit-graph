@@ -1,0 +1,620 @@
+{
+  "case_id": "history_humanities_good_egm_jomon_dotaku_kiki_scoped",
+  "domain": "history_humanities",
+  "case_type": "good",
+  "title": "Auditing an abductive cross-domain historical hypothesis",
+  "japanese_title": "分野横断型の歴史仮説を監査する",
+  "summary": "A scoped EGM-style Jomon / Dotaku / Kiki case that keeps observations, inferences, risks, falsifiers, and narrative conflicts separate.",
+  "user_input": "現代日本人における縄文系父系D-M55の残存、弥生後期の銅鐸祭祀の終焉、記紀神話に見られる降臨・国譲り・農耕起源構造は、後期弥生から古墳初期にかけての社会再編を検討するための分野横断的な作業仮説として扱えるかもしれない。",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "abductive_cross_domain",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "The central hypothesis is framed as a working cross-domain hypothesis. Observations are A-level, inferences are B-level, vulnerabilities are C-level, and explicit overclaim paths are X-level risks.",
+  "audit_notes": "Main public history/humanities demo. Legacy stronger HTML remains only as stress-test/UI reference.",
+  "key_warning_theme": "Cross-domain abductive hypothesis; myth and genetics are not direct proof.",
+  "nodes": [
+    {
+      "id": "src_genetics",
+      "node_type": "source",
+      "title": "Japanese paternal-lineage population genetics packet",
+      "source_type": "dataset_or_paper",
+      "citation_text": "Sample source packet for Japanese paternal-lineage population genetics packet; replace with reviewed citation before real use."
+    },
+    {
+      "id": "src_dotaku",
+      "node_type": "source",
+      "title": "Late Yayoi Dotaku ritual archaeology packet",
+      "source_type": "archaeology_report",
+      "citation_text": "Sample source packet for Late Yayoi Dotaku ritual archaeology packet; replace with reviewed citation before real use."
+    },
+    {
+      "id": "src_kiki",
+      "node_type": "source",
+      "title": "Kojiki / Nihon Shoki mythic structure packet",
+      "source_type": "primary_text",
+      "citation_text": "Sample source packet for Kojiki / Nihon Shoki mythic structure packet; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_d_m55",
+      "node_type": "source_claim",
+      "title": "D-M55 persistence observation",
+      "source_id": "src_genetics",
+      "claim_text": "Sources report persistence of D1a2a / D-M55 in modern Japanese paternal lineages.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_dotaku",
+      "node_type": "source_claim",
+      "title": "Dotaku ritual discontinuity observation",
+      "source_id": "src_dotaku",
+      "claim_text": "Archaeological syntheses describe discontinuity or termination in Dotaku ritual practice around the Late Yayoi to early Kofun transition.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_kiki",
+      "node_type": "source_claim",
+      "title": "Kiki mythic complex observation",
+      "source_id": "src_kiki",
+      "claim_text": "Kiki mythic complexes include descent, transfer of land, and agricultural-origin motifs.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_social_reorganization",
+      "node_type": "hypothesis",
+      "title": "D-M55, Dotaku discontinuity, and Kiki structures may be compared as traces of social reorganization",
+      "description": "Jomon-associated paternal-lineage persistence, Dotaku ritual discontinuity, and Kiki mythic structures may be examined as potentially connected traces of Late Yayoi to early Kofun social reorganization.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "Cross-domain connection is plausible enough to audit but not proven; it needs ancient DNA, chronology, text-critical, and narrative tests.",
+      "falsification_conditions": [
+        "Kofun elite ancient DNA does not show elevated D-M55.",
+        "Dotaku discontinuity can be fully explained by internal ritual chronology.",
+        "Kiki motifs can be fully explained by broader myth typology."
+      ]
+    },
+    {
+      "id": "e_d_m55",
+      "node_type": "evidence",
+      "title": "D1a2a / D-M55 persistence in Japanese paternal lineages",
+      "evidence_type": "archaeogenetic_observation",
+      "directness": "indirect",
+      "weight": 0.68,
+      "source_claim_ids": [
+        "sc_d_m55"
+      ],
+      "evidence_tags": [
+        "modern_y_dna",
+        "paternal_lineage"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "e_dotaku",
+      "node_type": "evidence",
+      "title": "Dotaku ritual discontinuity",
+      "evidence_type": "ritual_archaeology",
+      "directness": "indirect",
+      "weight": 0.66,
+      "source_claim_ids": [
+        "sc_dotaku"
+      ],
+      "evidence_tags": [
+        "ritual_discontinuity",
+        "dated_artifact"
+      ],
+      "tier": "A",
+      "m_tag": false
+    },
+    {
+      "id": "e_kiki",
+      "node_type": "evidence",
+      "title": "Kiki descent, land-transfer, and agricultural-origin motifs",
+      "evidence_type": "primary_text_motif",
+      "directness": "analogy",
+      "weight": 0.38,
+      "source_claim_ids": [
+        "sc_kiki"
+      ],
+      "evidence_tags": [
+        "mythic_text",
+        "primary_text_with_context"
+      ],
+      "tier": "A",
+      "m_tag": true
+    },
+    {
+      "id": "i_paternal_asymmetry",
+      "node_type": "inference",
+      "title": "Paternal asymmetry as possible social signal",
+      "description": "D-M55 persistence may be audited as a possible social signal, not as proof of conquest.",
+      "depends_on": [
+        "e_d_m55"
+      ],
+      "source_claim_ids": [
+        "sc_d_m55"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "i_dotaku_reorganization",
+      "node_type": "inference",
+      "title": "Dotaku discontinuity as possible social reorganization",
+      "description": "Dotaku discontinuity may indicate ritual or political reorganization, while internal chronology remains a live alternative.",
+      "depends_on": [
+        "e_dotaku"
+      ],
+      "source_claim_ids": [
+        "sc_dotaku"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "i_kiki_memory",
+      "node_type": "inference",
+      "title": "Kiki structures as possible ritual-political memory",
+      "description": "Kiki structures may preserve or rework ritual-political memory, but myth-to-history correspondence is not direct evidence.",
+      "depends_on": [
+        "e_kiki"
+      ],
+      "source_claim_ids": [
+        "sc_kiki"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_social_advantage",
+      "node_type": "risk",
+      "title": "Social advantage mechanism is not directly proven",
+      "risk_type": "social_mechanism_unproven",
+      "risk_tags": [
+        "social_mechanism_unproven"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "State the mechanism as a research question and require direct burial, kinship, or elite-context tests."
+    },
+    {
+      "id": "r_dotaku_internal",
+      "node_type": "risk",
+      "title": "Dotaku discontinuity may have internal chronology explanations",
+      "risk_type": "internal_chronology_alternative",
+      "risk_tags": [
+        "internal_chronology_alternative"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Keep internal ritual transformation as an explicit competing explanation."
+    },
+    {
+      "id": "r_myth_direct",
+      "node_type": "risk",
+      "title": "Myth-to-history correspondence is not direct evidence",
+      "risk_type": "myth_as_direct_history",
+      "risk_tags": [
+        "myth_as_direct_history",
+        "m_tag_as_direct_history"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Use Kiki motifs as narrative evidence only, not direct event record."
+    },
+    {
+      "id": "r_continental_bridge",
+      "node_type": "risk",
+      "title": "Continental event bridge remains speculative",
+      "risk_type": "continental_event_bridge_speculative",
+      "risk_tags": [
+        "continental_event_bridge_speculative"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "Require an explicit bridge source before connecting continental events to the Japanese case."
+    },
+    {
+      "id": "r_y_dna_conquest",
+      "node_type": "risk",
+      "title": "X-risk: Y-DNA proves conquest",
+      "risk_type": "y_dna_proves_conquest",
+      "risk_tags": [
+        "y_dna_proves_conquest"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Never let modern paternal-lineage frequency prove conquest without independent ancient and archaeological evidence."
+    },
+    {
+      "id": "r_comparative_proof",
+      "node_type": "risk",
+      "title": "X-risk: comparative examples prove the Japanese case",
+      "risk_type": "comparative_examples_prove_case",
+      "risk_tags": [
+        "comparative_examples_prove_case"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Treat comparisons as heuristic analogy only."
+    },
+    {
+      "id": "r_dotaku_immigrant",
+      "node_type": "risk",
+      "title": "X-risk: Dotaku sphere was definitively an immigrant group",
+      "risk_type": "dotaku_definitive_immigrant_group",
+      "risk_tags": [
+        "dotaku_definitive_immigrant_group"
+      ],
+      "targets": [
+        "h_social_reorganization"
+      ],
+      "severity": "high",
+      "tier": "X",
+      "suggested_patch": "Keep Dotaku social identity open unless supported by direct evidence."
+    },
+    {
+      "id": "f_elite_dna",
+      "node_type": "falsifier",
+      "title": "Kofun elite ancient DNA lacks elevated D-M55",
+      "would_weaken": [
+        "h_social_reorganization"
+      ],
+      "required_test": "Compare securely contextualized elite Kofun male lineages against the predicted paternal-lineage pattern."
+    },
+    {
+      "id": "f_dotaku_chronology",
+      "node_type": "falsifier",
+      "title": "Dotaku discontinuity fully explained by internal ritual chronology",
+      "would_weaken": [
+        "h_social_reorganization"
+      ],
+      "required_test": "Show a complete local chronology that explains discontinuity without broader social reorganization."
+    },
+    {
+      "id": "f_myth_typology",
+      "node_type": "falsifier",
+      "title": "Kiki motifs fully explained by broader myth typology",
+      "would_weaken": [
+        "h_social_reorganization"
+      ],
+      "required_test": "Demonstrate that descent, land transfer, and agricultural motifs follow widespread mythic typology without local historical signal."
+    },
+    {
+      "id": "n_passive_survival",
+      "node_type": "narrative",
+      "title": "Passive Jomon survival narrative",
+      "narrative_type": "popular_or_textbook_frame",
+      "description": "Jomon-associated lineages are treated as passive survivals rather than active social signals."
+    },
+    {
+      "id": "n_internal_dotaku",
+      "node_type": "narrative",
+      "title": "Internal Dotaku transformation narrative",
+      "narrative_type": "archaeological_frame",
+      "description": "Dotaku change is explained internally without broader political reorganization."
+    },
+    {
+      "id": "n_kiki_legitimation_only",
+      "node_type": "narrative",
+      "title": "Kiki as royal legitimation only",
+      "narrative_type": "interpretive_frame",
+      "description": "Kiki structures are read only as later royal legitimation, not as possible transformed memory."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_genetics",
+      "to": "sc_d_m55",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_dotaku",
+      "to": "sc_dotaku",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_kiki",
+      "to": "sc_kiki",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_d_m55",
+      "to": "e_d_m55",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_dotaku",
+      "to": "e_dotaku",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_kiki",
+      "to": "e_kiki",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_d_m55",
+      "to": "i_paternal_asymmetry",
+      "edge_type": "supports",
+      "strength": 0.65
+    },
+    {
+      "from": "e_dotaku",
+      "to": "i_dotaku_reorganization",
+      "edge_type": "supports",
+      "strength": 0.62
+    },
+    {
+      "from": "e_kiki",
+      "to": "i_kiki_memory",
+      "edge_type": "supports",
+      "strength": 0.32
+    },
+    {
+      "from": "i_paternal_asymmetry",
+      "to": "h_social_reorganization",
+      "edge_type": "supports",
+      "strength": 0.48
+    },
+    {
+      "from": "i_dotaku_reorganization",
+      "to": "h_social_reorganization",
+      "edge_type": "supports",
+      "strength": 0.46
+    },
+    {
+      "from": "i_kiki_memory",
+      "to": "h_social_reorganization",
+      "edge_type": "supports",
+      "strength": 0.28
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_social_advantage",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_dotaku_internal",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_myth_direct",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_continental_bridge",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_y_dna_conquest",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_comparative_proof",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "r_dotaku_immigrant",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "f_elite_dna",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "f_dotaku_chronology",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "f_myth_typology",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "n_passive_survival",
+      "edge_type": "narrative_conflict",
+      "strength": 0.7
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "n_internal_dotaku",
+      "edge_type": "narrative_conflict",
+      "strength": 0.7
+    },
+    {
+      "from": "h_social_reorganization",
+      "to": "n_kiki_legitimation_only",
+      "edge_type": "narrative_conflict",
+      "strength": 0.7
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h_social_reorganization",
+      "title": "D-M55, Dotaku discontinuity, and Kiki structures may be compared as traces of social reorganization",
+      "tier": "B",
+      "description": "Jomon-associated paternal-lineage persistence, Dotaku ritual discontinuity, and Kiki mythic structures may be examined as potentially connected traces of Late Yayoi to early Kofun social reorganization."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_d_m55",
+      "title": "D-M55 persistence observation",
+      "claim_text": "Sources report persistence of D1a2a / D-M55 in modern Japanese paternal lineages."
+    },
+    {
+      "id": "sc_dotaku",
+      "title": "Dotaku ritual discontinuity observation",
+      "claim_text": "Archaeological syntheses describe discontinuity or termination in Dotaku ritual practice around the Late Yayoi to early Kofun transition."
+    },
+    {
+      "id": "sc_kiki",
+      "title": "Kiki mythic complex observation",
+      "claim_text": "Kiki mythic complexes include descent, transfer of land, and agricultural-origin motifs."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_d_m55",
+      "title": "D1a2a / D-M55 persistence in Japanese paternal lineages",
+      "tier": "A",
+      "directness": "indirect"
+    },
+    {
+      "id": "e_dotaku",
+      "title": "Dotaku ritual discontinuity",
+      "tier": "A",
+      "directness": "indirect"
+    },
+    {
+      "id": "e_kiki",
+      "title": "Kiki descent, land-transfer, and agricultural-origin motifs",
+      "tier": "A",
+      "directness": "analogy"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_paternal_asymmetry",
+      "title": "Paternal asymmetry as possible social signal",
+      "tier": "B",
+      "description": "D-M55 persistence may be audited as a possible social signal, not as proof of conquest."
+    },
+    {
+      "id": "i_dotaku_reorganization",
+      "title": "Dotaku discontinuity as possible social reorganization",
+      "tier": "B",
+      "description": "Dotaku discontinuity may indicate ritual or political reorganization, while internal chronology remains a live alternative."
+    },
+    {
+      "id": "i_kiki_memory",
+      "title": "Kiki structures as possible ritual-political memory",
+      "tier": "B",
+      "description": "Kiki structures may preserve or rework ritual-political memory, but myth-to-history correspondence is not direct evidence."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_social_advantage",
+      "title": "Social advantage mechanism is not directly proven",
+      "tier": "C",
+      "risk_type": "social_mechanism_unproven"
+    },
+    {
+      "id": "r_dotaku_internal",
+      "title": "Dotaku discontinuity may have internal chronology explanations",
+      "tier": "C",
+      "risk_type": "internal_chronology_alternative"
+    },
+    {
+      "id": "r_myth_direct",
+      "title": "Myth-to-history correspondence is not direct evidence",
+      "tier": "X",
+      "risk_type": "myth_as_direct_history"
+    },
+    {
+      "id": "r_continental_bridge",
+      "title": "Continental event bridge remains speculative",
+      "tier": "C",
+      "risk_type": "continental_event_bridge_speculative"
+    },
+    {
+      "id": "r_y_dna_conquest",
+      "title": "X-risk: Y-DNA proves conquest",
+      "tier": "X",
+      "risk_type": "y_dna_proves_conquest"
+    },
+    {
+      "id": "r_comparative_proof",
+      "title": "X-risk: comparative examples prove the Japanese case",
+      "tier": "X",
+      "risk_type": "comparative_examples_prove_case"
+    },
+    {
+      "id": "r_dotaku_immigrant",
+      "title": "X-risk: Dotaku sphere was definitively an immigrant group",
+      "tier": "X",
+      "risk_type": "dotaku_definitive_immigrant_group"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_elite_dna",
+      "title": "Kofun elite ancient DNA lacks elevated D-M55"
+    },
+    {
+      "id": "f_dotaku_chronology",
+      "title": "Dotaku discontinuity fully explained by internal ritual chronology"
+    },
+    {
+      "id": "f_myth_typology",
+      "title": "Kiki motifs fully explained by broader myth typology"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_passive_survival",
+      "title": "Passive Jomon survival narrative",
+      "description": "Jomon-associated lineages are treated as passive survivals rather than active social signals."
+    },
+    {
+      "id": "n_internal_dotaku",
+      "title": "Internal Dotaku transformation narrative",
+      "description": "Dotaku change is explained internally without broader political reorganization."
+    },
+    {
+      "id": "n_kiki_legitimation_only",
+      "title": "Kiki as royal legitimation only",
+      "description": "Kiki structures are read only as later royal legitimation, not as possible transformed memory."
+    }
+  ]
+}

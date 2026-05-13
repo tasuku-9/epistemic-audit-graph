@@ -1,0 +1,283 @@
+{
+  "case_id": "climate_earth_good_event_model_attribution_scoped",
+  "domain": "climate_earth",
+  "case_type": "good",
+  "title": "Observation, model, and attribution are different claims",
+  "japanese_title": "観測・モデル・帰属主張の分離",
+  "summary": "A heat anomaly is separated from model projection and attribution scope.",
+  "user_input": "A recent heat anomaly is consistent with model projections of increased extreme heat frequency under a specified scenario, but a single event does not by itself prove the entire long-term model.",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "validator_expected_warnings": [
+    "sample sources require expert review"
+  ],
+  "expected_validation": {
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "source_status": "sample_unverified",
+  "directness": "model_scoped",
+  "tier": "B",
+  "provisional_tier": "B",
+  "reason_for_tier": "B-tier because model consistency and attribution framing are scoped and probabilistic.",
+  "audit_notes": "Observation, model projection, and attribution are separate nodes.",
+  "key_warning_theme": "Single-event observation is not long-term model proof.",
+  "nodes": [
+    {
+      "id": "src_heat",
+      "node_type": "source",
+      "title": "Regional heat anomaly and model projection packet",
+      "source_type": "attribution_study",
+      "citation_text": "Sample source packet for Regional heat anomaly and model projection packet; replace with reviewed citation before real use."
+    },
+    {
+      "id": "sc_observation",
+      "node_type": "source_claim",
+      "title": "Recent heat anomaly",
+      "source_id": "src_heat",
+      "claim_text": "A recent heat anomaly was observed relative to a historical baseline.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "sc_model",
+      "node_type": "source_claim",
+      "title": "Model projection",
+      "source_id": "src_heat",
+      "claim_text": "A model ensemble projects increased frequency of extreme heat under a specified scenario with uncertainty range.",
+      "quote_or_locator": "sample locator; verification needed"
+    },
+    {
+      "id": "h_consistent",
+      "node_type": "hypothesis",
+      "title": "Heat anomaly is consistent with increased extreme heat frequency projection",
+      "description": "The event is consistent with model projections under a specified scenario, but a single event does not prove the entire long-term model.",
+      "tier": "B",
+      "provisional_tier": "B",
+      "reason_for_tier": "B-tier because consistency is weaker than full model proof.",
+      "falsification_conditions": [
+        "Long-term observations persistently fall outside the model uncertainty range.",
+        "An alternative model explains the observations better.",
+        "Attribution analysis fails under counterfactual comparison."
+      ],
+      "scenario": "specified emissions scenario",
+      "uncertainty_range": "reported model interval",
+      "time_horizon": "multi-decadal",
+      "region": "specified region",
+      "observational_baseline": "historical baseline period"
+    },
+    {
+      "id": "e_event",
+      "node_type": "evidence",
+      "title": "Recent heat anomaly observation",
+      "evidence_type": "weather_observation",
+      "directness": "direct",
+      "weight": 0.48,
+      "source_claim_ids": [
+        "sc_observation"
+      ],
+      "evidence_tags": [
+        "single_event",
+        "weather_observation"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "region": "specified region",
+      "observational_baseline": "historical baseline period"
+    },
+    {
+      "id": "e_model",
+      "node_type": "evidence",
+      "title": "Model ensemble projection",
+      "evidence_type": "model_projection",
+      "directness": "model",
+      "weight": 0.7,
+      "source_claim_ids": [
+        "sc_model"
+      ],
+      "evidence_tags": [
+        "model_ensemble",
+        "attribution_study"
+      ],
+      "tier": "A",
+      "m_tag": false,
+      "scenario": "specified emissions scenario",
+      "uncertainty_range": "reported model interval",
+      "time_horizon": "multi-decadal",
+      "region": "specified region"
+    },
+    {
+      "id": "i_consistency",
+      "node_type": "inference",
+      "title": "Event-model consistency inference",
+      "description": "The observation is consistent with projected increased frequency, while attribution remains probabilistic and scale-bound.",
+      "depends_on": [
+        "e_event",
+        "e_model"
+      ],
+      "source_claim_ids": [
+        "sc_observation",
+        "sc_model"
+      ],
+      "tier": "B"
+    },
+    {
+      "id": "r_single_event",
+      "node_type": "risk",
+      "title": "Single event cannot prove trend",
+      "risk_type": "single_event_to_trend",
+      "risk_tags": [
+        "single_event_to_trend"
+      ],
+      "targets": [
+        "h_consistent"
+      ],
+      "severity": "medium",
+      "tier": "C",
+      "suggested_patch": "State event observation, model projection, and attribution as separate claims."
+    },
+    {
+      "id": "f_uncertainty",
+      "node_type": "falsifier",
+      "title": "Observations fall outside uncertainty range",
+      "would_weaken": [
+        "h_consistent"
+      ],
+      "required_test": "Compare multi-decadal observations to the model uncertainty interval."
+    },
+    {
+      "id": "n_event_proof",
+      "node_type": "narrative",
+      "title": "One event proves or disproves climate narrative",
+      "narrative_type": "public_debate_frame",
+      "description": "Public debate often treats one hot or cold event as decisive."
+    }
+  ],
+  "edges": [
+    {
+      "from": "src_heat",
+      "to": "sc_observation",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "src_heat",
+      "to": "sc_model",
+      "edge_type": "says",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_observation",
+      "to": "e_event",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "sc_model",
+      "to": "e_model",
+      "edge_type": "extracted_as",
+      "strength": 1.0
+    },
+    {
+      "from": "e_event",
+      "to": "i_consistency",
+      "edge_type": "supports",
+      "strength": 0.4
+    },
+    {
+      "from": "e_model",
+      "to": "i_consistency",
+      "edge_type": "supports",
+      "strength": 0.7
+    },
+    {
+      "from": "i_consistency",
+      "to": "h_consistent",
+      "edge_type": "supports",
+      "strength": 0.62
+    },
+    {
+      "from": "h_consistent",
+      "to": "r_single_event",
+      "edge_type": "has_risk",
+      "strength": 1.0
+    },
+    {
+      "from": "h_consistent",
+      "to": "f_uncertainty",
+      "edge_type": "falsified_by",
+      "strength": 1.0
+    },
+    {
+      "from": "h_consistent",
+      "to": "n_event_proof",
+      "edge_type": "narrative_conflict",
+      "strength": 0.5
+    }
+  ],
+  "scenario": "specified emissions scenario",
+  "uncertainty_range": "reported model interval",
+  "time_horizon": "multi-decadal",
+  "region": "specified region",
+  "observational_baseline": "historical baseline period",
+  "hypotheses": [
+    {
+      "id": "h_consistent",
+      "title": "Heat anomaly is consistent with increased extreme heat frequency projection",
+      "tier": "B",
+      "description": "The event is consistent with model projections under a specified scenario, but a single event does not prove the entire long-term model."
+    }
+  ],
+  "source_claims": [
+    {
+      "id": "sc_observation",
+      "title": "Recent heat anomaly",
+      "claim_text": "A recent heat anomaly was observed relative to a historical baseline."
+    },
+    {
+      "id": "sc_model",
+      "title": "Model projection",
+      "claim_text": "A model ensemble projects increased frequency of extreme heat under a specified scenario with uncertainty range."
+    }
+  ],
+  "evidence_nodes": [
+    {
+      "id": "e_event",
+      "title": "Recent heat anomaly observation",
+      "tier": "A",
+      "directness": "direct"
+    },
+    {
+      "id": "e_model",
+      "title": "Model ensemble projection",
+      "tier": "A",
+      "directness": "model"
+    }
+  ],
+  "inference_nodes": [
+    {
+      "id": "i_consistency",
+      "title": "Event-model consistency inference",
+      "tier": "B",
+      "description": "The observation is consistent with projected increased frequency, while attribution remains probabilistic and scale-bound."
+    }
+  ],
+  "risk_nodes": [
+    {
+      "id": "r_single_event",
+      "title": "Single event cannot prove trend",
+      "tier": "C",
+      "risk_type": "single_event_to_trend"
+    }
+  ],
+  "falsifier_nodes": [
+    {
+      "id": "f_uncertainty",
+      "title": "Observations fall outside uncertainty range"
+    }
+  ],
+  "narrative_nodes": [
+    {
+      "id": "n_event_proof",
+      "title": "One event proves or disproves climate narrative",
+      "description": "Public debate often treats one hot or cold event as decisive."
+    }
+  ]
+}

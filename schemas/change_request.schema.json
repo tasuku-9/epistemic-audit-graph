@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EpistemicAuditChangeRequest",
+  "type": "object",
+  "required": ["operation", "reason_for_change", "patch"],
+  "properties": {
+    "operation": {
+      "enum": [
+        "create_hypothesis",
+        "create_evidence",
+        "create_source_claim",
+        "create_falsifier",
+        "create_risk",
+        "change_tier",
+        "change_weight",
+        "add_edge",
+        "remove_edge"
+      ]
+    },
+    "reason_for_change": {"type": "string"},
+    "patch": {"type": "object"},
+    "ai_audit": {
+      "type": "object",
+      "properties": {
+        "rules_checked": {"type": "array", "items": {"type": "string"}},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "missing_fields": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
