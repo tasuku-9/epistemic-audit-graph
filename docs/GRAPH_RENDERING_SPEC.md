@@ -71,7 +71,7 @@ The frontend projects the full audit case schema into a smaller display model:
 ## Future Temporal DAG Mode
 
 The main public WikiCred demos use a force-directed layout.
-The experimental Uncertainty Workspace demo starts testing a temporal DAG layout at `demos/uncertainty_workspace/index.html`.
+The experimental Uncertainty Workspace demo at `demos/uncertainty_workspace/index.html` can switch between temporal DAG and relation-force views over the same graph data.
 
 A mature temporal DAG mode should add:
 
@@ -82,6 +82,14 @@ A mature temporal DAG mode should add:
 - hard rejection or warning when a claim depends on a circular causal chain.
 
 This should remain optional because the current force graph is easier to read for first-contact wiki demos, while DAG mode is better for research, policy, legal, and scientific uncertainty work.
+
+## Dual-View Uncertainty Mode
+
+Uncertainty Workspace treats layout as an analysis lens, not as part of the claim itself:
+
+- temporal DAG view: checks sequence, chronology, later audit, and causal-order plausibility.
+- relation-force view: shows proximity, clusters, blockers, and narrative-pressure neighborhoods.
+- both views preserve the same node ids, edge ids, frontier markers, falsifiers, and overclaim markers.
 
 ## Legacy History Demos
 

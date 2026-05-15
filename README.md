@@ -121,7 +121,7 @@ The Bronze Age Collapse demo shows the same graph pattern in a more accessible h
 
 ## Experimental Uncertainty Workspace
 
-`demos/uncertainty_workspace/index.html` is a sibling prototype for structuring uncertainty beyond wiki claims. It uses a temporal DAG instead of a force graph, keeps unknowns as first-class nodes, draws frontier claims with dashed rings, and parks overclaims with X-tier red rings.
+`demos/uncertainty_workspace/index.html` is a sibling prototype for structuring uncertainty beyond wiki claims. It can switch between a temporal DAG view and a relation-force view, keeps unknowns as first-class nodes, draws frontier claims with dashed rings, and parks overclaims with X-tier red rings.
 
 Seed concept:
 

@@ -10,12 +10,6 @@ It is a workspace for structuring uncertainty without prematurely resolving it.
 Structure uncertainty without prematurely resolving it.
 ```
 
-In Japanese:
-
-```text
-わからなさを、結論に潰さず、監査可能な形にする。
-```
-
 ## Why Separate It
 
 The WikiCred-facing demo is optimized for source-weighted wiki claims.
@@ -32,6 +26,7 @@ The core shift is from a knowledge base to an uncertainty base.
 - Frontier nodes use dashed rings.
 - Overclaims use X-tier or solid red rings.
 - Time and causal ordering are represented by a DAG mode.
+- Relation proximity is represented by a force mode.
 - The system should show what would weaken a claim before presenting the claim as credible.
 
 ## Node Types
@@ -44,6 +39,21 @@ The core shift is from a knowledge base to an uncertainty base.
 | `narrative` | A public, consensus, policy, legal, or interpretive frame. |
 | `risk` | A known failure mode or overextension path. |
 | `falsifier` | A condition, test, or limiting result that would weaken the claim. |
+
+## View Modes
+
+The experimental demo supports two complementary views over the same nodes and edges:
+
+| View | Best for | Visual rule |
+| --- | --- | --- |
+| Time DAG | chronology, later audits, causal order, cycle awareness | nodes are placed on a horizontal epistemic-time axis |
+| Relation Force | proximity, clusters, blockers, narrative pressure | related nodes pull together while unrelated nodes repel |
+
+The point is not to choose one true layout.
+The same uncertainty structure should be readable as both:
+
+- a time-ordered audit graph; and
+- a relation-proximity graph.
 
 ## Temporal DAG Rules
 
@@ -63,6 +73,18 @@ This separates two concepts:
 
 The visual can show a backward audit relation without treating it as a backward causal dependency.
 
+## Relation Force Rules
+
+The force mode keeps the same audit edges but uses spatial proximity:
+
+- support and motivation edges pull related claims and evidence together;
+- weakening, blocker, and falsifier edges make local conflict visible;
+- narrative-pressure edges connect frames to claims without treating them as evidence;
+- frontier rings and overclaim rings remain visible in both modes.
+
+Force mode is useful when the reviewer wants to see clusters and pressure points.
+DAG mode is useful when the reviewer wants to inspect sequence and causal order.
+
 ## Seed Demo
 
 Current seed files:
@@ -80,6 +102,7 @@ It is intentionally not a real literature claim. The point is to test the visual
 
 - structured unknowns;
 - temporal ordering;
+- relation proximity;
 - frontier nodes;
 - overclaim parking;
 - limiting tests;
