@@ -15,6 +15,7 @@ Start here:
 - K-Pg Extinction WikiGraph: `demos/kpg_extinction/index.html`
 - Bronze Age Collapse WikiGraph: `demos/bronze_age_collapse/index.html`
 - Six-domain validator demo: `frontend/index.html`
+- Experimental Uncertainty Workspace DAG: `demos/uncertainty_workspace/index.html`
 
 Core message:
 
@@ -117,6 +118,16 @@ Why K-Pg remains the strongest flagship:
 - source audit, schema summary, validation report, and source index are included in `docs/kpg_extinction/`
 
 The Bronze Age Collapse demo shows the same graph pattern in a more accessible historical debate. The six-domain frontend remains the validation-suite proof that the same deterministic audit structure generalizes beyond one topic.
+
+## Experimental Uncertainty Workspace
+
+`demos/uncertainty_workspace/index.html` is a sibling prototype for structuring uncertainty beyond wiki claims. It uses a temporal DAG instead of a force graph, keeps unknowns as first-class nodes, draws frontier claims with dashed rings, and parks overclaims with X-tier red rings.
+
+Seed concept:
+
+```text
+Structure uncertainty without prematurely resolving it.
+```
 
 The PDF one-pager for email attachment is included at:
 

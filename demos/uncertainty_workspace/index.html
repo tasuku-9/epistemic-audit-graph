@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uncertainty Workspace - Temporal DAG</title>
+<style>
+:root{
+  --bg:#f7f4ed;--panel:#fffdf8;--ink:#1d2430;--muted:#677083;--line:#d8d0c2;
+  --red:#c2410c;--good:#168a5b;--blue:#2f6fb3;--purple:#7c3aed;--amber:#b45309;--bad:#dc2626;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}
+.app{height:100vh;display:grid;grid-template-columns:310px minmax(520px,1fr) 370px;grid-template-rows:58px 1fr}
+header{grid-column:1/4;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 14px;border-bottom:1px solid var(--line);background:#211f1b;color:#fff}
+h1{font-size:15px;margin:0;letter-spacing:.01em}
+.sub{font-size:12px;color:#d8d3ca;margin-top:2px}
+.pills{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.pill{font-size:11px;padding:5px 8px;border-radius:999px;background:#363126;border:1px solid #5d5444;color:#f6eedf}
+aside{min-height:0;overflow:auto;background:var(--panel)}
+#left{border-right:1px solid var(--line)}
+#right{border-left:1px solid var(--line)}
+.section{padding:12px;border-bottom:1px solid var(--line)}
+.section h2{font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px;color:#4b5563}
+.concept{font-size:13px;line-height:1.5;color:#374151;margin:0}
+.nodebtn{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:8px;margin-bottom:7px;padding:8px;cursor:pointer;color:var(--ink)}
+.nodebtn:hover,.nodebtn.active{border-color:#b45309;background:#fff7ed}
+.nodebtn .t{font-size:12px;font-weight:650;line-height:1.3}
+.nodebtn .m{display:flex;gap:5px;align-items:center;margin-top:5px;flex-wrap:wrap}
+.tag{font-size:10px;border:1px solid #c9c1b3;background:#faf7f0;color:#5b6472;border-radius:999px;padding:2px 6px}
+.tag.frontier{border-style:dashed;border-color:#b45309;color:#92400e;background:#fff7ed}
+.tag.x{border-color:#dc2626;color:#b91c1c;background:#fff1f2}
+.stage{position:relative;min-width:0;min-height:0;background:linear-gradient(180deg,#fbf8f1,#f3eadc)}
+canvas{width:100%;height:100%;display:block}
+.legend{position:absolute;left:12px;bottom:12px;background:rgba(255,253,248,.9);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:flex;gap:10px;flex-wrap:wrap;max-width:720px}
+.lg{display:flex;gap:5px;align-items:center;font-size:11px;color:#4b5563}
+.sw{width:11px;height:11px;border-radius:50%;display:inline-block;border:1px solid #777}
+.sw.h{background:#e0f2fe;border-color:#2f6fb3}.sw.e{background:#dcfce7;border-color:#168a5b}.sw.u{background:#fff7ed;border:1px dashed #b45309}.sw.n{background:#f3e8ff;border-color:#7c3aed;transform:rotate(45deg)}.sw.x{background:#fee2e2;border-color:#dc2626}
+.detail{padding:14px}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#6b7280;margin-bottom:6px}
+.title{font-size:18px;line-height:1.25;font-weight:750;margin-bottom:8px}
+.id{font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#6b7280;word-break:break-all;margin-bottom:10px}
+.desc{font-size:13px;line-height:1.55;color:#374151;margin:9px 0}
+.box{border:1px solid var(--line);background:#fffaf0;border-radius:8px;padding:9px 10px;margin:10px 0}
+.box.warn{border-style:dashed;border-color:#b45309;background:#fff7ed;color:#92400e}
+.box.bad{border-color:#dc2626;background:#fff1f2;color:#991b1b}
+.box h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;color:inherit}
+.rel{border-top:1px solid var(--line);padding:8px 0;font-size:12px;color:#4b5563}
+.rel button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 7px;font-size:11px;cursor:pointer;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+.empty{color:#6b7280;font-size:13px;line-height:1.7;margin-top:36px;text-align:center}
+@media(max-width:1120px){.app{grid-template-columns:280px 1fr}.app header{grid-column:1/3}#right{position:absolute;right:0;top:58px;bottom:0;width:370px;box-shadow:-12px 0 24px rgba(0,0,0,.15)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <h1>Uncertainty Workspace - Temporal DAG</h1>
+      <div class="sub">structure uncertainty without prematurely resolving it</div>
+    </div>
+    <div class="pills" id="status"></div>
+  </header>
+  <aside id="left">
+    <div class="section">
+      <h2>Concept</h2>
+      <p class="concept">Unknowns, falsifiers, evidence, and overclaims stay visible as separate objects on a time axis.</p>
+    </div>
+    <div class="section">
+      <h2>Nodes</h2>
+      <div id="nodeList"></div>
+    </div>
+  </aside>
+  <main class="stage">
+    <canvas id="dag"></canvas>
+    <div class="legend">
+      <div class="lg"><span class="sw h"></span>hypothesis</div>
+      <div class="lg"><span class="sw e"></span>evidence</div>
+      <div class="lg"><span class="sw u"></span>frontier / unknown</div>
+      <div class="lg"><span class="sw n"></span>narrative</div>
+      <div class="lg"><span class="sw x"></span>overclaim</div>
+    </div>
+  </main>
+  <aside id="right"><div class="detail" id="detail"></div></aside>
+</div>
+
+<script>
+const CASE={
+  id:"seed_temporal_dag_case",
+  title:"From laboratory signal to policy-ready claim",
+  concept:"Structure uncertainty without prematurely resolving it.",
+  nodes:[
+    {id:"ev_2018_lab_signal",type:"evidence",title:"Lab assay shows target effect",date:"2018",epistemic_time:2018,tier:"B",summary:"A controlled laboratory assay reports the target effect under narrow conditions.",audit_note:"This supports a lab-scoped claim, not deployment, clinical, industrial, legal, or policy readiness."},
+    {id:"h_2019_lab_scoped",type:"hypothesis",title:"Effect exists under narrow lab conditions",date:"2019",epistemic_time:2019,tier:"B",summary:"It is reasonable to treat the laboratory signal as a scoped working hypothesis.",falsification_condition:"Independent replication under the same protocol fails to reproduce the effect.",audit_note:"This is a bounded claim: lab effect, not real-world usefulness."},
+    {id:"ev_2020_replication",type:"evidence",title:"Independent replication partly succeeds",date:"2020",epistemic_time:2020,tier:"B",summary:"A second team observes a weaker but directionally similar effect.",audit_note:"Replication raises confidence in the lab signal while preserving uncertainty about magnitude."},
+    {id:"h_2021_scaleup",type:"hypothesis",title:"The effect may survive scale-up",date:"2021",epistemic_time:2021,tier:"C",frontier:true,summary:"A scale-up hypothesis can be explored, but it remains unresolved.",falsification_condition:"Pilot-scale testing fails to preserve effect size, cost, safety, or energy balance.",audit_note:"This is a frontier claim: plausible enough to test, too weak to treat as established."},
+    {id:"ev_2022_scaleup_failure",type:"evidence",title:"Pilot test loses most of the effect",date:"2022",epistemic_time:2022,tier:"A",summary:"A pilot test reports lower effect size and higher operational cost outside the laboratory setting.",audit_note:"This later evidence weakens the earlier scale-up hypothesis."},
+    {id:"unk_2023_energy_balance",type:"unknown",title:"Net energy balance unresolved",date:"2023",epistemic_time:2023,tier:"C",frontier:true,summary:"The total system-level energy balance is not yet known.",falsification_condition:"Full lifecycle accounting shows the process is net negative under realistic operating conditions.",audit_note:"Unknowns remain first-class nodes rather than hidden caveats."},
+    {id:"nar_2023_ready_frame",type:"narrative",title:"Readiness narrative",date:"2023",epistemic_time:2023,tier:"M",frontier:true,summary:"A public-facing frame treats the technique as nearly ready for broad use.",audit_note:"Narrative pressure can outrun source-local evidence."},
+    {id:"h_2024_policy_ready",type:"hypothesis",title:"Policy-ready deployment claim",date:"2024",epistemic_time:2024,tier:"X",overclaim:true,summary:"The strong claim says the technique is ready for policy mandate or real-world deployment.",falsification_condition:"Pilot-scale or lifecycle evaluation fails under realistic deployment constraints.",audit_note:"This is parked as an overclaim because lab evidence and public narrative do not establish deployment readiness."},
+    {id:"lim_2024_needed_tests",type:"falsifier",title:"Required limiting tests",date:"2024",epistemic_time:2024,tier:"C",frontier:true,summary:"Pilot replication, lifecycle accounting, safety testing, and cost sensitivity are needed before the strong claim can move upward.",audit_note:"A claim should say what would weaken it before presenting itself as credible."}
+  ],
+  edges:[
+    {from:"ev_2018_lab_signal",to:"h_2019_lab_scoped",type:"supports",direction:"forward_time",rationale:"Older lab evidence supports a later lab-scoped hypothesis."},
+    {from:"ev_2020_replication",to:"h_2019_lab_scoped",type:"supports",direction:"backward_audit",rationale:"Later replication audits and strengthens the earlier scoped claim."},
+    {from:"h_2019_lab_scoped",to:"h_2021_scaleup",type:"motivates",direction:"forward_time",rationale:"A bounded lab signal motivates, but does not prove, scale-up."},
+    {from:"ev_2022_scaleup_failure",to:"h_2021_scaleup",type:"weakens",direction:"backward_audit",rationale:"Later pilot evidence weakens the earlier scale-up hypothesis."},
+    {from:"unk_2023_energy_balance",to:"h_2024_policy_ready",type:"blocks",direction:"forward_time",rationale:"Unresolved system-level energy balance blocks policy readiness."},
+    {from:"nar_2023_ready_frame",to:"h_2024_policy_ready",type:"narrative_pressure",direction:"forward_time",rationale:"A public readiness frame pressures the claim upward without adding direct evidence."},
+    {from:"ev_2022_scaleup_failure",to:"h_2024_policy_ready",type:"weakens",direction:"forward_time",rationale:"Pilot-scale weakness directly undermines a deployment-ready claim."},
+    {from:"lim_2024_needed_tests",to:"h_2024_policy_ready",type:"falsifies_or_limits",direction:"same_time_audit",rationale:"Required limiting tests define what must be checked before the claim can be upgraded."}
+  ]
+};
+
+const canvas=document.getElementById("dag");
+const ctx=canvas.getContext("2d");
+const DPR=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+const byId=new Map(CASE.nodes.map(n=>[n.id,n]));
+let selected=CASE.nodes[3].id;
+let hover=null;
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function short(s,n=38){s=String(s||"");return s.length>n?s.slice(0,n-1)+"...":s;}
+function typeLabel(n){return n.overclaim?"overclaim":n.type;}
+function nodeColor(n){
+  if(n.overclaim||n.tier==="X")return {fill:"#fee2e2",stroke:"#dc2626",ink:"#991b1b"};
+  if(n.type==="evidence")return {fill:"#dcfce7",stroke:"#168a5b",ink:"#14532d"};
+  if(n.type==="narrative")return {fill:"#f3e8ff",stroke:"#7c3aed",ink:"#4c1d95"};
+  if(n.type==="unknown"||n.type==="falsifier")return {fill:"#fff7ed",stroke:"#b45309",ink:"#92400e"};
+  return {fill:"#e0f2fe",stroke:"#2f6fb3",ink:"#1e3a8a"};
+}
+function edgeColor(t){
+  if(t==="supports"||t==="motivates")return "#168a5b";
+  if(t==="weakens"||t==="blocks"||t==="falsifies_or_limits")return "#c2410c";
+  if(t==="narrative_pressure")return "#7c3aed";
+  return "#64748b";
+}
+function edgeDash(t){
+  return t==="narrative_pressure"||t==="falsifies_or_limits"||t==="blocks";
+}
+function detectCycles(){
+  const adj=new Map(CASE.nodes.map(n=>[n.id,[]]));
+  for(const e of CASE.edges)adj.get(e.from)?.push(e.to);
+  const visiting=new Set(),done=new Set(),cycles=[];
+  function dfs(id,path){
+    if(visiting.has(id)){cycles.push([...path,id]);return;}
+    if(done.has(id))return;
+    visiting.add(id);
+    for(const to of adj.get(id)||[])dfs(to,[...path,id]);
+    visiting.delete(id);done.add(id);
+  }
+  for(const n of CASE.nodes)dfs(n.id,[]);
+  return cycles;
+}
+function layout(){
+  const rect=canvas.getBoundingClientRect();
+  const w=rect.width,h=rect.height;
+  const years=[...new Set(CASE.nodes.map(n=>n.epistemic_time))].sort((a,b)=>a-b);
+  const min=Math.min(...years),max=Math.max(...years);
+  const left=72,right=w-54,axis=h*0.52;
+  const lanes={evidence:-118,hypothesis:-34,unknown:88,narrative:132,falsifier:62};
+  const sameYear={};
+  for(const n of CASE.nodes){
+    const t=(n.epistemic_time-min)/(max-min||1);
+    const baseX=left+t*(right-left);
+    const key=n.epistemic_time+"_"+n.type;
+    const idx=sameYear[key]||0;sameYear[key]=idx+1;
+    const offset=(idx%2===0?1:-1)*Math.ceil(idx/2)*38;
+    n.x=baseX+offset;
+    n.y=axis+(lanes[n.type]??0);
+    if(n.id==="h_2024_policy_ready")n.y=axis-18;
+    if(n.id==="lim_2024_needed_tests")n.y=axis+86;
+    n.r=n.type==="evidence"?17:n.type==="narrative"?18:n.type==="unknown"?20:n.type==="falsifier"?20:24;
+  }
+  return {w,h,axis,min,max,left,right,years};
+}
+function resize(){
+  const r=canvas.getBoundingClientRect();
+  canvas.width=Math.floor(r.width*DPR);canvas.height=Math.floor(r.height*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  draw();
+}
+function qPath(a,b,e,axis){
+  const mid=(a.x+b.x)/2;
+  let cy=e.direction==="backward_audit"?Math.max(a.y,b.y,axis)+76:Math.min(a.y,b.y,axis)-78;
+  if(e.direction==="same_time_audit")cy=axis+112;
+  return {sx:a.x,sy:a.y,tx:b.x,ty:b.y,cx:mid,cy};
+}
+function arrowHead(tx,ty,ang,color){
+  ctx.save();ctx.translate(tx,ty);ctx.rotate(ang);
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-8,-4);ctx.lineTo(-8,4);ctx.closePath();
+  ctx.fillStyle=color;ctx.fill();ctx.restore();
+}
+function drawEdge(e,axis){
+  const a=byId.get(e.from),b=byId.get(e.to); if(!a||!b)return;
+  const p=qPath(a,b,e,axis),c=edgeColor(e.type);
+  const t=.92;
+  const dx=2*(1-t)*(p.cx-p.sx)+2*t*(p.tx-p.cx);
+  const dy=2*(1-t)*(p.cy-p.sy)+2*t*(p.ty-p.cy);
+  ctx.save();
+  ctx.beginPath();ctx.moveTo(p.sx,p.sy);ctx.quadraticCurveTo(p.cx,p.cy,p.tx,p.ty);
+  ctx.strokeStyle=c;ctx.globalAlpha=.72;ctx.lineWidth=(e.type==="weakens"||e.type==="blocks")?2.1:1.7;
+  if(edgeDash(e.type))ctx.setLineDash([6,4]);
+  ctx.stroke();ctx.setLineDash([]);
+  arrowHead(p.tx,p.ty,Math.atan2(dy,dx),c);
+  ctx.globalAlpha=1;
+  ctx.font="10px ui-monospace, monospace";ctx.fillStyle=c;ctx.textAlign="center";
+  ctx.fillText(e.type.replaceAll("_"," "),p.cx,p.cy+(e.direction==="backward_audit"?14:-8));
+  ctx.restore();
+}
+function roundRect(x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+function drawNode(n){
+  const c=nodeColor(n),sel=n.id===selected,hot=n.id===hover;
+  ctx.save();
+  if(n.frontier){
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r+8,0,Math.PI*2);
+    ctx.setLineDash([5,4]);ctx.strokeStyle="#b45309";ctx.lineWidth=sel?2.2:1.5;ctx.stroke();ctx.setLineDash([]);
+  }
+  if(n.overclaim||n.tier==="X"){
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r+8,0,Math.PI*2);
+    ctx.strokeStyle="#dc2626";ctx.lineWidth=sel?3:2.2;ctx.stroke();
+  }
+  ctx.fillStyle=c.fill;ctx.strokeStyle=sel?"#111827":c.stroke;ctx.lineWidth=sel?2.4:1.5;
+  if(n.type==="narrative"){
+    ctx.beginPath();ctx.moveTo(n.x,n.y-n.r);ctx.lineTo(n.x+n.r,n.y);ctx.lineTo(n.x,n.y+n.r);ctx.lineTo(n.x-n.r,n.y);ctx.closePath();ctx.fill();ctx.stroke();
+  }else if(n.type==="unknown"||n.type==="falsifier"){
+    roundRect(n.x-n.r,n.y-n.r*.75,n.r*2,n.r*1.5,7);ctx.fill();ctx.stroke();
+  }else{
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fill();ctx.stroke();
+  }
+  if(hot&&!sel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+12,0,Math.PI*2);ctx.strokeStyle="rgba(17,24,39,.22)";ctx.lineWidth=4;ctx.stroke();}
+  ctx.fillStyle=c.ink;ctx.font="700 10px ui-monospace, monospace";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillText(n.tier||"?",n.x,n.y);
+  ctx.fillStyle="#263142";ctx.font="11px system-ui, sans-serif";ctx.textBaseline="top";
+  wrapText(n.title,n.x,n.y+n.r+12,112,13);
+  ctx.restore();
+}
+function wrapText(text,x,y,maxWidth,lineHeight){
+  const words=String(text).split(" ");let line="",lines=[];
+  for(const word of words){const test=line?line+" "+word:word;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word;}else line=test;}
+  if(line)lines.push(line);
+  for(let i=0;i<Math.min(lines.length,3);i++)ctx.fillText(lines[i],x,y+i*lineHeight);
+}
+function draw(){
+  const g=layout();
+  ctx.clearRect(0,0,g.w,g.h);
+  ctx.save();
+  ctx.strokeStyle="rgba(194,65,12,.75)";ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(g.left-28,g.axis);ctx.lineTo(g.right+28,g.axis);ctx.stroke();
+  ctx.fillStyle="#9a3412";ctx.font="700 11px ui-monospace, monospace";ctx.textAlign="left";ctx.fillText("time / audit axis",g.left-28,g.axis-10);
+  ctx.textAlign="center";ctx.fillStyle="#57534e";ctx.font="12px ui-monospace, monospace";
+  for(const yr of g.years){const t=(yr-g.min)/(g.max-g.min||1),x=g.left+t*(g.right-g.left);ctx.beginPath();ctx.moveTo(x,g.axis-5);ctx.lineTo(x,g.axis+5);ctx.strokeStyle="rgba(194,65,12,.5)";ctx.stroke();ctx.fillText(yr,x,g.axis+18);}
+  for(const e of CASE.edges)drawEdge(e,g.axis);
+  for(const n of CASE.nodes)drawNode(n);
+  ctx.restore();
+}
+function hit(mx,my){
+  for(let i=CASE.nodes.length-1;i>=0;i--){const n=CASE.nodes[i];const d=Math.hypot(mx-n.x,my-n.y);if(d<n.r+12)return n.id;}
+  return null;
+}
+function setSelected(id){selected=id;renderList();renderDetail();draw();}
+function renderList(){
+  document.getElementById("nodeList").innerHTML=CASE.nodes.map(n=>`<button class="nodebtn ${n.id===selected?"active":""}" onclick="setSelected('${esc(n.id)}')"><div class="t">${esc(n.title)}</div><div class="m"><span class="tag">${esc(typeLabel(n))}</span><span class="tag">T${esc(n.epistemic_time)}</span><span class="tag">Tier ${esc(n.tier)}</span>${n.frontier?'<span class="tag frontier">frontier</span>':''}${n.overclaim?'<span class="tag x">parked X</span>':''}</div></button>`).join("");
+}
+function related(id){return CASE.edges.filter(e=>e.from===id||e.to===id);}
+function renderDetail(){
+  const n=byId.get(selected),d=document.getElementById("detail");
+  if(!n){d.innerHTML='<div class="empty">Select a node.</div>';return;}
+  const rel=related(n.id);
+  d.innerHTML=`<div class="kicker">${esc(typeLabel(n))} / ${esc(n.date)}</div><div class="title">${esc(n.title)}</div><div class="id">${esc(n.id)}</div><div>${[`Tier ${n.tier}`,n.frontier?"frontier":null,n.overclaim?"parked overclaim":null].filter(Boolean).map(x=>`<span class="tag ${x.includes("frontier")?"frontier":x.includes("overclaim")?"x":""}">${esc(x)}</span>`).join(" ")}</div>${n.overclaim?'<div class="box bad"><h3>Overclaim parking</h3>This node remains visible, but the current graph does not allow it to present itself as established.</div>':""}${n.frontier?'<div class="box warn"><h3>Frontier</h3>This is an unresolved node. The system keeps it inspectable instead of forcing a premature conclusion.</div>':""}<p class="desc">${esc(n.summary)}</p>${n.falsification_condition?`<div class="box"><h3>Falsification / limiting condition</h3>${esc(n.falsification_condition)}</div>`:""}${n.audit_note?`<div class="box"><h3>Audit note</h3>${esc(n.audit_note)}</div>`:""}<div class="box"><h3>DAG position</h3>epistemic_time: ${esc(n.epistemic_time)}. Directed relations are checked for cycles in this demo.</div><h3 class="kicker">Relations</h3>${rel.map(e=>{const other=e.from===n.id?e.to:e.from;const dir=e.from===n.id?"to":"from";return `<div class="rel"><b>${esc(e.type)}</b> ${esc(dir)} <button onclick="setSelected('${esc(other)}')">${esc(short(byId.get(other)?.title||other,34))}</button><br>${esc(e.rationale)}</div>`}).join("")||'<div class="empty">No relations.</div>'}`;
+}
+function renderStatus(){
+  const cycles=detectCycles();
+  const frontier=CASE.nodes.filter(n=>n.frontier).length;
+  const backward=CASE.edges.filter(e=>e.direction==="backward_audit").length;
+  const items=[`${CASE.nodes.length} nodes`,`${CASE.edges.length} edges`,cycles.length?"cycle found":"DAG acyclic",`${frontier} frontier`,`${backward} backward audits`];
+  document.getElementById("status").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
+}
+canvas.addEventListener("mousemove",ev=>{const r=canvas.getBoundingClientRect();const id=hit(ev.clientX-r.left,ev.clientY-r.top);if(id!==hover){hover=id;draw();}});
+canvas.addEventListener("mouseleave",()=>{hover=null;draw();});
+canvas.addEventListener("click",ev=>{const r=canvas.getBoundingClientRect();const id=hit(ev.clientX-r.left,ev.clientY-r.top);if(id)setSelected(id);});
+window.addEventListener("resize",resize);
+renderStatus();renderList();renderDetail();resize();
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+{
+  "id": "seed_temporal_dag_case",
+  "title": "From laboratory signal to policy-ready claim",
+  "subtitle": "A toy uncertainty map for testing temporal DAG layout",
+  "status": "demo_seed",
+  "concept": "Structure uncertainty without prematurely resolving it.",
+  "domain": "cross_domain_science_policy",
+  "validator_expected_result": "PASS_WITH_WARNINGS",
+  "nodes": [
+    {
+      "id": "ev_2018_lab_signal",
+      "type": "evidence",
+      "title": "Lab assay shows target effect",
+      "date": "2018",
+      "epistemic_time": 2018,
+      "tier": "B",
+      "directness": "direct_for_lab_condition",
+      "source_status": "toy_example",
+      "summary": "A controlled laboratory assay reports the target effect under narrow conditions.",
+      "audit_note": "This supports a lab-scoped claim, not deployment, clinical, industrial, legal, or policy readiness."
+    },
+    {
+      "id": "h_2019_lab_scoped",
+      "type": "hypothesis",
+      "title": "Effect exists under narrow lab conditions",
+      "date": "2019",
+      "epistemic_time": 2019,
+      "tier": "B",
+      "frontier": false,
+      "summary": "It is reasonable to treat the laboratory signal as a scoped working hypothesis.",
+      "falsification_condition": "Independent replication under the same protocol fails to reproduce the effect.",
+      "audit_note": "This is a bounded claim: lab effect, not real-world usefulness."
+    },
+    {
+      "id": "ev_2020_replication",
+      "type": "evidence",
+      "title": "Independent replication partly succeeds",
+      "date": "2020",
+      "epistemic_time": 2020,
+      "tier": "B",
+      "directness": "replication_for_lab_condition",
+      "source_status": "toy_example",
+      "summary": "A second team observes a weaker but directionally similar effect.",
+      "audit_note": "Replication raises confidence in the lab signal while preserving uncertainty about magnitude."
+    },
+    {
+      "id": "h_2021_scaleup",
+      "type": "hypothesis",
+      "title": "The effect may survive scale-up",
+      "date": "2021",
+      "epistemic_time": 2021,
+      "tier": "C",
+      "frontier": true,
+      "summary": "A scale-up hypothesis can be explored, but it remains unresolved.",
+      "falsification_condition": "Pilot-scale testing fails to preserve effect size, cost, safety, or energy balance.",
+      "audit_note": "This is a frontier claim: plausible enough to test, too weak to treat as established."
+    },
+    {
+      "id": "ev_2022_scaleup_failure",
+      "type": "evidence",
+      "title": "Pilot test loses most of the effect",
+      "date": "2022",
+      "epistemic_time": 2022,
+      "tier": "A",
+      "directness": "direct_against_scaleup",
+      "source_status": "toy_example",
+      "summary": "A pilot test reports lower effect size and higher operational cost outside the laboratory setting.",
+      "audit_note": "This later evidence weakens the earlier scale-up hypothesis."
+    },
+    {
+      "id": "unk_2023_energy_balance",
+      "type": "unknown",
+      "title": "Net energy balance unresolved",
+      "date": "2023",
+      "epistemic_time": 2023,
+      "tier": "C",
+      "frontier": true,
+      "summary": "The total system-level energy balance is not yet known.",
+      "falsification_condition": "Full lifecycle accounting shows the process is net negative under realistic operating conditions.",
+      "audit_note": "Unknowns remain first-class nodes rather than hidden caveats."
+    },
+    {
+      "id": "nar_2023_ready_frame",
+      "type": "narrative",
+      "title": "Readiness narrative",
+      "date": "2023",
+      "epistemic_time": 2023,
+      "tier": "M",
+      "frontier": true,
+      "summary": "A public-facing frame treats the technique as nearly ready for broad use.",
+      "audit_note": "Narrative pressure can outrun source-local evidence."
+    },
+    {
+      "id": "h_2024_policy_ready",
+      "type": "hypothesis",
+      "title": "Policy-ready deployment claim",
+      "date": "2024",
+      "epistemic_time": 2024,
+      "tier": "X",
+      "frontier": false,
+      "overclaim": true,
+      "summary": "The strong claim says the technique is ready for policy mandate or real-world deployment.",
+      "falsification_condition": "Pilot-scale or lifecycle evaluation fails under realistic deployment constraints.",
+      "audit_note": "This is parked as an overclaim because lab evidence and public narrative do not establish deployment readiness."
+    },
+    {
+      "id": "lim_2024_needed_tests",
+      "type": "falsifier",
+      "title": "Required limiting tests",
+      "date": "2024",
+      "epistemic_time": 2024,
+      "tier": "C",
+      "frontier": true,
+      "summary": "Pilot replication, lifecycle accounting, safety testing, and cost sensitivity are needed before the strong claim can move upward.",
+      "audit_note": "A claim should say what would weaken it before presenting itself as credible."
+    }
+  ],
+  "edges": [
+    {
+      "from": "ev_2018_lab_signal",
+      "to": "h_2019_lab_scoped",
+      "type": "supports",
+      "direction": "forward_time",
+      "rationale": "Older lab evidence supports a later lab-scoped hypothesis."
+    },
+    {
+      "from": "ev_2020_replication",
+      "to": "h_2019_lab_scoped",
+      "type": "supports",
+      "direction": "backward_audit",
+      "rationale": "Later replication audits and strengthens the earlier scoped claim."
+    },
+    {
+      "from": "h_2019_lab_scoped",
+      "to": "h_2021_scaleup",
+      "type": "motivates",
+      "direction": "forward_time",
+      "rationale": "A bounded lab signal motivates, but does not prove, scale-up."
+    },
+    {
+      "from": "ev_2022_scaleup_failure",
+      "to": "h_2021_scaleup",
+      "type": "weakens",
+      "direction": "backward_audit",
+      "rationale": "Later pilot evidence weakens the earlier scale-up hypothesis."
+    },
+    {
+      "from": "unk_2023_energy_balance",
+      "to": "h_2024_policy_ready",
+      "type": "blocks",
+      "direction": "forward_time",
+      "rationale": "Unresolved system-level energy balance blocks policy readiness."
+    },
+    {
+      "from": "nar_2023_ready_frame",
+      "to": "h_2024_policy_ready",
+      "type": "narrative_pressure",
+      "direction": "forward_time",
+      "rationale": "A public readiness frame pressures the claim upward without adding direct evidence."
+    },
+    {
+      "from": "ev_2022_scaleup_failure",
+      "to": "h_2024_policy_ready",
+      "type": "weakens",
+      "direction": "forward_time",
+      "rationale": "Pilot-scale weakness directly undermines a deployment-ready claim."
+    },
+    {
+      "from": "lim_2024_needed_tests",
+      "to": "h_2024_policy_ready",
+      "type": "falsifies_or_limits",
+      "direction": "same_time_audit",
+      "rationale": "Required limiting tests define what must be checked before the claim can be upgraded."
+    }
+  ],
+  "dag_rules": {
+    "cycle_policy": "reject_if_cycle_found",
+    "time_axis": "horizontal",
+    "forward_edges": "draw_above_axis",
+    "backward_audit_edges": "draw_below_axis",
+    "frontier_visual": "dashed_ring",
+    "overclaim_visual": "solid_red_ring"
+  }
+}

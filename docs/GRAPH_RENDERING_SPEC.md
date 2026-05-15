@@ -70,7 +70,10 @@ The frontend projects the full audit case schema into a smaller display model:
 
 ## Future Temporal DAG Mode
 
-The current public demos use a force-directed layout. A later temporal DAG mode should add:
+The main public WikiCred demos use a force-directed layout.
+The experimental Uncertainty Workspace demo starts testing a temporal DAG layout at `demos/uncertainty_workspace/index.html`.
+
+A mature temporal DAG mode should add:
 
 - `date`, `date_range`, or `epistemic_time` fields on nodes.
 - cycle detection in the deterministic validator.
@@ -78,7 +81,7 @@ The current public demos use a force-directed layout. A later temporal DAG mode 
 - separate visual routing for older evidence supporting later claims and newer evidence weakening earlier claims.
 - hard rejection or warning when a claim depends on a circular causal chain.
 
-This should be optional because the current force graph is easier to read for first-contact demos.
+This should remain optional because the current force graph is easier to read for first-contact wiki demos, while DAG mode is better for research, policy, legal, and scientific uncertainty work.
 
 ## Legacy History Demos
 
@@ -86,6 +89,8 @@ This should be optional because the current force graph is easier to read for fi
 - `data/legacy_cases/kpg_extinction/kpg_extinction_wikigraph_v0_5.json`: source-weighted K-Pg graph data.
 - `demos/bronze_age_collapse/index.html`: Bronze Age Collapse research demo with UTF-8 standalone wrapper.
 - `data/legacy_cases/bronze_age_collapse/bronze_age_collapse_wikigraph.json`: extracted Bronze Age Collapse graph data.
+- `demos/uncertainty_workspace/index.html`: experimental temporal DAG for structuring unresolved uncertainty.
+- `data/uncertainty_cases/seed_temporal_dag_case.json`: toy seed data for the Uncertainty Workspace DAG.
 - `demos/ancient_history/legacy_hypothesis_credibility_v2.html`: original legacy history stress-test.
 - `demos/ancient_history/legacy_hypothesis_credibility_v2_en.html`: English legacy history stress-test with the same three-panel force-graph interaction.
 - `demos/ancient_history/wikigraph_v2_interactive.html`: embeddable wrapper for the English v2 widget.
