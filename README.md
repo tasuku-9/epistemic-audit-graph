@@ -163,6 +163,8 @@ See `docs/VISION.md` for the long-term contribution model:
 No wiki claim without a falsification condition should be accepted as audit-ready.
 ```
 
+See `docs/POSITIONING.md` for how this differs from argument mapping, causal DAG tools, evidence-to-decision frameworks, evidence maps, and consulting issue trees.
+
 ## GitHub Pages
 
 For the static demo, publish the repository root with GitHub Pages and open:

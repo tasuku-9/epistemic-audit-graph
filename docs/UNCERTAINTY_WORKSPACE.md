@@ -17,6 +17,8 @@ Uncertainty Workspace is broader: papers, policy memos, legal analysis, scientif
 
 The core shift is from a knowledge base to an uncertainty base.
 
+For broader positioning against adjacent tools and practices, see `docs/POSITIONING.md`.
+
 ## Design Principles
 
 - Unknowns are first-class nodes.
