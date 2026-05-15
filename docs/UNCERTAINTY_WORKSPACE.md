@@ -49,6 +49,9 @@ The experimental demo supports two complementary views over the same nodes and e
 | Time DAG | chronology, later audits, causal order, cycle awareness | nodes are placed on a horizontal epistemic-time axis |
 | Relation Force | proximity, clusters, blockers, narrative pressure | related nodes pull together while unrelated nodes repel |
 
+In compact viewports, Time DAG intentionally reduces visible labels.
+The selected or hovered node expands into a readable card while the left list and right detail panel preserve full text.
+
 The point is not to choose one true layout.
 The same uncertainty structure should be readable as both:
 

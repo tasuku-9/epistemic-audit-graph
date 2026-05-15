@@ -170,20 +170,24 @@ function layoutTime(){
   const w=rect.width,h=rect.height;
   const years=[...new Set(CASE.nodes.map(n=>n.epistemic_time))].sort((a,b)=>a-b);
   const min=Math.min(...years),max=Math.max(...years);
-  const left=72,right=w-54,axis=h*0.52;
-  const lanes={evidence:-118,hypothesis:-34,unknown:88,narrative:132,falsifier:62};
+  const left=Math.max(86,w*.10),right=w-left,axis=Math.min(Math.max(h*.45,210),h-205);
+  const bottomRoom=Math.max(120,h-axis-96),topRoom=Math.max(90,axis-72);
+  const scale=Math.min(1,topRoom/150,bottomRoom/205);
+  const lanes={evidence:-142*scale,hypothesis:-56*scale,unknown:74*scale,narrative:188*scale,falsifier:136*scale};
   const sameYear={};
   for(const n of CASE.nodes){
     const t=(n.epistemic_time-min)/(max-min||1);
     const baseX=left+t*(right-left);
     const key=n.epistemic_time+"_"+n.type;
     const idx=sameYear[key]||0;sameYear[key]=idx+1;
-    const offset=(idx%2===0?1:-1)*Math.ceil(idx/2)*38;
+    const offset=(idx%2===0?1:-1)*Math.ceil(idx/2)*30;
     n.x=baseX+offset;
     n.y=axis+(lanes[n.type]??0);
-    if(n.id==="h_2024_policy_ready")n.y=axis-18;
-    if(n.id==="lim_2024_needed_tests")n.y=axis+86;
+    if(n.id==="h_2024_policy_ready")n.y=axis-20*scale;
+    if(n.id==="lim_2024_needed_tests")n.y=axis+122*scale;
     n.r=n.type==="evidence"?17:n.type==="narrative"?18:n.type==="unknown"?20:n.type==="falsifier"?20:24;
+    n.x=Math.min(w-74,Math.max(70,n.x));
+    n.y=Math.min(h-92,Math.max(70,n.y));
   }
   return {w,h,axis,min,max,left,right,years};
 }
@@ -273,14 +277,52 @@ function drawEdge(e,axis){
   ctx.stroke();ctx.setLineDash([]);
   arrowHead(p.tx,p.ty,Math.atan2(dy,dx),c);
   ctx.globalAlpha=1;
-  ctx.font="10px ui-monospace, monospace";ctx.fillStyle=c;ctx.textAlign="center";
-  ctx.fillText(e.type.replaceAll("_"," "),p.cx,p.cy+(e.direction==="backward_audit"?14:-8));
+  const showLabel=viewMode==="force"||selected===e.from||selected===e.to||hover===e.from||hover===e.to;
+  if(showLabel){
+    ctx.font="10px ui-monospace, monospace";ctx.fillStyle=c;ctx.textAlign="center";
+    ctx.fillText(e.type.replaceAll("_"," "),p.cx,p.cy+(e.direction==="backward_audit"?14:-8));
+  }
   ctx.restore();
 }
 function roundRect(x,y,w,h,r){
   ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
-function drawNode(n){
+function textLines(text,maxWidth,maxLines){
+  const words=String(text).split(" ");let line="",lines=[];
+  for(const word of words){
+    const test=line?line+" "+word:word;
+    if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word;}else line=test;
+    if(lines.length>=maxLines)break;
+  }
+  if(line&&lines.length<maxLines)lines.push(line);
+  if(lines.length===maxLines&&words.join(" ").length>lines.join(" ").length)lines[maxLines-1]=lines[maxLines-1].replace(/[,. ]+$/,"")+"...";
+  return lines;
+}
+function drawLabelCard(n,g){
+  const active=n.id===selected||n.id===hover;
+  if(viewMode==="time"&&g.w<790&&!active)return;
+  const maxWidth=viewMode==="time"?(active?132:92):(active?132:104);
+  const maxLines=active?3:2;
+  ctx.save();
+  ctx.font=(active?"600 11px":"500 10px")+" system-ui, sans-serif";
+  const lines=textLines(n.title,maxWidth,maxLines);
+  const width=Math.min(maxWidth+14,Math.max(56,...lines.map(x=>ctx.measureText(x).width+14)));
+  const height=lines.length*12+8;
+  const above=viewMode==="time"&&(n.type==="evidence"||n.overclaim||(n.type==="hypothesis"&&n.y<g.axis+4));
+  let x=Math.min(g.w-width-12,Math.max(12,n.x-width/2));
+  let y=above?n.y-n.r-height-12:n.y+n.r+12;
+  y=Math.min(g.h-height-54,Math.max(12,y));
+  roundRect(x,y,width,height,6);
+  ctx.fillStyle=active?"rgba(255,255,255,.96)":"rgba(255,253,248,.88)";
+  ctx.fill();
+  ctx.strokeStyle=active?"rgba(17,24,39,.45)":"rgba(216,208,194,.88)";
+  ctx.lineWidth=active?1.2:0.8;
+  ctx.stroke();
+  ctx.fillStyle="#263142";ctx.textAlign="center";ctx.textBaseline="top";
+  lines.forEach((line,i)=>ctx.fillText(line,x+width/2,y+5+i*12));
+  ctx.restore();
+}
+function drawNode(n,g){
   const c=nodeColor(n),sel=n.id===selected,hot=n.id===hover;
   ctx.save();
   if(n.frontier){
@@ -302,8 +344,7 @@ function drawNode(n){
   if(hot&&!sel){ctx.beginPath();ctx.arc(n.x,n.y,n.r+12,0,Math.PI*2);ctx.strokeStyle="rgba(17,24,39,.22)";ctx.lineWidth=4;ctx.stroke();}
   ctx.fillStyle=c.ink;ctx.font="700 10px ui-monospace, monospace";ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillText(n.tier||"?",n.x,n.y);
-  ctx.fillStyle="#263142";ctx.font="11px system-ui, sans-serif";ctx.textBaseline="top";
-  wrapText(n.title,n.x,n.y+n.r+12,112,13);
+  drawLabelCard(n,g);
   ctx.restore();
 }
 function wrapText(text,x,y,maxWidth,lineHeight){
@@ -327,7 +368,7 @@ function draw(){
     ctx.fillText("relation force view: closer nodes share stronger audit relations",24,28);
   }
   for(const e of CASE.edges)drawEdge(e,g.axis);
-  for(const n of CASE.nodes)drawNode(n);
+  for(const n of CASE.nodes)drawNode(n,g);
   ctx.restore();
 }
 function hit(mx,my){
