@@ -253,9 +253,22 @@ function qPath(a,b,e,axis){
   if(e.direction==="same_time_audit")cy=axis+112;
   return {sx:a.x,sy:a.y,tx:b.x,ty:b.y,cx:mid,cy};
 }
+function trimPathToNodeEdges(p,a,b){
+  const sd=Math.max(1,Math.hypot(p.cx-p.sx,p.cy-p.sy));
+  const td=Math.max(1,Math.hypot(p.tx-p.cx,p.ty-p.cy));
+  const startPad=a.r+5,endPad=b.r+11;
+  return {
+    sx:p.sx+(p.cx-p.sx)/sd*startPad,
+    sy:p.sy+(p.cy-p.sy)/sd*startPad,
+    tx:p.tx-(p.tx-p.cx)/td*endPad,
+    ty:p.ty-(p.ty-p.cy)/td*endPad,
+    cx:p.cx,
+    cy:p.cy
+  };
+}
 function arrowHead(tx,ty,ang,color){
   ctx.save();ctx.translate(tx,ty);ctx.rotate(ang);
-  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-8,-4);ctx.lineTo(-8,4);ctx.closePath();
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-10,-4.8);ctx.lineTo(-10,4.8);ctx.closePath();
   ctx.fillStyle=color;ctx.fill();ctx.restore();
 }
 function drawEdge(e,axis){
@@ -266,6 +279,7 @@ function drawEdge(e,axis){
     const bend=e.type==="weakens"||e.type==="blocks"?24:e.type==="narrative_pressure"?-20:12;
     p={sx:a.x,sy:a.y,tx:b.x,ty:b.y,cx:(a.x+b.x)/2-dy/d*bend,cy:(a.y+b.y)/2+dx/d*bend};
   }
+  p=trimPathToNodeEdges(p,a,b);
   const c=edgeColor(e.type);
   const t=.92;
   const dx=2*(1-t)*(p.cx-p.sx)+2*t*(p.tx-p.cx);

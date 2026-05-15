@@ -90,6 +90,7 @@ Uncertainty Workspace treats layout as an analysis lens, not as part of the clai
 - temporal DAG view: checks sequence, chronology, later audit, and causal-order plausibility.
 - relation-force view: shows proximity, clusters, blockers, and narrative-pressure neighborhoods.
 - both views preserve the same node ids, edge ids, frontier markers, falsifiers, and overclaim markers.
+- arrowheads show audit-relation direction. They should not be read as direct physical causation unless the edge type explicitly says so.
 
 ## Legacy History Demos
 

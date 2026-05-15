@@ -85,6 +85,7 @@ The force mode keeps the same audit edges but uses spatial proximity:
 - support and motivation edges pull related claims and evidence together;
 - weakening, blocker, and falsifier edges make local conflict visible;
 - narrative-pressure edges connect frames to claims without treating them as evidence;
+- arrowheads show audit-relation direction, not physical causation;
 - frontier rings and overclaim rings remain visible in both modes.
 
 Force mode is useful when the reviewer wants to see clusters and pressure points.
