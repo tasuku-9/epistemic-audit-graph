@@ -2,7 +2,16 @@
 
 ## Concept
 
-仮説・証拠・通説をノードとする力学グラフ。A/B/C/Xティア・反証条件・Mタグ・ナラティブ監査を持つ認識論的信憑性フレーム。
+Hypotheses, evidence, and narrative frames are nodes in a force-directed audit graph.
+Support, counterevidence, paper conflict, narrative conflict, and frame conflict are edges.
+Each claim carries an A/B/C/X audit tier, falsification condition, overclaim state, and narrative-audit context.
+
+Short seed description:
+
+```text
+A force-directed epistemic audit graph where hypotheses, evidence, and narrative frames are nodes.
+Claims carry A/B/C/X tiers, falsification conditions, M-tags, and narrative-audit links.
+```
 
 ## Display Schema
 
@@ -35,6 +44,11 @@ The frontend projects the full audit case schema into a smaller display model:
     "id": "string",
     "title": "string",
     "type": "narrative | paper | frame"
+  },
+  "frontier": {
+    "id": "string",
+    "meaning": "disputed, unresolved, or question-bearing but not rejected",
+    "visual": "dashed node ring"
   }
 }
 ```
@@ -42,15 +56,29 @@ The frontend projects the full audit case schema into a smaller display model:
 ## Rendering Rules
 
 - Left panel: important claims only, meaning hypotheses and inference nodes.
-- Center panel: Canvas force graph.
+- Center panel: Canvas or SVG force graph.
 - Right panel: details, risks, falsifiers, source claims, and validator flags.
 - Large circles: hypotheses and important inference claims.
 - Small circles: evidence nodes.
 - Diamonds: narrative, paper, or frame nodes.
+- Dashed node rings: frontier / disputed nodes. These are unresolved or source-sensitive claims, not rejected claims.
+- Solid red rings or X-tier badges: parked overclaims that must remain visibly weak.
 - Hidden from graph but shown in detail: SourceClaim, Risk, Falsifier, Source, Assumption, ChangeRequest.
 - Physics: nodes repel, edges behave like springs, and weak centering keeps the graph readable.
 - Edge types: `sup`, `con`, `paper_conflict`, `narrative_conflict`, `frame_conflict`.
 - Scores are provisional audit-support scores, not truth scores.
+
+## Future Temporal DAG Mode
+
+The current public demos use a force-directed layout. A later temporal DAG mode should add:
+
+- `date`, `date_range`, or `epistemic_time` fields on nodes.
+- cycle detection in the deterministic validator.
+- a horizontal time axis that places older evidence before newer claims.
+- separate visual routing for older evidence supporting later claims and newer evidence weakening earlier claims.
+- hard rejection or warning when a claim depends on a circular causal chain.
+
+This should be optional because the current force graph is easier to read for first-contact demos.
 
 ## Legacy History Demos
 

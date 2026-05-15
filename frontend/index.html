@@ -141,7 +141,7 @@ a{color:#315f9e}
   </div>
   <div id="center">
     <canvas id="gc"></canvas>
-    <div id="overlay">circle: hypothesis / evidence - diamond: narrative - M: analogy or mythic evidence</div>
+    <div id="overlay">circle: hypothesis / evidence - diamond: narrative - dashed ring: frontier / disputed - M: analogy or mythic evidence</div>
     <div id="statusPills"></div>
   </div>
   <div id="right"><div id="dc"><div id="empty">Select a node to inspect<br>claims, evidence, risks, falsifiers, and narrative conflicts.</div></div></div>
@@ -428,7 +428,8 @@ function buildViewModel(){
       fields:[...new Set(evs.map(e=>evidenceKind(e,domain)))],
       risks,
       falsifiers,
-      evidenceIds:evs.map(e=>e.id)
+      evidenceIds:evs.map(e=>e.id),
+      frontier:false
     };
   });
 
@@ -472,6 +473,13 @@ function buildViewModel(){
     for(const nc of h.narConflicts){
       state.edges.push({from:h.id,to:nc.nid,t:nc.type||"narrative_conflict"});
     }
+  }
+
+  for(const h of state.HY){
+    const hasCounterEvidence=state.EV.some(ev=>ev.con.includes(h.id));
+    const hasNarrativeConflict=h.narConflicts.length>0;
+    const hasOpenRisk=h.risks.some(r=>!["high","critical"].includes(String(r.severity||"").toLowerCase()));
+    h.frontier=!h.hasOverclaim&&(h.tier==="C"||hasCounterEvidence||hasNarrativeConflict||hasOpenRisk);
   }
 
   state.scores={};
@@ -552,6 +560,7 @@ function renderClaimList(){
       <div class="hi-sub">
         <span class="ev-tag" style="color:#667085;border-color:#d9dee7;background:#fff">${esc(h.nodeType)}</span>
         ${fields}
+        ${h.frontier?`<span class="ev-tag" style="color:#92400e;border-color:#b4530940;background:#b4530912">frontier</span>`:""}
         ${h.hasOverclaim?`<span class="oc-warn">overclaim</span>`:""}
       </div>
     </div>`;
@@ -569,7 +578,8 @@ function renderStatusPills(){
     `actual ${r.status}`,
     `${state.HY.length} claims`,
     `${state.EV.length} evidence`,
-    `${state.NAR.length} narrative`
+    `${state.NAR.length} narrative`,
+    `${state.HY.filter(h=>h.frontier).length} frontier`
   ];
   document.getElementById("statusPills").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
 }
@@ -613,7 +623,7 @@ function renderCaseOverview(dc){
       ${fixes.map(x=>`<div class="na-text">${esc(x)}</div>`).join("")}
     </div>`:""}
     <div class="evl-lbl">graph contents</div>
-    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes. Click any node for details.</div>`;
+    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes, ${state.HY.filter(h=>h.frontier).length} frontier nodes. Dashed claim rings mark unresolved but non-rejected disputes.</div>`;
 }
 
 function renderDetail(){
@@ -653,6 +663,10 @@ function renderDetail(){
         <div class="oc-lbl">risks / overclaim paths</div>
         ${h.risks.map(x=>`<div class="oc-text">${esc(x.title||x.id)}${x.suggested_patch?` - ${esc(x.suggested_patch)}`:""}</div>`).join("")}
         ${h.oc?`<div class="oc-text">${esc(h.oc)}</div>`:""}
+      </div>`:""}
+      ${h.frontier?`<div class="fc-box" style="background:rgba(186,117,23,.07);border:0.5px dashed rgba(180,83,9,.45)">
+        <div class="fclbl" style="color:#92400e">frontier / disputed zone</div>
+        <div class="fctext" style="color:#92400e">Dashed outline means this node is not rejected, but it sits in an unresolved or contested audit area. Keep it visible as a question-bearing frontier.</div>
       </div>`:""}
       <div class="fc-box" style="background:${TIERS.C.bg};border:0.5px solid ${TIERS.C.border};color:${TIERS.C.color}">
         <div class="fclbl">falsification / limiting condition</div>
@@ -902,6 +916,10 @@ function draw(){
       }
       ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
       ctx.fillStyle=t.bg;ctx.fill();ctx.strokeStyle=t.border;ctx.lineWidth=isSel?2:1;ctx.stroke();
+      if(h?.frontier){
+        ctx.beginPath();ctx.arc(n.x,n.y,n.r+5,0,Math.PI*2);
+        ctx.setLineDash([4,3]);ctx.strokeStyle="#b45309";ctx.lineWidth=1.2;ctx.stroke();ctx.setLineDash([]);
+      }
       ctx.fillStyle=t.color;ctx.font="bold 10px monospace";ctx.textAlign="center";ctx.textBaseline="middle";
       ctx.fillText(t.label,n.x,n.y);
     }else if(n.type==="e"){
