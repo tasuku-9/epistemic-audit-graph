@@ -2,6 +2,15 @@
 
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
+**Live demo:** [Open the claim lifecycle demo hub](https://tasuku-9.github.io/epistemic-audit-graph/)
+
+Primary demo routes:
+
+- [Claim lifecycle dashboard](https://tasuku-9.github.io/epistemic-audit-graph/frontend/index.html)
+- [K-Pg claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/kpg_extinction/index.html)
+- [Bronze Age claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/bronze_age_collapse/index.html)
+- [Lifecycle timeline prototype](https://tasuku-9.github.io/epistemic-audit-graph/demos/uncertainty_workspace/index.html)
+
 It does this by managing the lifecycle of contested claims:
 
 ```text
@@ -44,7 +53,7 @@ Reopen if: an independent high-quality source directly supports the claim
 and addresses the listed counterevidence.
 ```
 
-Start here:
+Local paths:
 
 - Claim lifecycle dashboard: `frontend/index.html`
 - K-Pg claim-state graph: `demos/kpg_extinction/index.html`
