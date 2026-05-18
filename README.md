@@ -149,6 +149,52 @@ Validator statuses:
 - `PASS_WITH_WARNINGS`: valid, but citations, scope, or review status still need attention
 - `REJECT`: hard rule failure; treat the claim as parked or failed by current evidence until the challenge is addressed
 
+## Deep Validation Vocabulary
+
+The guided demos avoid validator shorthand. The deeper dashboard and graph demos use it because implementation needs a compact way to show claim strength, unresolved conditions, and blocking failures.
+
+Claim status and audit tier are related, but not identical:
+
+- **Claim status** says what is currently happening to a claim in the lifecycle: `supported`, `contested`, `weakened`, `parked`, `failed-by-current-evidence`, `reopened`, and so on.
+- **Audit tier** is a display and validation label for the current support structure. It is not a truth score and not a person or faction score.
+
+Current tier labels:
+
+| Tier | Meaning | Typical handling |
+| --- | --- | --- |
+| `A` | Direct observation, strong consensus, or strong evidence within the stated scope. | Can be accepted if caveats, falsifiers, and source scope remain inspectable. |
+| `B` | Supported with material caveats. | Keep the claim, but preserve scope limits, assumptions, and reopening/downgrade conditions. |
+| `C` | Unresolved evidence challenge, weak support, or incomplete support. | Keep visible as a question-bearing claim; do not upgrade without resolving the challenge. |
+| `X` | Parked overclaim or failed by current evidence. | Do not delete it; park it with reasons, counterevidence, downgrade conditions, and reopening conditions. |
+| `M` | Analogy, mythic, narrative, or metaphorical context rather than direct support. | Useful for framing or hypothesis generation, but cannot upgrade a claim by itself. |
+
+`parked` is a lifecycle state. `X` is an audit-tier warning. Many `X` claims should be parked, but a parked claim is more than a red label: it must say why it is parked and what would reopen it.
+
+The system is strict about propagation. A claim does not inherit only the support of its evidence; it also inherits the conditions and uncertainties attached to the evidence and to the inference step.
+
+```text
+Evidence E has condition C1
+Inference E -> Claim X adds assumption C2
+Claim X inherits C1 and adds C2
+
+X park conditions = C1 + C2
+```
+
+This is why an overclaim can appear even when the evidence itself is real. The evidence may support a narrower claim, while the inference adds a stronger term, wider scope, missing bridge, or unverified context. The graph keeps that uncertainty traceable: which evidence node, inference edge, or added assumption made the claim parkable.
+
+Typical transitions:
+
+```text
+C -> B   when an open evidence challenge is resolved but caveats remain
+B -> A   when support is direct, in scope, and no blocking risk remains
+B -> C   when a caveat becomes an unresolved evidence challenge
+B/C -> X when the wording overclaims what the evidence can support
+X -> reopened when the stated reopening conditions are met
+reopened -> B/C/A after human review of the new evidence
+```
+
+This is the difference between deleting a weak claim and managing it. A weak claim can remain visible as `X` or `parked`, but it cannot silently function as an accepted claim until the graph records what changed.
+
 ## Six-Domain Demo List
 
 | Domain | Scoped claim | Downgrade challenge |
