@@ -25,9 +25,12 @@ After those two, use the remaining routes as examples and implementation proof:
 It does this by managing the lifecycle of contested claims:
 
 ```text
-proposed -> supported -> contested -> weakened -> parked
-        -> failed-by-current-evidence -> reopened
-        -> accepted-with-caveats -> accepted -> superseded
+Core path:
+proposed -> contested -> parked -> reopened -> accepted
+
+Advanced states:
+supported, weakened, blocked-by-current-evidence,
+accepted-with-caveats, superseded
 ```
 
 Technically, it is a reopenable claim-state graph for contested knowledge.
@@ -35,6 +38,8 @@ Technically, it is a reopenable claim-state graph for contested knowledge.
 It is not a simple argument map and not a truth-scoring system. The core idea is non-destructive downgrading: weak claims are not deleted, but parked with reasons, counterevidence, downgrade conditions, and reopening conditions.
 
 A parked claim can be reopened only when its reopening conditions are met.
+
+The guided demos teach the core path. The deeper validator and dashboard use the advanced states when a claim needs a more precise audit trail.
 
 The graph makes these claim-state fields inspectable:
 
@@ -102,6 +107,7 @@ Local paths:
 
 Core explanatory docs:
 
+- `docs/CLAIM_LIFECYCLE_MODEL.md`: state diagram, core vs advanced states, reopening adjudication, and park-condition propagation.
 - `docs/POSITIONING.md`: how this differs from argument maps, causal DAG tools, evidence maps, and decision frameworks.
 - `docs/VISION.md`: why downgraded or failed claims should stay visible instead of being deleted.
 
@@ -155,8 +161,10 @@ The guided demos avoid validator shorthand. The deeper dashboard and graph demos
 
 Claim status and audit tier are related, but not identical:
 
-- **Claim status** says what is currently happening to a claim in the lifecycle: `supported`, `contested`, `weakened`, `parked`, `failed-by-current-evidence`, `reopened`, and so on.
+- **Claim status** says what is currently happening to a claim in the lifecycle: `supported`, `contested`, `weakened`, `parked`, `blocked-by-current-evidence`, `reopened`, and so on.
 - **Audit tier** is a display and validation label for the current support structure. It is not a truth score and not a person or faction score.
+
+The public wording uses `blocked-by-current-evidence` because it better matches the reopenable model. Some schema fields and sample data may still use the older internal value `failed_by_current_evidence` until a data migration is worth doing.
 
 Current tier labels:
 
@@ -194,6 +202,15 @@ reopened -> B/C/A after human review of the new evidence
 ```
 
 This is the difference between deleting a weak claim and managing it. A weak claim can remain visible as `X` or `parked`, but it cannot silently function as an accepted claim until the graph records what changed.
+
+Reopening is not automatic truth judgment. The validator can check whether the required structure is present; human review decides whether the submitted evidence actually satisfies the condition.
+
+| Reopening question | Validator can check | Human review decides |
+| --- | --- | --- |
+| Is a source attached? | A source, source claim, citation, or required field exists. | The source is appropriate, current, and interpreted fairly. |
+| Is counterevidence addressed? | A response node or challenge resolution exists. | The response is strong enough to move the claim state. |
+| Is scope narrowed? | The claim text, tier reason, or limiting condition changed. | The new wording is faithful to the evidence and domain norms. |
+| Did consensus or policy change? | The change request names the relevant review or authority. | The domain community, reviewer, or policy process accepts the change. |
 
 ## Six-Domain Demo List
 
