@@ -1,8 +1,12 @@
 # Epistemic Audit Graph
 
-Epistemic Audit Graph turns disputes into actionable evidence challenges.
+## Start Here
 
-**Live demo:** [Open the claim lifecycle demo hub](https://tasuku-9.github.io/epistemic-audit-graph/)
+**Public demo hub:** [https://tasuku-9.github.io/epistemic-audit-graph/](https://tasuku-9.github.io/epistemic-audit-graph/)
+
+Open this first to see the project as a claim lifecycle system. The repository explains the model, validator, and sample cases after the demo entry point.
+
+Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
 Primary demo routes:
 
