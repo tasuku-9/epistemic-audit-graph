@@ -326,6 +326,13 @@
       gap:10px;
       align-content:start;
     }
+    .challenge-intro{
+      margin:0;
+      padding:12px 14px 0;
+      color:#4c5a6a;
+      font-size:13px;
+      line-height:1.45;
+    }
     .challenge{
       border:1px solid var(--line);
       border-radius:8px;
@@ -443,7 +450,7 @@
     <header>
       <div>
         <h1>Claim Lifecycle Story</h1>
-        <p class="tagline">Dispute to evidence challenge to reopenable state</p>
+        <p class="tagline">Turn a dispute into a participatory evidence challenge</p>
       </div>
       <nav class="top-links" aria-label="Demo navigation">
         <a href="../../">Demo hub</a>
@@ -539,11 +546,14 @@
         </div>
       </section>
 
-      <aside class="side-panel" aria-label="Evidence challenges">
+      <aside class="side-panel" aria-label="Claim challenge board">
         <div class="panel-head">
-          <h2 class="panel-title">Evidence challenges</h2>
+          <h2 class="panel-title">Claim Challenge Board</h2>
           <span class="status-pill" id="challengeStatus">Parked</span>
         </div>
+        <p class="challenge-intro">
+          The goal is not to win an argument. Pick a concrete challenge that would move this claim forward, keep it parked, or reopen it for review.
+        </p>
         <div class="challenge-list" id="challengeList"></div>
         <div class="decision">
           <strong id="progressLabel">0 of 4 reopening conditions met</strong>

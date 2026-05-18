@@ -10,6 +10,8 @@ Open this first to see the project as a claim lifecycle system. The repository e
 
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
+The goal is not only to map disputes, but to make them actionable: each contested claim can show what evidence, source clarification, counterevidence, or policy review would move it forward, downgrade it, park it, or reopen it.
+
 Primary demo routes:
 
 - [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
@@ -44,6 +46,23 @@ The graph makes these claim-state fields inspectable:
 - unresolved questions;
 - evidence challenges;
 - status history.
+
+## From Disputes To Tasks
+
+Ordinary disputes often become repeated argument: one side cites a source, another disputes the interpretation, and newcomers cannot tell what would actually move the issue forward.
+
+Epistemic Audit Graph turns that loop into a claim challenge board. A parked claim can show:
+
+- why it is parked;
+- what evidence would reopen it;
+- what counterevidence must be answered;
+- what source-lineage or citation-loop check is needed;
+- what downgrade condition would keep it out of the accepted set;
+- what review would make it a candidate for adoption.
+
+This makes participation smaller and more concrete. A contributor does not need to win the whole dispute. They can resolve one open challenge: find the earliest source, separate source wording from inference, add counterevidence, clarify a policy condition, or satisfy a reopening condition.
+
+The board should not score people or reward factional wins. It tracks claim states, open challenges, resolved challenges, parked claims, reopened claims, and claims needing source audit.
 
 ## Why This Is Different
 
