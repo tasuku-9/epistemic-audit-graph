@@ -116,24 +116,24 @@ a{color:#315f9e}
 <div id="topbar">
   <div id="brand">
     <h1>Epistemic Audit Graph</h1>
-    <p>AI structures claims. Code enforces falsifiability, source separation, domain overclaim rules, and auditability. Humans inspect and revise.</p>
+    <p>A reopenable claim-state graph. Claims keep source wording, inference, downgrade conditions, reopening conditions, and unresolved evidence challenges visible.</p>
   </div>
   <div id="domainGrid"></div>
 </div>
 
 <div id="wrap">
   <div id="left">
-    <div id="lhead">CLAIMS - Tier / Audit support</div>
+    <div id="lhead">CLAIM STATES - Tier / Support</div>
     <div id="hlist"></div>
     <div id="llegs">
-      <p>Tier system</p>
+      <p>Claim state tiers</p>
       <div id="tierleg"></div>
       <p style="margin-top:8px">Edge type</p>
       <div id="edgeleg"></div>
-      <p style="margin-top:8px">Research demos</p>
+      <p style="margin-top:8px">Claim-state demos</p>
       <div class="legacy-links">
-        <a class="small-link" href="../demos/bronze_age_collapse/index.html">Bronze Age route</a>
-        <a class="small-link" href="../demos/kpg_extinction/index.html">K-Pg source audit</a>
+        <a class="small-link" href="../demos/bronze_age_collapse/index.html">Bronze Age states</a>
+        <a class="small-link" href="../demos/kpg_extinction/index.html">K-Pg claim states</a>
         <a class="small-link" href="../demos/ancient_history/legacy_hypothesis_credibility_v2.html">legacy original</a>
         <a class="small-link" href="../demos/ancient_history/legacy_hypothesis_credibility_v2_en.html">legacy English</a>
       </div>
@@ -141,19 +141,19 @@ a{color:#315f9e}
   </div>
   <div id="center">
     <canvas id="gc"></canvas>
-    <div id="overlay">circle: hypothesis / evidence - diamond: narrative - dashed ring: frontier / disputed - M: analogy or mythic evidence</div>
+    <div id="overlay">circle: claim / evidence - diamond: narrative pressure - dashed ring: unresolved challenge - M: analogy or narrative-only evidence</div>
     <div id="statusPills"></div>
   </div>
-  <div id="right"><div id="dc"><div id="empty">Select a node to inspect<br>claims, evidence, risks, falsifiers, and narrative conflicts.</div></div></div>
+  <div id="right"><div id="dc"><div id="empty">Select a node to inspect<br>state, source wording, inference, downgrade and reopening conditions.</div></div></div>
 </div>
 
 <script>
 const TIERS={
   A:{label:"A",desc:"direct observation within scope",bg:"rgba(29,158,117,.12)",color:"#166534",border:"#16a34a"},
-  B:{label:"B",desc:"structured but not proven",bg:"rgba(55,138,221,.1)",color:"#1d4ed8",border:"#2563eb"},
-  C:{label:"C",desc:"vulnerability or open question",bg:"rgba(186,117,23,.1)",color:"#92400e",border:"#b45309"},
-  X:{label:"X",desc:"overclaim or invalid leap",bg:"rgba(220,38,38,.08)",color:"#dc2626",border:"#dc2626"},
-  M:{label:"M",desc:"analogy or mythic evidence",bg:"rgba(136,135,128,.1)",color:"#888780",border:"#888780"}
+  B:{label:"B",desc:"supported with caveats",bg:"rgba(55,138,221,.1)",color:"#1d4ed8",border:"#2563eb"},
+  C:{label:"C",desc:"unresolved evidence challenge",bg:"rgba(186,117,23,.1)",color:"#92400e",border:"#b45309"},
+  X:{label:"X",desc:"parked or failed by current evidence",bg:"rgba(220,38,38,.08)",color:"#dc2626",border:"#dc2626"},
+  M:{label:"M",desc:"analogy or narrative-only evidence",bg:"rgba(136,135,128,.1)",color:"#888780",border:"#888780"}
 };
 
 const TYPES={
@@ -172,9 +172,9 @@ const TYPES={
 
 const EDGETYPES={
   sup:{l:"support",c:"rgba(22,163,74,.18)",hl:"rgba(22,163,74,.6)"},
-  con:{l:"counter",c:"rgba(220,38,38,.18)",hl:"rgba(220,38,38,.6)"},
-  paper_conflict:{l:"paper conflict",c:"rgba(234,88,12,.18)",hl:"rgba(234,88,12,.6)",dash:true},
-  narrative_conflict:{l:"narrative conflict",c:"rgba(124,58,237,.15)",hl:"rgba(124,58,237,.6)",dash:true},
+  con:{l:"weakens",c:"rgba(220,38,38,.18)",hl:"rgba(220,38,38,.6)"},
+  paper_conflict:{l:"source conflict",c:"rgba(234,88,12,.18)",hl:"rgba(234,88,12,.6)",dash:true},
+  narrative_conflict:{l:"narrative pressure",c:"rgba(124,58,237,.15)",hl:"rgba(124,58,237,.6)",dash:true},
   frame_conflict:{l:"frame conflict",c:"rgba(29,78,216,.15)",hl:"rgba(29,78,216,.6)",dash:true}
 };
 
@@ -420,7 +420,7 @@ function buildViewModel(){
       title:node.title||node.id,
       tier:tierOf(node,node.node_type==="inference"?"B":"B"),
       desc:bodyOf(node),
-      fc:fc.length?fc.join(" "):"No falsifier or limiting condition recorded.",
+      fc:fc.length?fc.join(" "):"No downgrade or reopening condition recorded.",
       hasMissingFalsifier:!fc.length,
       oc:validatorTexts.join(" "),
       hasOverclaim:riskOverclaimTexts.length>0||validatorTexts.length>0||r.status==="REJECT",
@@ -573,13 +573,13 @@ function renderStatusPills(){
   if(!c||!r) return;
   const items=[
     DOMAIN_LABELS[c.domain]||c.domain,
-    c.case_type==="good"?"good case":"overclaim case",
-    `expected ${r.expected}`,
-    `actual ${r.status}`,
+    c.case_type==="good"?"scoped claim":"downgrade challenge",
+    `expected state ${r.expected}`,
+    `validator state ${r.status}`,
     `${state.HY.length} claims`,
     `${state.EV.length} evidence`,
     `${state.NAR.length} narrative`,
-    `${state.HY.filter(h=>h.frontier).length} frontier`
+    `${state.HY.filter(h=>h.frontier).length} challenges`
   ];
   document.getElementById("statusPills").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
 }
@@ -590,10 +590,10 @@ function renderCaseOverview(dc){
   const out=status==="REJECT";
   const warn=status==="PASS_WITH_WARNINGS";
   const cls=out?"verdict-out":warn?"verdict-warn":"verdict-pass";
-  const title=out?"OUT: deterministic validator rejects this claim":warn?"PASS WITH WARNINGS: scoped but still auditable":"PASS: no blocking validator errors";
+  const title=out?"PARKED: blocked until evidence challenges are addressed":warn?"SUPPORTED WITH WARNINGS: scoped but still auditable":"SUPPORTED: no blocking state-transition errors";
   const note=out
-    ?"This is the demo's first-read signal: the AI may structure the claim, but code blocks the overclaim before any truth judgment is made."
-    :"This case remains inside the scoped audit frame. Warnings are still visible because the score is audit support, not truth.";
+    ?"This is the demo's first-read signal: the AI may structure the claim, but code parks the overclaim and preserves the reason instead of deleting it."
+    :"This case remains inside the scoped audit frame. Warnings stay visible because the score is support structure, not truth.";
   const reasons=[
     ...(r.overclaim_flags||[]).map(x=>`overclaim: ${x}`),
     ...(r.m_tag_flags||[]).map(x=>`M-tag: ${x}`),
@@ -603,7 +603,7 @@ function renderCaseOverview(dc){
   ];
   const fixes=(r.suggested_fixes||[]).slice(0,4);
   dc.innerHTML=`
-    <div class="dlbl">case verdict</div>
+    <div class="dlbl">case state</div>
     <div class="dtitle">${esc(c.title||c.case_id)}</div>
     <div class="verdict-box ${cls}">
       <div class="verdict-kicker" style="color:${out?"#dc2626":warn?"#92400e":"#166534"}">${esc(status)}</div>
@@ -615,15 +615,15 @@ function renderCaseOverview(dc){
       <div class="na-text">${esc(c.user_input||"")}</div>
     </div>
     ${reasons.length?`<div class="${out?"oc-box":"fc-box"}" style="${out?"":"background:"+TIERS.C.bg+";border:0.5px solid "+TIERS.C.border+";color:"+TIERS.C.color}">
-      <div class="${out?"oc-lbl":"fclbl"}">${out?"why this is out":"warnings / audit notes"}</div>
+      <div class="${out?"oc-lbl":"fclbl"}">${out?"why this is parked":"warnings / state notes"}</div>
       ${reasons.map(x=>`<div class="${out?"oc-text":"fctext"}">${esc(x)}</div>`).join("")}
     </div>`:""}
     ${fixes.length?`<div class="src-box">
-      <div class="na-lbl">suggested fixes</div>
+      <div class="na-lbl">evidence challenges</div>
       ${fixes.map(x=>`<div class="na-text">${esc(x)}</div>`).join("")}
     </div>`:""}
-    <div class="evl-lbl">graph contents</div>
-    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes, ${state.HY.filter(h=>h.frontier).length} frontier nodes. Dashed claim rings mark unresolved but non-rejected disputes.</div>`;
+    <div class="evl-lbl">state graph contents</div>
+    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes, ${state.HY.filter(h=>h.frontier).length} unresolved challenge nodes. Dashed claim rings keep unsettled claims inspectable without upgrading or deleting them.</div>`;
 }
 
 function renderDetail(){
@@ -651,29 +651,29 @@ function renderDetail(){
         <div class="tier-big" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${esc(h.tier)}</div>
         <div>
           <div class="tier-desc" style="color:${t.color}">${esc(t.desc)}</div>
-          <div style="font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono)">audit support ${Math.round(score*100)}/100</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono)">state support ${Math.round(score*100)}/100</div>
         </div>
       </div>
       <div class="sbar-wrap">
-        <div class="sbar-row"><span>deterministic validator</span><span>${esc(state.report?.status||"")}</span></div>
+        <div class="sbar-row"><span>validator state</span><span>${esc(state.report?.status||"")}</span></div>
         <div class="sbar"><div class="sbar-fill" style="width:${Math.round(score*100)}%;background:${t.border}"></div></div>
       </div>
       <div class="ddesc">${esc(h.desc)}</div>
       ${h.oc||h.risks.length?`<div class="oc-box">
-        <div class="oc-lbl">risks / overclaim paths</div>
+        <div class="oc-lbl">downgrade risks / overclaim paths</div>
         ${h.risks.map(x=>`<div class="oc-text">${esc(x.title||x.id)}${x.suggested_patch?` - ${esc(x.suggested_patch)}`:""}</div>`).join("")}
         ${h.oc?`<div class="oc-text">${esc(h.oc)}</div>`:""}
       </div>`:""}
       ${h.frontier?`<div class="fc-box" style="background:rgba(186,117,23,.07);border:0.5px dashed rgba(180,83,9,.45)">
-        <div class="fclbl" style="color:#92400e">frontier / disputed zone</div>
-        <div class="fctext" style="color:#92400e">Dashed outline means this node is not rejected, but it sits in an unresolved or contested audit area. Keep it visible as a question-bearing frontier.</div>
+        <div class="fclbl" style="color:#92400e">unresolved evidence challenge</div>
+        <div class="fctext" style="color:#92400e">Dashed outline means this node is not rejected or upgraded. It remains visible until the evidence challenge is resolved.</div>
       </div>`:""}
       <div class="fc-box" style="background:${TIERS.C.bg};border:0.5px solid ${TIERS.C.border};color:${TIERS.C.color}">
-        <div class="fclbl">falsification / limiting condition</div>
+        <div class="fclbl">downgrade / reopening condition</div>
         <div class="fctext">${esc(h.fc)}</div>
       </div>
       ${h.narConflicts.length?`<div class="na-box">
-        <div class="na-lbl">narrative conflicts</div>
+        <div class="na-lbl">narrative pressure</div>
         ${h.narConflicts.map(nc=>{
           const n=state.NAR.find(x=>x.id===nc.nid);
           const et=EDGETYPES[nc.type]||EDGETYPES.narrative_conflict;
@@ -683,7 +683,7 @@ function renderDetail(){
           </div>`;
         }).join("")}
       </div>`:""}
-      <div class="evl-lbl">related evidence (${rel.length})</div>
+      <div class="evl-lbl">supporting / weakening evidence (${rel.length})</div>
       ${rel.map(e=>{
         const isSup=e.sup.includes(h.id);
         const tc=(TYPES[e.type]||TYPES.circumstantial).c;
@@ -697,7 +697,7 @@ function renderDetail(){
           <div class="ev-src">${esc(e.source)}</div>
         </div>`;
       }).join("")||`<div class="ddesc">No related evidence links.</div>`}
-      <div class="src-box"><div class="na-lbl">audit note</div><div class="na-text">${esc(state.caseData.audit_notes||state.caseData.summary||"")}</div></div>`;
+      <div class="src-box"><div class="na-lbl">state note</div><div class="na-text">${esc(state.caseData.audit_notes||state.caseData.summary||"")}</div></div>`;
     dc.querySelectorAll(".ev-item").forEach(item=>item.addEventListener("click",()=>selectNode(item.dataset.id)));
     return;
   }
@@ -714,9 +714,9 @@ function renderDetail(){
         ${ev.m?`<span class="m-tag">M analogy</span>`:""}
       </div>
       <div class="ddesc">${esc(ev.desc)}</div>
-      ${ev.m?`<div class="oc-box"><div class="oc-lbl">M-tag rule</div><div class="oc-text">Analogy-only or mythic evidence cannot directly support an A-tier claim.</div></div>`:""}
+      ${ev.m?`<div class="oc-box"><div class="oc-lbl">upgrade rule</div><div class="oc-text">Analogy-only or narrative evidence cannot directly upgrade a claim to A-tier.</div></div>`:""}
       <div class="src-box">
-        <div class="fclbl" style="color:#1d4ed8">source separation</div>
+        <div class="fclbl" style="color:#1d4ed8">source says vs inference made</div>
         ${ev.sourceClaims.map(s=>`<div class="fctext" style="color:#1d4ed8">${esc(s.title||s.id)}: ${esc(s.claim_text||"")}</div>`).join("")||`<div class="fctext" style="color:#1d4ed8">${esc(ev.source)}</div>`}
       </div>
       <div class="evl-lbl">linked claims</div>
@@ -737,7 +737,7 @@ function renderDetail(){
       <div class="dlbl">${nar.type==="paper"?"paper frame":"narrative frame"}</div>
       <div class="dtitle">${esc(nar.title)}</div>
       <div class="na-box"><div class="na-text">${esc(nar.desc)}</div></div>
-      <div class="evl-lbl">challenged claims (${challenged.length})</div>
+      <div class="evl-lbl">claims under narrative pressure (${challenged.length})</div>
       ${challenged.map(h=>{
         const t=tierStyle(h.tier);
         return `<div class="ev-item" data-id="${esc(h.id)}" style="background:var(--color-background-secondary);border-color:var(--color-border-tertiary)">

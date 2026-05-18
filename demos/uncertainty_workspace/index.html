@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Uncertainty Workspace - Temporal DAG</title>
+<title>Claim Lifecycle Workspace - Timeline</title>
 <style>
 :root{
   --bg:#f7f4ed;--panel:#fffdf8;--ink:#1d2430;--muted:#677083;--line:#d8d0c2;
@@ -61,20 +61,20 @@ canvas{width:100%;height:100%;display:block}
 <div class="app">
   <header>
     <div>
-      <h1>Uncertainty Workspace</h1>
-      <div class="sub">structure uncertainty without prematurely resolving it</div>
+      <h1>Claim Lifecycle Workspace</h1>
+      <div class="sub">manage contested claim states without premature resolution</div>
     </div>
     <div class="pills" id="status"></div>
   </header>
   <aside id="left">
     <div class="section">
       <h2>Concept</h2>
-      <p class="concept">Unknowns, falsifiers, evidence, and overclaims stay visible as separate objects.</p>
+      <p class="concept">Claims, evidence, downgrade conditions, reopening conditions, and parked overclaims stay visible as state objects.</p>
       <div class="viewbar">
-        <button class="viewbtn active" id="timeBtn" type="button">Time DAG</button>
-        <button class="viewbtn" id="forceBtn" type="button">Relation Force</button>
+        <button class="viewbtn active" id="timeBtn" type="button">Lifecycle Timeline</button>
+        <button class="viewbtn" id="forceBtn" type="button">Evidence Relations</button>
       </div>
-      <p class="hint" id="viewHint">Time DAG: read chronology, later audits, and causal order.</p>
+      <p class="hint" id="viewHint">Lifecycle Timeline: read claim states, later audits, and causal order.</p>
     </div>
     <div class="section">
       <h2>Nodes</h2>
@@ -84,11 +84,11 @@ canvas{width:100%;height:100%;display:block}
   <main class="stage">
     <canvas id="dag"></canvas>
     <div class="legend">
-      <div class="lg"><span class="sw h"></span>hypothesis</div>
+      <div class="lg"><span class="sw h"></span>claim</div>
       <div class="lg"><span class="sw e"></span>evidence</div>
-      <div class="lg"><span class="sw u"></span>frontier / unknown</div>
+      <div class="lg"><span class="sw u"></span>unresolved challenge</div>
       <div class="lg"><span class="sw n"></span>narrative</div>
-      <div class="lg"><span class="sw x"></span>overclaim</div>
+      <div class="lg"><span class="sw x"></span>parked / failed</div>
     </div>
   </main>
   <aside id="right"><div class="detail" id="detail"></div></aside>
@@ -98,23 +98,23 @@ canvas{width:100%;height:100%;display:block}
 const CASE={
   id:"seed_temporal_dag_case",
   title:"From laboratory signal to policy-ready claim",
-  concept:"Structure uncertainty without prematurely resolving it.",
+  concept:"Move contested knowledge from repeated argument into structured state management.",
   nodes:[
     {id:"ev_2018_lab_signal",type:"evidence",title:"Lab assay shows target effect",date:"2018",epistemic_time:2018,tier:"B",summary:"A controlled laboratory assay reports the target effect under narrow conditions.",audit_note:"This supports a lab-scoped claim, not deployment, clinical, industrial, legal, or policy readiness."},
-    {id:"h_2019_lab_scoped",type:"hypothesis",title:"Effect exists under narrow lab conditions",date:"2019",epistemic_time:2019,tier:"B",summary:"It is reasonable to treat the laboratory signal as a scoped working hypothesis.",falsification_condition:"Independent replication under the same protocol fails to reproduce the effect.",audit_note:"This is a bounded claim: lab effect, not real-world usefulness."},
+    {id:"h_2019_lab_scoped",type:"hypothesis",title:"Effect exists under narrow lab conditions",date:"2019",epistemic_time:2019,tier:"B",summary:"It is reasonable to treat the laboratory signal as a scoped working claim.",falsification_condition:"Independent replication under the same protocol fails to reproduce the effect.",audit_note:"This is a bounded claim: lab effect, not real-world usefulness."},
     {id:"ev_2020_replication",type:"evidence",title:"Independent replication partly succeeds",date:"2020",epistemic_time:2020,tier:"B",summary:"A second team observes a weaker but directionally similar effect.",audit_note:"Replication raises confidence in the lab signal while preserving uncertainty about magnitude."},
-    {id:"h_2021_scaleup",type:"hypothesis",title:"The effect may survive scale-up",date:"2021",epistemic_time:2021,tier:"C",frontier:true,summary:"A scale-up hypothesis can be explored, but it remains unresolved.",falsification_condition:"Pilot-scale testing fails to preserve effect size, cost, safety, or energy balance.",audit_note:"This is a frontier claim: plausible enough to test, too weak to treat as established."},
-    {id:"ev_2022_scaleup_failure",type:"evidence",title:"Pilot test loses most of the effect",date:"2022",epistemic_time:2022,tier:"A",summary:"A pilot test reports lower effect size and higher operational cost outside the laboratory setting.",audit_note:"This later evidence weakens the earlier scale-up hypothesis."},
+    {id:"h_2021_scaleup",type:"hypothesis",title:"The effect may survive scale-up",date:"2021",epistemic_time:2021,tier:"C",frontier:true,summary:"A scale-up claim can be explored, but it remains unresolved.",falsification_condition:"Pilot-scale testing fails to preserve effect size, cost, safety, or energy balance.",audit_note:"This is an evidence challenge: plausible enough to test, too weak to treat as established."},
+    {id:"ev_2022_scaleup_failure",type:"evidence",title:"Pilot test loses most of the effect",date:"2022",epistemic_time:2022,tier:"A",summary:"A pilot test reports lower effect size and higher operational cost outside the laboratory setting.",audit_note:"This later evidence weakens the earlier scale-up claim."},
     {id:"unk_2023_energy_balance",type:"unknown",title:"Net energy balance unresolved",date:"2023",epistemic_time:2023,tier:"C",frontier:true,summary:"The total system-level energy balance is not yet known.",falsification_condition:"Full lifecycle accounting shows the process is net negative under realistic operating conditions.",audit_note:"Unknowns remain first-class nodes rather than hidden caveats."},
     {id:"nar_2023_ready_frame",type:"narrative",title:"Readiness narrative",date:"2023",epistemic_time:2023,tier:"M",frontier:true,summary:"A public-facing frame treats the technique as nearly ready for broad use.",audit_note:"Narrative pressure can outrun source-local evidence."},
     {id:"h_2024_policy_ready",type:"hypothesis",title:"Policy-ready deployment claim",date:"2024",epistemic_time:2024,tier:"X",overclaim:true,summary:"The strong claim says the technique is ready for policy mandate or real-world deployment.",falsification_condition:"Pilot-scale or lifecycle evaluation fails under realistic deployment constraints.",audit_note:"This is parked as an overclaim because lab evidence and public narrative do not establish deployment readiness."},
     {id:"lim_2024_needed_tests",type:"falsifier",title:"Required limiting tests",date:"2024",epistemic_time:2024,tier:"C",frontier:true,summary:"Pilot replication, lifecycle accounting, safety testing, and cost sensitivity are needed before the strong claim can move upward.",audit_note:"A claim should say what would weaken it before presenting itself as credible."}
   ],
   edges:[
-    {from:"ev_2018_lab_signal",to:"h_2019_lab_scoped",type:"supports",direction:"forward_time",rationale:"Older lab evidence supports a later lab-scoped hypothesis."},
+    {from:"ev_2018_lab_signal",to:"h_2019_lab_scoped",type:"supports",direction:"forward_time",rationale:"Older lab evidence supports a later lab-scoped claim."},
     {from:"ev_2020_replication",to:"h_2019_lab_scoped",type:"supports",direction:"backward_audit",rationale:"Later replication audits and strengthens the earlier scoped claim."},
     {from:"h_2019_lab_scoped",to:"h_2021_scaleup",type:"motivates",direction:"forward_time",rationale:"A bounded lab signal motivates, but does not prove, scale-up."},
-    {from:"ev_2022_scaleup_failure",to:"h_2021_scaleup",type:"weakens",direction:"backward_audit",rationale:"Later pilot evidence weakens the earlier scale-up hypothesis."},
+    {from:"ev_2022_scaleup_failure",to:"h_2021_scaleup",type:"weakens",direction:"backward_audit",rationale:"Later pilot evidence weakens the earlier scale-up claim."},
     {from:"unk_2023_energy_balance",to:"h_2024_policy_ready",type:"blocks",direction:"forward_time",rationale:"Unresolved system-level energy balance blocks policy readiness."},
     {from:"nar_2023_ready_frame",to:"h_2024_policy_ready",type:"narrative_pressure",direction:"forward_time",rationale:"A public readiness frame pressures the claim upward without adding direct evidence."},
     {from:"ev_2022_scaleup_failure",to:"h_2024_policy_ready",type:"weakens",direction:"forward_time",rationale:"Pilot-scale weakness directly undermines a deployment-ready claim."},
@@ -134,7 +134,7 @@ let forceReady=false;
 
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function short(s,n=38){s=String(s||"");return s.length>n?s.slice(0,n-1)+"...":s;}
-function typeLabel(n){return n.overclaim?"overclaim":n.type;}
+function typeLabel(n){return n.overclaim?"parked claim":n.type==="hypothesis"?"claim":n.type==="falsifier"?"condition":n.type==="unknown"?"challenge":n.type;}
 function nodeColor(n){
   if(n.overclaim||n.tier==="X")return {fill:"#fee2e2",stroke:"#dc2626",ink:"#991b1b"};
   if(n.type==="evidence")return {fill:"#dcfce7",stroke:"#168a5b",ink:"#14532d"};
@@ -374,12 +374,12 @@ function draw(){
   if(viewMode==="time"){
     ctx.strokeStyle="rgba(194,65,12,.75)";ctx.lineWidth=2;
     ctx.beginPath();ctx.moveTo(g.left-28,g.axis);ctx.lineTo(g.right+28,g.axis);ctx.stroke();
-    ctx.fillStyle="#9a3412";ctx.font="700 11px ui-monospace, monospace";ctx.textAlign="left";ctx.fillText("time / audit axis",g.left-28,g.axis-10);
+    ctx.fillStyle="#9a3412";ctx.font="700 11px ui-monospace, monospace";ctx.textAlign="left";ctx.fillText("claim lifecycle axis",g.left-28,g.axis-10);
     ctx.textAlign="center";ctx.fillStyle="#57534e";ctx.font="12px ui-monospace, monospace";
     for(const yr of g.years){const t=(yr-g.min)/(g.max-g.min||1),x=g.left+t*(g.right-g.left);ctx.beginPath();ctx.moveTo(x,g.axis-5);ctx.lineTo(x,g.axis+5);ctx.strokeStyle="rgba(194,65,12,.5)";ctx.stroke();ctx.fillText(yr,x,g.axis+18);}
   }else{
     ctx.fillStyle="#8a7a63";ctx.font="700 11px ui-monospace, monospace";ctx.textAlign="left";
-    ctx.fillText("relation force view: closer nodes share stronger audit relations",24,28);
+    ctx.fillText("evidence relation view: closer nodes share stronger state relations",24,28);
   }
   for(const e of CASE.edges)drawEdge(e,g.axis);
   for(const n of CASE.nodes)drawNode(n,g);
@@ -391,20 +391,20 @@ function hit(mx,my){
 }
 function setSelected(id){selected=id;renderList();renderDetail();draw();}
 function renderList(){
-  document.getElementById("nodeList").innerHTML=CASE.nodes.map(n=>`<button class="nodebtn ${n.id===selected?"active":""}" onclick="setSelected('${esc(n.id)}')"><div class="t">${esc(n.title)}</div><div class="m"><span class="tag">${esc(typeLabel(n))}</span><span class="tag">T${esc(n.epistemic_time)}</span><span class="tag">Tier ${esc(n.tier)}</span>${n.frontier?'<span class="tag frontier">frontier</span>':''}${n.overclaim?'<span class="tag x">parked X</span>':''}</div></button>`).join("");
+  document.getElementById("nodeList").innerHTML=CASE.nodes.map(n=>`<button class="nodebtn ${n.id===selected?"active":""}" onclick="setSelected('${esc(n.id)}')"><div class="t">${esc(n.title)}</div><div class="m"><span class="tag">${esc(typeLabel(n))}</span><span class="tag">T${esc(n.epistemic_time)}</span><span class="tag">Tier ${esc(n.tier)}</span>${n.frontier?'<span class="tag frontier">challenge</span>':''}${n.overclaim?'<span class="tag x">parked X</span>':''}</div></button>`).join("");
 }
 function related(id){return CASE.edges.filter(e=>e.from===id||e.to===id);}
 function renderDetail(){
   const n=byId.get(selected),d=document.getElementById("detail");
   if(!n){d.innerHTML='<div class="empty">Select a node.</div>';return;}
   const rel=related(n.id);
-  d.innerHTML=`<div class="kicker">${esc(typeLabel(n))} / ${esc(n.date)}</div><div class="title">${esc(n.title)}</div><div class="id">${esc(n.id)}</div><div>${[`Tier ${n.tier}`,n.frontier?"frontier":null,n.overclaim?"parked overclaim":null].filter(Boolean).map(x=>`<span class="tag ${x.includes("frontier")?"frontier":x.includes("overclaim")?"x":""}">${esc(x)}</span>`).join(" ")}</div>${n.overclaim?'<div class="box bad"><h3>Overclaim parking</h3>This node remains visible, but the current graph does not allow it to present itself as established.</div>':""}${n.frontier?'<div class="box warn"><h3>Frontier</h3>This is an unresolved node. The system keeps it inspectable instead of forcing a premature conclusion.</div>':""}<p class="desc">${esc(n.summary)}</p>${n.falsification_condition?`<div class="box"><h3>Falsification / limiting condition</h3>${esc(n.falsification_condition)}</div>`:""}${n.audit_note?`<div class="box"><h3>Audit note</h3>${esc(n.audit_note)}</div>`:""}<div class="box"><h3>DAG position</h3>epistemic_time: ${esc(n.epistemic_time)}. Directed relations are checked for cycles in this demo.</div><h3 class="kicker">Relations</h3>${rel.map(e=>{const other=e.from===n.id?e.to:e.from;const dir=e.from===n.id?"to":"from";return `<div class="rel"><b>${esc(e.type)}</b> ${esc(dir)} <button onclick="setSelected('${esc(other)}')">${esc(short(byId.get(other)?.title||other,34))}</button><br>${esc(e.rationale)}</div>`}).join("")||'<div class="empty">No relations.</div>'}`;
+  d.innerHTML=`<div class="kicker">${esc(typeLabel(n))} / ${esc(n.date)}</div><div class="title">${esc(n.title)}</div><div class="id">${esc(n.id)}</div><div>${[`Tier ${n.tier}`,n.frontier?"evidence challenge":null,n.overclaim?"parked claim":null].filter(Boolean).map(x=>`<span class="tag ${x.includes("challenge")?"frontier":x.includes("parked")?"x":""}">${esc(x)}</span>`).join(" ")}</div>${n.overclaim?'<div class="box bad"><h3>Non-destructive downgrade</h3>This claim remains visible, but the current graph parks it until reopening conditions are met.</div>':""}${n.frontier?'<div class="box warn"><h3>Unresolved evidence challenge</h3>This state remains inspectable instead of being upgraded, deleted, or forced into a premature conclusion.</div>':""}<p class="desc">${esc(n.summary)}</p>${n.falsification_condition?`<div class="box"><h3>Downgrade / reopening condition</h3>${esc(n.falsification_condition)}</div>`:""}${n.audit_note?`<div class="box"><h3>State note</h3>${esc(n.audit_note)}</div>`:""}<div class="box"><h3>Lifecycle position</h3>epistemic_time: ${esc(n.epistemic_time)}. Directed state relations are checked for cycles in this demo.</div><h3 class="kicker">Relations</h3>${rel.map(e=>{const other=e.from===n.id?e.to:e.from;const dir=e.from===n.id?"to":"from";return `<div class="rel"><b>${esc(e.type)}</b> ${esc(dir)} <button onclick="setSelected('${esc(other)}')">${esc(short(byId.get(other)?.title||other,34))}</button><br>${esc(e.rationale)}</div>`}).join("")||'<div class="empty">No relations.</div>'}`;
 }
 function renderStatus(){
   const cycles=detectCycles();
   const frontier=CASE.nodes.filter(n=>n.frontier).length;
   const backward=CASE.edges.filter(e=>e.direction==="backward_audit").length;
-  const items=[viewMode==="time"?"time DAG":"relation force",`${CASE.nodes.length} nodes`,`${CASE.edges.length} edges`,cycles.length?"cycle found":"DAG acyclic",`${frontier} frontier`,`${backward} backward audits`];
+  const items=[viewMode==="time"?"lifecycle timeline":"evidence relations",`${CASE.nodes.length} nodes`,`${CASE.edges.length} edges`,cycles.length?"cycle found":"lifecycle acyclic",`${frontier} challenges`,`${backward} reopen/weaken audits`];
   document.getElementById("status").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
 }
 function animate(){
@@ -416,7 +416,7 @@ function setView(mode){
   viewMode=mode;
   document.getElementById("timeBtn").classList.toggle("active",mode==="time");
   document.getElementById("forceBtn").classList.toggle("active",mode==="force");
-  document.getElementById("viewHint").textContent=mode==="time"?"Time DAG: read chronology, later audits, and causal order.":"Relation Force: read proximity, clusters, blockers, and narrative pressure.";
+  document.getElementById("viewHint").textContent=mode==="time"?"Lifecycle Timeline: read claim states, later audits, and causal order.":"Evidence Relations: read proximity, blockers, downgrade pressure, and narrative pressure.";
   renderStatus();
   if(mode==="force"){
     forceReady=false;
