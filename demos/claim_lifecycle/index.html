@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claim Lifecycle Story - Epistemic Audit Graph</title>
+  <style>
+    :root{
+      color-scheme:light;
+      --ink:#17202a;
+      --muted:#5f6c7b;
+      --line:#d7dee8;
+      --soft:#f5f8fb;
+      --paper:#ffffff;
+      --claim:#1f6f8b;
+      --claim-strong:#124e63;
+      --good:#168a5b;
+      --warn:#a46112;
+      --bad:#c2410c;
+      --reopen:#5d4fb4;
+      --shadow:0 18px 42px rgba(23,32,42,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);
+      background:#eef4f8;
+      line-height:1.5;
+    }
+    .shell{
+      min-height:100vh;
+      display:grid;
+      grid-template-rows:auto 1fr;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:14px 18px;
+      border-bottom:1px solid var(--line);
+      background:#0f1f2b;
+      color:#fff;
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      line-height:1.2;
+      letter-spacing:0;
+    }
+    .tagline{
+      margin:3px 0 0;
+      color:#c9d7e3;
+      font-size:12px;
+    }
+    .top-links{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .top-links a{
+      color:#e8f4fb;
+      border:1px solid rgba(232,244,251,.35);
+      border-radius:8px;
+      padding:7px 10px;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:700;
+    }
+    main{
+      width:min(1420px,100%);
+      margin:0 auto;
+      padding:16px;
+      display:grid;
+      grid-template-columns:300px minmax(0,1fr) 360px;
+      gap:16px;
+      min-height:0;
+    }
+    section,aside{
+      min-width:0;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:8px;
+      box-shadow:var(--shadow);
+    }
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:13px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .panel-title{
+      margin:0;
+      color:#344354;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      min-height:25px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid var(--warn);
+      background:#fff7ed;
+      color:#8a4b0a;
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .status-pill.ready{
+      border-color:var(--reopen);
+      background:#f4f1ff;
+      color:#45359b;
+    }
+    .timeline{
+      padding:12px;
+      display:grid;
+      gap:9px;
+    }
+    .state-btn{
+      width:100%;
+      display:grid;
+      grid-template-columns:34px 1fr;
+      gap:10px;
+      align-items:start;
+      min-height:70px;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      color:var(--ink);
+      text-align:left;
+      cursor:pointer;
+    }
+    .state-btn:hover{border-color:#97b4ca;background:#f7fbfd}
+    .state-btn.active{border-color:var(--claim);background:#eff8fb}
+    .state-dot{
+      width:30px;
+      height:30px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      background:var(--claim);
+      font-size:12px;
+      font-weight:900;
+      margin-top:1px;
+    }
+    .state-btn[data-state="parked"] .state-dot{background:var(--warn)}
+    .state-btn[data-state="reopened"] .state-dot{background:var(--reopen)}
+    .state-name{
+      display:block;
+      margin:0 0 2px;
+      font-size:13px;
+      font-weight:850;
+      text-transform:capitalize;
+    }
+    .state-copy{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .stage{
+      display:grid;
+      grid-template-rows:auto auto 1fr;
+      min-height:720px;
+    }
+    .claim-hero{
+      padding:16px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(135deg,#ffffff 0%,#f0f8fb 100%);
+    }
+    .claim-label{
+      margin:0 0 7px;
+      color:var(--claim-strong);
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .claim-text{
+      max-width:900px;
+      margin:0;
+      font-size:27px;
+      line-height:1.18;
+      letter-spacing:0;
+      font-weight:850;
+    }
+    .parked-callout{
+      margin:14px 0 0;
+      display:grid;
+      grid-template-columns:170px minmax(0,1fr);
+      gap:12px;
+      align-items:stretch;
+    }
+    .callout-state,
+    .callout-rule{
+      border:1px solid #e6c28a;
+      border-radius:8px;
+      background:#fff9ef;
+      padding:12px;
+    }
+    .callout-state strong,
+    .callout-rule strong{
+      display:block;
+      margin:0 0 4px;
+      color:#8a4b0a;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .callout-state span,
+    .callout-rule span{
+      display:block;
+      color:#4d5562;
+      font-size:13px;
+    }
+    .state-detail{
+      padding:16px;
+      border-bottom:1px solid var(--line);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .detail-block{
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:12px;
+      background:#fff;
+      min-height:132px;
+    }
+    .detail-block h3{
+      margin:0 0 8px;
+      color:#344354;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .detail-block p{
+      margin:0;
+      color:#334155;
+      font-size:14px;
+    }
+    .graph-zone{
+      padding:16px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 260px;
+      gap:16px;
+      align-items:stretch;
+    }
+    .graph{
+      min-height:320px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#f8fbfd;
+      overflow:hidden;
+      position:relative;
+    }
+    svg{width:100%;height:100%;display:block}
+    .node circle,
+    .node rect{
+      stroke-width:2;
+      filter:drop-shadow(0 8px 14px rgba(23,32,42,.10));
+    }
+    .node text{
+      font-size:12px;
+      font-weight:800;
+      fill:#17202a;
+      pointer-events:none;
+    }
+    .edge{
+      fill:none;
+      stroke-width:2.5;
+      marker-end:url(#arrow);
+    }
+    .edge.supports{stroke:var(--good)}
+    .edge.weakens{stroke:var(--bad)}
+    .edge.blocks{stroke:var(--warn);stroke-dasharray:7 5}
+    .legend{
+      display:grid;
+      gap:8px;
+      align-content:start;
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:12px;
+      background:#fff;
+    }
+    .legend-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#445264;
+      font-size:12px;
+    }
+    .swatch{
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      border:2px solid currentColor;
+      flex:0 0 auto;
+    }
+    .swatch.source{color:#64748b;background:#eef2f7}
+    .swatch.evidence{color:var(--good);background:#e7f8ef}
+    .swatch.claim{color:var(--claim);background:#e8f5fa}
+    .swatch.parked{color:var(--warn);background:#fff4df}
+    .swatch.challenge{color:var(--reopen);background:#f2efff}
+    .side-panel{
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      min-height:720px;
+    }
+    .challenge-list{
+      padding:12px;
+      display:grid;
+      gap:10px;
+      align-content:start;
+    }
+    .challenge{
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:11px;
+      background:#fff;
+    }
+    .challenge.required{border-color:#e8b36b;background:#fff9ef}
+    .challenge.done{border-color:#98d6b4;background:#f0fbf5}
+    .challenge-top{
+      display:flex;
+      gap:9px;
+      align-items:flex-start;
+    }
+    .challenge input{
+      margin-top:3px;
+      width:16px;
+      height:16px;
+      flex:0 0 auto;
+      accent-color:var(--claim);
+    }
+    .challenge strong{
+      display:block;
+      color:#263445;
+      font-size:13px;
+      line-height:1.35;
+    }
+    .challenge span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+    .challenge-meta{
+      margin-top:8px;
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .chip{
+      border:1px solid #cad5e1;
+      border-radius:999px;
+      padding:2px 7px;
+      color:#4c5a6a;
+      font-size:10px;
+      font-weight:750;
+      text-transform:uppercase;
+    }
+    .chip.required{
+      border-color:#e6b16c;
+      color:#8a4b0a;
+      background:#fff5e7;
+    }
+    .decision{
+      border-top:1px solid var(--line);
+      padding:14px;
+      background:#f8fbfd;
+    }
+    .meter{
+      height:9px;
+      border-radius:999px;
+      background:#dde7ef;
+      overflow:hidden;
+      margin:8px 0 11px;
+    }
+    .meter-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--warn),var(--reopen));
+      transition:width .2s ease;
+    }
+    .decision p{
+      margin:0 0 12px;
+      color:#405064;
+      font-size:13px;
+    }
+    .reopen-btn{
+      width:100%;
+      min-height:42px;
+      border:1px solid var(--reopen);
+      border-radius:8px;
+      background:var(--reopen);
+      color:#fff;
+      font-weight:850;
+      cursor:pointer;
+    }
+    .reopen-btn:disabled{
+      cursor:not-allowed;
+      border-color:#cbd5e1;
+      background:#e2e8f0;
+      color:#64748b;
+    }
+    @media(max-width:1100px){
+      main{grid-template-columns:250px minmax(0,1fr)}
+      .side-panel{grid-column:1 / 3;min-height:auto}
+      .challenge-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .decision{border-top:1px solid var(--line)}
+    }
+    @media(max-width:780px){
+      header{align-items:flex-start;flex-direction:column}
+      .top-links{justify-content:flex-start}
+      main{grid-template-columns:1fr;padding:10px}
+      .stage,.side-panel{grid-column:auto;min-height:auto}
+      .claim-text{font-size:22px}
+      .parked-callout,
+      .state-detail,
+      .graph-zone,
+      .challenge-list{grid-template-columns:1fr}
+      .graph{min-height:360px}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div>
+        <h1>Claim Lifecycle Story</h1>
+        <p class="tagline">Dispute to evidence challenge to reopenable state</p>
+      </div>
+      <nav class="top-links" aria-label="Demo navigation">
+        <a href="../../">Demo hub</a>
+        <a href="../../frontend/index.html">Validation dashboard</a>
+        <a href="../../demos/kpg_extinction/index.html">K-Pg graph</a>
+      </nav>
+    </header>
+
+    <main>
+      <aside aria-label="Claim lifecycle">
+        <div class="panel-head">
+          <h2 class="panel-title">Claim lifecycle</h2>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </aside>
+
+      <section class="stage" aria-label="Claim state demo">
+        <div class="claim-hero">
+          <p class="claim-label">Contested claim</p>
+          <p class="claim-text">The lab result proves the technique is ready for real-world deployment.</p>
+          <div class="parked-callout">
+            <div class="callout-state">
+              <strong id="currentStatus">Parked</strong>
+              <span id="currentReason">The source supports a lab-scoped effect, not deployment readiness.</span>
+            </div>
+            <div class="callout-rule">
+              <strong>Reopen if</strong>
+              <span id="reopenRule">Independent pilot evidence addresses scale-up, safety, cost, and lifecycle limits.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="state-detail">
+          <article class="detail-block">
+            <h3 id="detailAHead">Source says</h3>
+            <p id="detailA"></p>
+          </article>
+          <article class="detail-block">
+            <h3 id="detailBHead">Inference made</h3>
+            <p id="detailB"></p>
+          </article>
+        </div>
+
+        <div class="graph-zone">
+          <div class="graph" aria-label="Claim-state graph">
+            <svg viewBox="0 0 820 360" role="img" aria-labelledby="graphTitle graphDesc">
+              <title id="graphTitle">Claim-state graph</title>
+              <desc id="graphDesc">Evidence supports a narrow claim, weakens an overclaim, and points to reopening challenges.</desc>
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+                  <path d="M0,0 L0,6 L9,3 z" fill="#596a7d"></path>
+                </marker>
+              </defs>
+              <path class="edge supports" d="M126 90 C205 66, 255 66, 334 90"></path>
+              <path class="edge supports" d="M128 264 C204 291, 257 288, 336 252"></path>
+              <path class="edge weakens" d="M486 110 C560 128, 604 145, 674 172"></path>
+              <path class="edge blocks" d="M496 252 C567 244, 609 224, 674 196"></path>
+              <g class="node">
+                <circle cx="90" cy="90" r="42" fill="#eef2f7" stroke="#64748b"></circle>
+                <text x="90" y="86" text-anchor="middle">Source</text>
+                <text x="90" y="103" text-anchor="middle">text</text>
+              </g>
+              <g class="node">
+                <circle cx="90" cy="264" r="42" fill="#e7f8ef" stroke="#168a5b"></circle>
+                <text x="90" y="260" text-anchor="middle">Pilot</text>
+                <text x="90" y="277" text-anchor="middle">test</text>
+              </g>
+              <g class="node">
+                <circle cx="390" cy="90" r="48" fill="#e8f5fa" stroke="#1f6f8b"></circle>
+                <text x="390" y="86" text-anchor="middle">Lab-scoped</text>
+                <text x="390" y="103" text-anchor="middle">claim</text>
+              </g>
+              <g class="node">
+                <rect x="340" y="204" width="110" height="86" rx="8" fill="#f2efff" stroke="#5d4fb4"></rect>
+                <text x="395" y="241" text-anchor="middle">Reopening</text>
+                <text x="395" y="258" text-anchor="middle">conditions</text>
+              </g>
+              <g class="node">
+                <circle cx="724" cy="184" r="52" fill="#fff4df" stroke="#a46112"></circle>
+                <text x="724" y="172" text-anchor="middle">Deployment</text>
+                <text x="724" y="189" text-anchor="middle">claim</text>
+                <text x="724" y="206" text-anchor="middle">parked</text>
+              </g>
+            </svg>
+          </div>
+          <div class="legend" aria-label="Graph legend">
+            <div class="legend-row"><span class="swatch source"></span>source wording</div>
+            <div class="legend-row"><span class="swatch evidence"></span>supporting or limiting evidence</div>
+            <div class="legend-row"><span class="swatch claim"></span>scoped claim</div>
+            <div class="legend-row"><span class="swatch parked"></span>parked overclaim</div>
+            <div class="legend-row"><span class="swatch challenge"></span>reopening condition</div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel" aria-label="Evidence challenges">
+        <div class="panel-head">
+          <h2 class="panel-title">Evidence challenges</h2>
+          <span class="status-pill" id="challengeStatus">Parked</span>
+        </div>
+        <div class="challenge-list" id="challengeList"></div>
+        <div class="decision">
+          <strong id="progressLabel">0 of 4 reopening conditions met</strong>
+          <div class="meter" aria-hidden="true"><div class="meter-fill" id="meterFill"></div></div>
+          <p id="decisionCopy">The claim stays parked. The next useful work is evidence collection, not another argument thread.</p>
+          <button class="reopen-btn" type="button" id="reopenBtn" disabled>Reopen claim for review</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const states = [
+      {
+        id: "proposed",
+        title: "proposed",
+        copy: "A strong deployment claim enters the graph.",
+        status: "Proposed",
+        reason: "The claim is visible, but source scope has not been audited.",
+        source: "The source reports a controlled laboratory effect under narrow conditions.",
+        inference: "The proposed claim jumps from lab effect to real-world deployment readiness."
+      },
+      {
+        id: "supported",
+        title: "supported",
+        copy: "Evidence supports the narrow lab-scoped version.",
+        status: "Supported",
+        reason: "The lab-scoped claim has support, but the deployment claim does not.",
+        source: "A replication observes a directionally similar laboratory signal.",
+        inference: "A narrow claim can move upward: the effect exists under tested lab conditions."
+      },
+      {
+        id: "contested",
+        title: "contested",
+        copy: "Pilot evidence challenges the stronger inference.",
+        status: "Contested",
+        reason: "Scale-up evidence conflicts with the deployment-ready framing.",
+        source: "A pilot test reports lower effect size and higher operating cost.",
+        inference: "The strong claim now needs scale-up evidence, not another citation to the lab result."
+      },
+      {
+        id: "weakened",
+        title: "weakened",
+        copy: "The graph downgrades the overclaim without deleting it.",
+        status: "Weakened",
+        reason: "The source-lineage audit shows that inference strength outruns source strength.",
+        source: "Source wording remains preserved: lab effect under narrow conditions.",
+        inference: "Deployment readiness is downgraded to an unresolved scale-up hypothesis."
+      },
+      {
+        id: "parked",
+        title: "parked",
+        copy: "The claim remains visible with reasons and reopening conditions.",
+        status: "Parked",
+        reason: "The source supports a lab-scoped effect, not deployment readiness.",
+        source: "Current evidence includes lab support, partial replication, and pilot-scale limits.",
+        inference: "The claim is not accepted and not erased. It waits for the listed evidence challenges."
+      },
+      {
+        id: "reopened",
+        title: "reopened",
+        copy: "New evidence can reopen the claim for human review.",
+        status: "Reopened",
+        reason: "All required reopening conditions have been marked as addressed.",
+        source: "The new evidence package addresses pilot replication, lifecycle accounting, counterevidence, and source lineage.",
+        inference: "The claim is reopened for review. It is still not automatically accepted."
+      }
+    ];
+
+    const challenges = [
+      {
+        id: "pilot",
+        title: "Independent pilot replication",
+        text: "Show that the effect survives realistic scale-up with comparable effect size.",
+        tags: ["required", "scale-up"]
+      },
+      {
+        id: "lifecycle",
+        title: "Lifecycle accounting",
+        text: "Report energy, cost, safety, and failure modes under deployment conditions.",
+        tags: ["required", "limits"]
+      },
+      {
+        id: "counter",
+        title: "Counterevidence response",
+        text: "Address the pilot result that weakened the original deployment claim.",
+        tags: ["required", "review"]
+      },
+      {
+        id: "lineage",
+        title: "Source-lineage audit",
+        text: "Separate what each source says from the stronger inference being proposed.",
+        tags: ["required", "lineage"]
+      }
+    ];
+
+    const timeline = document.getElementById("timeline");
+    const challengeList = document.getElementById("challengeList");
+    const currentStatus = document.getElementById("currentStatus");
+    const currentReason = document.getElementById("currentReason");
+    const detailA = document.getElementById("detailA");
+    const detailB = document.getElementById("detailB");
+    const challengeStatus = document.getElementById("challengeStatus");
+    const progressLabel = document.getElementById("progressLabel");
+    const meterFill = document.getElementById("meterFill");
+    const decisionCopy = document.getElementById("decisionCopy");
+    const reopenBtn = document.getElementById("reopenBtn");
+    let selected = "parked";
+
+    function renderTimeline(){
+      timeline.innerHTML = states.map((state, index) => `
+        <button class="state-btn${state.id === selected ? " active" : ""}" type="button" data-state="${state.id}">
+          <span class="state-dot">${index + 1}</span>
+          <span>
+            <span class="state-name">${state.title}</span>
+            <span class="state-copy">${state.copy}</span>
+          </span>
+        </button>
+      `).join("");
+      timeline.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          selected = button.dataset.state;
+          render();
+        });
+      });
+    }
+
+    function renderState(){
+      const state = states.find((item) => item.id === selected) || states[4];
+      currentStatus.textContent = state.status;
+      currentReason.textContent = state.reason;
+      detailA.textContent = state.source;
+      detailB.textContent = state.inference;
+    }
+
+    function renderChallenges(){
+      const checked = challenges.filter((challenge) => document.getElementById(`challenge-${challenge.id}`)?.checked).length;
+      challengeList.innerHTML = challenges.map((challenge) => {
+        const prior = document.getElementById(`challenge-${challenge.id}`)?.checked || false;
+        const classes = `challenge required${prior ? " done" : ""}`;
+        return `
+          <label class="${classes}">
+            <span class="challenge-top">
+              <input id="challenge-${challenge.id}" type="checkbox" ${prior ? "checked" : ""}>
+              <span>
+                <strong>${challenge.title}</strong>
+                <span>${challenge.text}</span>
+              </span>
+            </span>
+            <span class="challenge-meta">
+              ${challenge.tags.map((tag) => `<span class="chip${tag === "required" ? " required" : ""}">${tag}</span>`).join("")}
+            </span>
+          </label>
+        `;
+      }).join("");
+      challengeList.querySelectorAll("input").forEach((input) => {
+        input.addEventListener("change", () => {
+          if(input.checked){
+            input.closest(".challenge").classList.add("done");
+          }else{
+            input.closest(".challenge").classList.remove("done");
+          }
+          renderProgress();
+        });
+      });
+      renderProgress(checked);
+    }
+
+    function renderProgress(seed){
+      const checked = typeof seed === "number"
+        ? seed
+        : challenges.filter((challenge) => document.getElementById(`challenge-${challenge.id}`)?.checked).length;
+      const total = challenges.length;
+      const ready = checked === total;
+      progressLabel.textContent = `${checked} of ${total} reopening conditions met`;
+      meterFill.style.width = `${Math.round((checked / total) * 100)}%`;
+      reopenBtn.disabled = !ready;
+      challengeStatus.textContent = ready ? "Ready to reopen" : "Parked";
+      challengeStatus.classList.toggle("ready", ready);
+      decisionCopy.textContent = ready
+        ? "The evidence package is sufficient to reopen the claim for review. Reopening is not automatic acceptance."
+        : "The claim stays parked. The next useful work is evidence collection, not another argument thread.";
+    }
+
+    reopenBtn.addEventListener("click", () => {
+      selected = "reopened";
+      render();
+      window.scrollTo({top:0,behavior:"smooth"});
+    });
+
+    function render(){
+      renderTimeline();
+      renderState();
+      renderChallenges();
+    }
+
+    render();
+  </script>
+</body>
+</html>

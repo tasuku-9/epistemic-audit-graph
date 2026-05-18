@@ -6,10 +6,13 @@
 
 Open this first to see the project as a claim lifecycle system. The repository explains the model, validator, and sample cases after the demo entry point.
 
+**First demo:** [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
+
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
 Primary demo routes:
 
+- [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
 - [Claim lifecycle dashboard](https://tasuku-9.github.io/epistemic-audit-graph/frontend/index.html)
 - [K-Pg claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/kpg_extinction/index.html)
 - [Bronze Age claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/bronze_age_collapse/index.html)
@@ -59,6 +62,7 @@ and addresses the listed counterevidence.
 
 Local paths:
 
+- Claim lifecycle story: `demos/claim_lifecycle/index.html`
 - Claim lifecycle dashboard: `frontend/index.html`
 - K-Pg claim-state graph: `demos/kpg_extinction/index.html`
 - Bronze Age claim-state graph: `demos/bronze_age_collapse/index.html`
