@@ -6,7 +6,7 @@
 
 Open this first to see the project as a claim lifecycle system. The repository explains the model, validator, and sample cases after the demo entry point.
 
-**First demo:** [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
+**First demo:** [Claim Cascade](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html)
 
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
@@ -14,6 +14,7 @@ The goal is not only to map disputes, but to make them actionable: each conteste
 
 Primary demo routes:
 
+- [Claim Cascade: first-touch interactive demo](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html)
 - [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
 - [Claim lifecycle dashboard](https://tasuku-9.github.io/epistemic-audit-graph/frontend/index.html)
 - [K-Pg claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/kpg_extinction/index.html)
@@ -91,6 +92,7 @@ and addresses the listed counterevidence.
 
 Local paths:
 
+- Claim Cascade first-touch demo: `demos/park_or_reopen/index.html`
 - Claim lifecycle story: `demos/claim_lifecycle/index.html`
 - Claim lifecycle dashboard: `frontend/index.html`
 - K-Pg claim-state graph: `demos/kpg_extinction/index.html`

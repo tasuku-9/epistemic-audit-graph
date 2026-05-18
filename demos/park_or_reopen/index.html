@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Claim Cascade</title>
+<style>
+:root{
+  --bg:#0b0f18;--s1:#111827;--s2:#1a2535;
+  --bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.13);
+  --tx:#bfcfdf;--mu:#4d6278;
+  --am:#f59e0b;--am1:rgba(245,158,11,.13);--am2:rgba(245,158,11,.28);
+  --gn:#22c55e;--gn1:rgba(34,197,94,.1);--gn2:rgba(34,197,94,.25);
+  --vi:#7c6ef0;--vi1:rgba(124,110,240,.1);--vi2:rgba(124,110,240,.25);
+  --re:#ef4444;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--tx);background:var(--bg);line-height:1.5;font-size:14px}
+button{font:inherit;cursor:pointer}
+h1,h2,h3,p{margin:0}
+.shell{width:min(1180px,calc(100% - 24px));margin:0 auto;padding:20px 0 32px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px}
+.brand{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.steps{display:flex;align-items:center}
+.step{display:flex;align-items:center}
+.step-dot{width:26px;height:26px;border-radius:50%;border:1px solid var(--bd2);background:var(--s1);color:var(--mu);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.step-dot.on{border-color:var(--am);background:var(--am);color:#000}
+.step-line{width:28px;height:1px;background:var(--bd2)}
+.cases{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.case-btn{border:1px solid var(--bd);border-radius:6px;background:var(--s1);color:var(--mu);padding:10px 12px;text-align:left;transition:all .15s}
+.case-btn:hover{border-color:var(--bd2);color:var(--tx)}
+.case-btn.on{border-color:var(--am2);background:var(--am1);color:var(--am)}
+.case-lv{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.case-q{font-size:13px;font-weight:600;line-height:1.3}
+.case-hint{font-size:11px;color:var(--mu);margin-top:2px}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:12px;align-items:start}
+.surface{border:1px solid var(--bd);border-radius:8px;background:var(--s1);min-height:700px;overflow:hidden}
+.scene{display:none;min-height:700px;padding:24px;flex-direction:column;gap:20px}
+.scene.on{display:flex;animation:fi .22s ease both}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.kicker.am{color:var(--am)}.kicker.gn{color:var(--gn)}.kicker.vi{color:var(--vi)}
+.q-text{font-family:Georgia,"Times New Roman",serif;font-size:clamp(40px,6vw,72px);line-height:1.05;letter-spacing:-.5px;color:#e8f0f8;margin-bottom:12px}
+.q-lead{font-size:15px;color:var(--mu);max-width:640px;margin-bottom:20px}
+.yn-row{display:flex;gap:14px}
+.yn-btn{width:160px;height:140px;border:1px solid var(--bd2);border-radius:8px;background:var(--s2);color:var(--mu);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:all .18s}
+.yn-btn:hover,.yn-btn.on{border-color:var(--am);background:var(--am1);color:var(--am);transform:translateY(-2px)}
+.yn-letter{font-family:Georgia,serif;font-size:72px;line-height:1;font-weight:700}
+.yn-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.split-head{font-family:Georgia,serif;font-size:clamp(28px,4vw,48px);line-height:1.08;color:#e8f0f8;margin-bottom:6px}
+.answer-line{font-size:15px;color:var(--mu)}
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cc{border:1px solid;border-radius:7px;padding:14px}
+.cc.yes{border-color:var(--gn2);background:var(--gn1)}
+.cc.no{border-color:var(--vi2);background:var(--vi1)}
+.cc.broad{border-color:var(--am2);background:var(--am1)}
+.cc-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.cc.yes .cc-lbl{color:var(--gn)}.cc.no .cc-lbl{color:var(--vi)}.cc.broad .cc-lbl{color:var(--am)}
+.cc-txt{font-size:14px;line-height:1.55;color:var(--tx)}
+.pill{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid;margin-top:8px}
+.pill.ok{color:var(--gn);border-color:var(--gn2);background:var(--gn1)}
+.pill.open{color:var(--vi);border-color:var(--vi2);background:var(--vi1)}
+.pill.pk{color:var(--am);border-color:var(--am2);background:var(--am1)}
+.park-head{font-family:Georgia,serif;font-size:clamp(26px,3.5vw,42px);line-height:1.1;color:#e8f0f8;margin-bottom:6px}
+.park-sub{font-size:15px;color:var(--mu)}
+.park-box{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.big-park{border:1px solid var(--am2);border-radius:7px;padding:18px;background:var(--am1)}
+.bp-badge{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--am);color:#000;margin-bottom:10px}
+.bp-claim{font-family:Georgia,serif;font-size:26px;line-height:1.2;color:#f5d78e;margin-bottom:10px}
+.bp-reason{font-size:13px;color:rgba(245,158,11,.75);line-height:1.6}
+.ch-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:360px}
+.ch{border:1px solid var(--vi2);border-radius:6px;padding:11px;background:var(--vi1)}
+.ch-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--vi);margin-bottom:5px}
+.ch-text{font-size:12px;color:#9aa8c0;white-space:pre-line;line-height:1.65}
+.task-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.task-card{border:1px solid var(--bd);border-radius:7px;padding:14px;background:var(--s2)}
+.task-card.primary-task{border-color:var(--am2);background:var(--am1)}
+.task-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--am);margin-bottom:6px}
+.task-card:nth-child(2) .task-title{color:var(--gn)}
+.task-card:nth-child(3) .task-title{color:var(--vi)}
+.task-card:nth-child(4) .task-title{color:var(--re)}
+.task-body{font-size:13px;color:#9aa8c0;line-height:1.65;white-space:pre-line}
+.task-impact{margin-top:10px;padding-top:9px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu);line-height:1.45}
+.task-impact strong{display:block;color:var(--tx);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.graph-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.graph-title{font-family:Georgia,serif;font-size:clamp(22px,3vw,36px);line-height:1.1;color:#e8f0f8}
+.graph-badge{border:1px solid var(--bd2);border-radius:5px;padding:7px 11px;font-size:11px;font-weight:700;color:var(--mu);white-space:nowrap;font-family:monospace}
+.graph-wrap{flex:1;border:1px solid var(--bd);border-radius:7px;background:#0d1520;position:relative;overflow:hidden;min-height:420px}
+#gc{display:block;width:100%;height:100%}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--mu);font-size:11px;font-family:monospace}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:18px;height:2px;display:inline-block;background:var(--gn)}
+.legend .park i{background:var(--am)}
+.legend .open i{background:var(--vi)}
+.legend .dash i{background:repeating-linear-gradient(90deg,var(--vi) 0 5px,transparent 5px 9px)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:2px}
+.btn-p{height:40px;padding:0 18px;border:1px solid var(--am);border-radius:6px;background:var(--am);color:#000;font-size:13px;font-weight:700;transition:all .15s}
+.btn-p:hover{background:transparent;color:var(--am)}
+.btn-g{height:40px;padding:0 16px;border:1px solid var(--bd2);border-radius:6px;background:transparent;color:var(--mu);font-size:13px;font-weight:600;transition:all .15s}
+.btn-g:hover{border-color:var(--tx);color:var(--tx)}
+.panel{border:1px solid var(--bd);border-radius:8px;background:var(--s1);min-height:700px;display:flex;flex-direction:column;overflow:hidden}
+.ph{padding:14px 16px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.ph-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.ph-sub{font-size:13px;color:var(--tx)}
+.view-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.view-toggle.hidden{display:none}
+.view-toggle button{height:30px;border:1px solid var(--bd2);border-radius:5px;background:transparent;color:var(--mu);font-size:11px;font-weight:700;transition:all .15s}
+.view-toggle button:hover{border-color:var(--tx);color:var(--tx)}
+.view-toggle button.on{border-color:var(--am2);background:var(--am1);color:var(--am)}
+.pb{padding:14px 16px;flex:1;overflow-y:auto}
+.panel.struct-on .pb{display:none}
+.sc{border:1px solid var(--bd);border-radius:6px;padding:11px 13px;background:var(--s2);margin-bottom:8px}
+.sc-t{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+.sc-b{font-size:13px;color:var(--tx);white-space:pre-line;line-height:1.6}
+.struct-btn{width:calc(100% - 32px);height:36px;border:1px solid var(--bd2);border-radius:5px;background:transparent;color:var(--mu);font-size:12px;font-weight:600;transition:all .15s;margin:0 16px 12px;flex-shrink:0}
+.struct-btn:hover{border-color:var(--tx);color:var(--tx)}
+.sa{display:none;padding:12px 16px;border-top:1px solid var(--bd);flex-direction:column;gap:8px;overflow-y:auto;flex:1}
+.sa.on{display:flex}
+.panel.struct-on .sa{border-top:0}
+.sc2{border:1px solid var(--bd);border-radius:6px;padding:11px 13px;background:var(--s2)}
+.sc2.pk{border-color:var(--am2);background:var(--am1)}
+.sc2.ok{border-color:var(--gn2);background:var(--gn1)}
+.sc2.ch{border-color:var(--vi2);background:var(--vi1)}
+.sc2.re{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.06)}
+.sc2 h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.sc2.pk h3{color:var(--am)}.sc2.ok h3{color:var(--gn)}.sc2.ch h3{color:var(--vi)}.sc2.re h3{color:var(--re)}
+.sc2 p{font-size:12px;color:#8aa0ba;white-space:pre-line;line-height:1.65}
+.sc2-rule{margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);font-size:11px;color:var(--mu)}
+.sc2-rule strong{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px;color:var(--mu)}
+@media(max-width:960px){.layout{grid-template-columns:1fr}.panel{min-height:auto}}
+@media(max-width:700px){.cases{grid-template-columns:1fr 1fr}.yn-btn{width:130px;height:116px}.yn-letter{font-size:56px}.park-box,.split-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <span class="brand">Claim Cascade</span>
+    <div class="steps">
+      <div class="step"><div class="step-dot" id="d1">1</div></div>
+      <div class="step"><div class="step-line"></div><div class="step-dot" id="d2">2</div></div>
+      <div class="step"><div class="step-line"></div><div class="step-dot" id="d3">3</div></div>
+      <div class="step"><div class="step-line"></div><div class="step-dot" id="d4">4</div></div>
+      <div class="step"><div class="step-line"></div><div class="step-dot" id="d5">5</div></div>
+    </div>
+  </header>
+
+  <nav class="cases">
+    <button class="case-btn" data-case="tomato">
+      <div class="case-lv">Lv.1</div>
+      <div class="case-q">Is a tomato a vegetable?</div>
+      <div class="case-hint">context-dependent classification</div>
+    </button>
+    <button class="case-btn" data-case="dino">
+      <div class="case-lv">Lv.2</div>
+      <div class="case-q">Did dinosaurs go extinct?</div>
+      <div class="case-hint">definition boundary</div>
+    </button>
+    <button class="case-btn" data-case="pluto">
+      <div class="case-lv">Lv.3</div>
+      <div class="case-q">Is Pluto a planet?</div>
+      <div class="case-hint">authority and temporal scope</div>
+    </button>
+    <button class="case-btn" data-case="ai">
+      <div class="case-lv">Lv.4</div>
+      <div class="case-q">Does AI understand?</div>
+      <div class="case-hint">evaluation threshold and grounding</div>
+    </button>
+  </nav>
+
+  <div class="layout">
+    <main class="surface">
+
+      <section class="scene" id="sc-question">
+        <p class="kicker am">Claim surface</p>
+        <div>
+          <p class="q-text" id="qText"></p>
+          <p class="q-lead" id="qLead"></p>
+        </div>
+        <div class="yn-row">
+          <button class="yn-btn" id="btn-yes" data-a="yes">
+            <span class="yn-letter">Y</span>
+            <span class="yn-label">Yes</span>
+          </button>
+          <button class="yn-btn" id="btn-no" data-a="no">
+            <span class="yn-letter">N</span>
+            <span class="yn-label">No</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="scene" id="sc-split">
+        <div>
+          <p class="kicker gn">Scoped readings</p>
+          <p class="split-head">The answer split into scoped claims.</p>
+          <p class="answer-line" id="answerLine"></p>
+        </div>
+        <div class="split-grid">
+          <article class="cc yes">
+            <div class="cc-lbl">What YES captures</div>
+            <p class="cc-txt" id="yesText"></p>
+            <span class="pill ok">accepted with caveat</span>
+          </article>
+          <article class="cc no">
+            <div class="cc-lbl">What NO uncovers</div>
+            <p class="cc-txt" id="noText"></p>
+            <span class="pill open">caveat active</span>
+          </article>
+        </div>
+        <article class="cc broad">
+          <div class="cc-lbl">Original claim — too broad</div>
+          <p class="cc-txt" id="broadText"></p>
+        </article>
+        <div class="actions">
+          <button class="btn-p" id="btn-toParked">Park this claim</button>
+          <button class="btn-g" id="btn-backToQ">Answer again</button>
+        </div>
+      </section>
+
+      <section class="scene" id="sc-parked">
+        <div>
+          <p class="kicker am">Claim state: PARKED</p>
+          <p class="park-head">Not deleted. Not accepted. Conditions preserved.</p>
+          <p class="park-sub">Parked means reopenable under stated evidence, refutation, or context conditions.</p>
+        </div>
+        <div class="park-box">
+          <article class="big-park">
+            <div class="bp-badge">PARKED</div>
+            <div class="bp-claim" id="parkedClaim"></div>
+            <p class="bp-reason" id="parkedReason"></p>
+          </article>
+          <div class="ch-list" id="challengeList"></div>
+        </div>
+        <div class="actions">
+          <button class="btn-p" id="btn-toGraph">Open claim graph</button>
+          <button class="btn-g" id="btn-backToSplit">Back</button>
+        </div>
+      </section>
+
+      <section class="scene" id="sc-graph" style="gap:14px">
+        <div class="graph-hd">
+          <div>
+            <p class="kicker vi">Claim graph</p>
+            <p class="graph-title" id="graphTitle"></p>
+          </div>
+          <div class="graph-badge">Y/N → parked → challenges</div>
+        </div>
+        <div class="graph-wrap">
+          <canvas id="gc"></canvas>
+        </div>
+        <div class="legend" aria-label="graph legend">
+          <span><i></i>supports</span>
+          <span class="park"><i></i>parked</span>
+          <span class="open dash"><i></i>contested / reopenable</span>
+        </div>
+        <div class="actions">
+          <button class="btn-p" id="btn-toActions">Show next actions</button>
+          <button class="btn-g" id="btn-struct">View structure cards</button>
+        </div>
+      </section>
+
+      <section class="scene" id="sc-actions">
+        <div>
+          <p class="kicker gn">Next actions</p>
+          <p class="park-head">What would move this claim state?</p>
+          <p class="park-sub">The dispute is now a set of small, assignable evidence tasks.</p>
+        </div>
+        <div class="task-grid" id="taskGrid"></div>
+        <div class="actions">
+          <button class="btn-p" id="btn-restart">Start over</button>
+          <button class="btn-g" id="btn-backToGraph">Back to graph</button>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="panel" id="sidePanel">
+      <div class="ph">
+        <div class="ph-title" id="phTitle">Claim surface</div>
+        <div class="ph-sub" id="phSub">It still looks like a single claim.</div>
+        <div class="view-toggle hidden" id="viewToggle" aria-label="panel view">
+          <button class="on" type="button" id="viewSummary">Summary</button>
+          <button type="button" id="viewCards">Structure cards</button>
+        </div>
+      </div>
+      <div class="pb" id="panelBody"></div>
+      <button class="struct-btn" id="btn-structPanel" style="display:none">Show structure cards</button>
+      <div class="sa" id="structArea"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const CASES = {
+  tomato:{
+    question:"Is a tomato a vegetable?",
+    lead:"Answer by instinct. We will separate culinary, botanical, and regulatory contexts.",
+    yesLine:"In culinary and retail contexts this is natural — tomatoes appear in salads, sold as vegetables.",
+    noLine:"Botanically, the tomato is a fruit: it develops from a flower and contains seeds.",
+    yesText:"In culinary and retail contexts, tomatoes are classified and sold as vegetables.",
+    noText:"Botanically, a tomato is a fruit — the mature ovary of a flowering plant.",
+    broadText:"\"A tomato is a vegetable\" conflates culinary classification, botanical taxonomy, and regulatory categories — each uses a different standard.",
+    parkedClaim:"A tomato is a vegetable",
+    parkedReason:"Reason: culinary, retail, botanical, and regulatory classifications are mixed. The claim requires a stated context before it can be accepted.",
+    challenges:[
+      ["PARK FACTOR","Context: culinary, retail, botanical, and regulatory each apply different criteria.\nSemantic: 'vegetable' is a folk category, not a strict botanical taxon.\nUsage: the appropriate standard depends on whether the purpose is a recipe, taxonomy, or labeling."],
+      ["EVIDENCE CHECK","Verify separately:\n- Treatment in culinary and retail contexts\n- Botanical description as a fruit\n- Whether a regulatory or legal classification applies"],
+      ["REFUTATION","Downgrade conditions:\n- In a botanical context, the vegetable claim is weak; downgrade to fruit.\n- If the source is culinary only, do not use it as evidence for a botanical claim.\n- If the document's purpose is taxonomy, the folk-category claim is not accepted."],
+      ["REOPEN","Reopen conditions:\n- Document's purpose is culinary or retail — accept with stated context.\n- Handling law or regulation — add the relevant jurisdiction.\n- Explaining semantics — list both: 'culinary: vegetable; botanical: fruit.'"]
+    ],
+    graphTitle:"One question became a context-dependent classification map.",
+    graphNodes:["Is a tomato\na vegetable?","too broad\nPARKED","culinary:\nvegetable","botanical:\nfruit","context\ncondition","culinary\nuse","contains\nseeds","retail\nclassification","dictionary\ndefinition","regulatory\nclassification","context\nchallenge","reopen\ncondition"],
+    actions:[
+      ["Clarify context","Choose whether the document is using culinary, botanical, retail, or legal classification.","Moves broad claim from parked to accepted-with-context."],
+      ["Check source type","Match each source to the context it actually supports.","Prevents culinary sources from being used as botanical evidence."],
+      ["Narrow wording","Rewrite as 'culinary vegetable' or 'botanical fruit'.","Creates a precise claim that can be accepted."],
+      ["Add jurisdiction","If the claim is legal or regulatory, name the jurisdiction and rule.","Reopens only the regulatory branch."]
+    ],
+    panel:{
+      question:[["Current state","A casual everyday question."],["Next step","Press Y or N."]],
+      split:[["YES","Captures the culinary and retail context."],["NO","Captures the botanical caveat."],["Finding","The disagreement is about which classification context is being used."]],
+      parked:[["PARK FACTOR","Culinary, retail, botanical, and regulatory contexts are mixed."],["REFUTATION","In a botanical context, the vegetable claim degrades to fruit."],["REOPEN","In a culinary context, accept the claim with stated context."]],
+      graph:[["Output","A context-dependent classification graph."],["Contribute","State the context; separate the sources; define the document's purpose."],["Key point","A small trivia question becomes a classification-rule audit."]]
+    }
+  },
+  dino:{
+    question:"Did dinosaurs go extinct?",
+    lead:"Answer by instinct. This shows how a claim decomposes.",
+    yesLine:"Natural in everyday language. Strictly: non-avian dinosaurs went extinct.",
+    noLine:"In cladistics, birds are nested within theropod dinosaurs — so the dinosaur lineage survives.",
+    yesText:"Non-avian dinosaurs went extinct at the K-Pg boundary.",
+    noText:"In cladistic classification, birds are theropod dinosaurs — so the dinosaur lineage persists.",
+    broadText:"\"Dinosaurs went extinct\" works in everyday speech, but is ambiguous: does it mean the folk category of non-avian dinosaurs, or the clade Dinosauria which includes birds?",
+    parkedClaim:"Dinosaurs went extinct",
+    parkedReason:"Reason: folk category and cladistic category are conflated. In a precise text, narrow to 'non-avian dinosaurs.'",
+    challenges:[
+      ["PARK FACTOR","Definition: in everyday speech, 'dinosaurs' usually means non-avian dinosaurs.\nClassification: in cladistics, birds are placed within theropod dinosaurs.\nSource: unclear whether the source supports 'all dinosaurs including birds' going extinct."],
+      ["EVIDENCE CHECK","Verify separately:\n- Extinction of non-avian dinosaurs at the K-Pg boundary\n- Placement of birds within theropod dinosaurs\n- Which evidence type: morphology, molecular phylogeny, ancient proteins\n- Whether the source directly states 'dinosaurs' without qualification"],
+      ["REFUTATION","Downgrade conditions:\n- If claim means all of clade Dinosauria, living birds falsify 'total extinction.'\n- If birds are reclassified outside Dinosauria by strong evidence, the avian caveat loses force.\n- If non-avian dinosaurs are confirmed to have survived the K-Pg boundary, the narrow claim also fails."],
+      ["REOPEN","Reopen conditions:\n- Specify that the context is everyday language or educational summary.\n- Narrow the claim to 'non-avian dinosaurs.'\n- Cladistic consensus significantly changes.\n- Evidence of post-K-Pg non-avian dinosaur survival is added."]
+    ],
+    graphTitle:"One question became a definition and phylogeny dispute.",
+    graphNodes:["Did dinosaurs\ngo extinct?","too broad\nPARKED","non-avian\naccepted","birds are\ndinosaurs","definition\ncondition","K-Pg\nboundary","Chicxulub\nimpact","Deccan\nvolcanism?","source\nstatement","inference\nstrength","dating\nchallenge","reopen\ncondition"],
+    actions:[
+      ["Narrow the claim","Use 'non-avian dinosaurs went extinct' when precision matters.","Moves the broad claim to accepted-with-caveat."],
+      ["Audit classification evidence","Separate morphology, fossil, molecular phylogeny, and ancient-protein evidence.","Tests whether the bird caveat should stay active."],
+      ["Check source scope","Confirm whether a source says all Dinosauria or only non-avian dinosaurs.","Detects overclaiming from source to conclusion."],
+      ["Add survival evidence","Look for credible post-K-Pg non-avian dinosaur evidence.","Would refute or reopen the narrow extinction claim."]
+    ],
+    panel:{
+      question:[["Current state","A question with a seemingly obvious answer."],["Next step","Press Y or N."]],
+      split:[["YES","Non-avian dinosaurs went extinct."],["NO","In cladistics, birds are within theropod dinosaurs."],["Finding","The issue was not the answer — it was the scope of the claim."]],
+      parked:[["PARK FACTOR","Folk category, cladistic category, and source scope are mixed."],["REFUTATION","If birds are outside Dinosauria, the avian caveat loses force."],["REOPEN","State the context; narrow to non-avian dinosaurs."]],
+      graph:[["Output","A definition-scoped claim graph."],["Contribute","Fix the definition; verify the source; add dating evidence."],["Key point","Dispute the claim state, not the person."]]
+    }
+  },
+  pluto:{
+    question:"Is Pluto a planet?",
+    lead:"Answer from memory. We will separate official classification, historical usage, and alternative definitions.",
+    yesLine:"Understandable from historical usage or a broad geophysical definition — but the current IAU says no.",
+    noLine:"Natural under the current IAU classification. Pluto is a dwarf planet — it fails the 'cleared neighborhood' criterion.",
+    yesText:"Historically Pluto was classified as a planet. Some alternative definitions still call it one.",
+    noText:"Under the current IAU classification, Pluto is a dwarf planet — it fails the cleared-neighborhood criterion.",
+    broadText:"\"Pluto is a planet\" is ambiguous across time, authority, and discipline. Dwarf-planet status is not uncertainty — it is a specific outcome under the IAU criteria.",
+    parkedClaim:"Pluto is a planet",
+    parkedReason:"Reason: official classification, historical usage, and geophysical definitions are mixed. The text must specify 'IAU current classification' or 'alternative definition.'",
+    challenges:[
+      ["PARK FACTOR","Definition: the IAU planet requires (1) orbit the Sun, (2) hydrostatic equilibrium, (3) cleared neighborhood.\nClassification: Pluto satisfies 1 and 2 but not 3.\nTemporal: the pre-2006 'ninth planet' memory conflicts with the current classification."],
+      ["EVIDENCE CHECK","Verify separately:\n- IAU 2006 resolution criteria for planet and dwarf planet\n- Why Pluto became a dwarf planet: cleared-neighborhood criterion\n- Historical fact that it was called a planet\n- Alternative definitions that would still call it a planet"],
+      ["REFUTATION","Downgrade conditions:\n- If claim means 'planet under current IAU,' the cleared-neighborhood failure is a downgrade.\n- Pre-2006 sources cannot serve as evidence for current classification.\n- Historical usage alone does not support an official-classification claim."],
+      ["REOPEN","Reclassification conditions:\n- IAU revises the planet definition and reclassifies dwarf planets as a subtype.\n- Text explicitly adopts an alternative definition such as the geophysical definition.\n- Cleared-neighborhood threshold is revised so Pluto qualifies."]
+    ],
+    graphTitle:"One question became a classification standards dispute.",
+    graphNodes:["Is Pluto\na planet?","too broad\nPARKED","IAU: dwarf\nplanet","historically\nwas a planet","classification\ncriterion","IAU 2006\nresolution","cleared\nneighborhood","geophysical\nplanet def?","source\ntimestamp","exit dwarf\nplanet cond.","revert to\nplanet cond.","reopen\ncondition"],
+    actions:[
+      ["Choose authority","State whether the claim uses current IAU classification or an alternative definition.","Determines whether the planet claim is accepted or downgraded."],
+      ["Check current criteria","Verify orbit, hydrostatic equilibrium, satellite status, and cleared neighborhood.","Explains why dwarf planet is a classification, not uncertainty."],
+      ["Timestamp sources","Separate pre-2006 historical sources from current classification sources.","Prevents outdated sources from reopening the current claim."],
+      ["Define reclassification path","Name what would return Pluto to planet status or remove dwarf-planet status.","Makes reopening conditions explicit."]
+    ],
+    panel:{
+      question:[["Current state","Looks like a question you can answer from memory."],["Next step","Press Y or N."]],
+      split:[["YES","Captures historical usage and alternative definitions."],["NO","Captures the current IAU classification."],["Finding","The dispute is about which authority and which moment in time."]],
+      parked:[["PARK FACTOR","Authority, time, and definition are mixed."],["REFUTATION","Under current IAU, full-planet claim degrades."],["REOPEN","IAU definition change; alternative definition adopted."]],
+      graph:[["Output","A classification-with-criteria graph."],["Contribute","Specify the IAU criterion; state the source timestamp."],["Key point","Dwarf-planet status is a specific combination of met and unmet criteria."]]
+    }
+  },
+  ai:{
+    question:"Does AI understand?",
+    lead:"This one is hard. We separate behavioral capability, semantic grounding, internal representation, consciousness, and evaluation threshold.",
+    yesLine:"Natural as a behavioral capability claim — explanation, summarization, code, reasoning, and self-correction-like behavior are observable.",
+    noLine:"Behavioral success alone does not demonstrate semantic grounding, causal world models, subjective experience, or intentionality.",
+    yesText:"On certain tasks, AI behaves as if it understands — producing explanation, transfer, and self-correction-like outputs.",
+    noText:"Behavioral success does not imply semantic grounding, causal world models, consciousness, or intentionality.",
+    broadText:"'AI understands' conflates behavioral performance, semantic grounding, world models, consciousness, and intentionality in a single sentence.",
+    parkedClaim:"AI understands",
+    parkedReason:"Reason: task performance, semantic grounding, internal representation, world models, and consciousness claims are mixed. PARKED until evaluation criteria and thresholds are specified.",
+    challenges:[
+      ["PARK FACTOR","Conceptual: task performance, semantic grounding, internal representation, causal world models, consciousness, and intentionality are conflated.\nEvaluation: whether 'understanding' is measured behaviorally, representationally, or by causal intervention is unspecified.\nScope: which model, data, prompts, and task distribution is ambiguous."],
+      ["EVIDENCE CHECK","Verify separately:\n- Behavioral: accuracy, explanation ability, consistency, self-correction\n- Transfer: unseen tasks, counterfactuals, OOD, tool use\n- Failure: hallucination, prompt sensitivity, distribution shift collapse\n- Grounding: perception, action, environmental feedback\n- Mechanistic: internal representations, causal intervention, interpretability"],
+      ["REFUTATION","Downgrade conditions:\n- Benchmark performance alone does not ground consciousness or intentionality claims.\n- If small context changes or OOD conditions cause collapse, the broad understanding claim degrades.\n- Systematic hallucination in a domain fails the understanding claim for that domain.\n- Text-only capability without grounding leaves grounded-understanding claims parked."],
+      ["REOPEN","Reopen thresholds:\n- Pre-registered unseen tasks show consistent transfer and counterfactual handling.\n- Causal intervention reveals mechanisms corresponding to concepts and world states.\n- Grounding evidence links the system to perception, action, and feedback.\n- The claim is split into 'behavioral understanding on task X' and 'grounded understanding' for separate review."]
+    ],
+    graphTitle:"One question became an evaluation, grounding, and mechanism dispute.",
+    graphNodes:["Does AI\nunderstand?","too broad\nPARKED","behavioral\ncapability","grounding\nunconfirmed","evaluation\nthreshold","OOD\ntransfer","causal world\nmodel","mechanistic\nevidence","hallucination\ncases","prompt\nsensitivity","grounding\nchallenge","reopen\nthreshold"],
+    actions:[
+      ["Pick an understanding type","Split behavioral understanding, grounded understanding, and consciousness into separate claims.","Prevents one broad claim from being accepted too early."],
+      ["Design failure tests","Collect hallucination, prompt sensitivity, OOD, and counterfactual failures.","Downgrades claim ranges where behavior collapses."],
+      ["Set thresholds","Define acceptable failure rates and transfer requirements before evaluation.","Turns debate into a falsifiable test plan."],
+      ["Add mechanism evidence","Use causal intervention or interpretability evidence for internal representations.","Reopens claims about mechanism rather than just behavior."]
+    ],
+    panel:{
+      question:[["Current state","Looks like a philosophical yes/no."],["Next step","Press Y or N."],["Difficulty","Broad claims are not easily accepted here."]],
+      split:[["YES","Captures behavioral capability claims."],["NO","Captures grounding, consciousness, and intentionality caveats."],["Finding","The word 'understand' was carrying capability, grounding, mechanism, and consciousness all at once."]],
+      parked:[["PARK FACTOR","Capability, semantics, grounding, consciousness, and evaluation scope are mixed."],["REFUTATION","Hallucination, OOD collapse, and prompt sensitivity degrade the broad claim."],["REOPEN","Unseen transfer, causal intervention, grounding evidence allow re-evaluation."]],
+      graph:[["Output","A behavior / grounding / mechanism / threshold claim graph."],["Contribute","Choose evaluation criteria; collect failure conditions; add mechanistic evidence."],["Key point","Turn an abstract debate into a falsifiable evaluation design."]]
+    }
+  }
+};
+
+const EDGES=[
+  [0,1,'park'],[0,2,'ok'],[0,3,'open'],
+  [1,10,'park'],[2,4,'ok'],[2,5,'ok'],[2,8,'ok'],
+  [3,6,'open'],[3,7,'open'],[5,9,'ok'],
+  [7,11,'open'],[10,11,'park'],[8,9,'ok'],[6,7,'open']
+];
+
+function nodeStyle(i){
+  if(i===0) return {fill:'rgba(245,158,11,.18)',stroke:'#f59e0b',tc:'#f5d78e'};
+  if(i===1) return {fill:'rgba(245,158,11,.1)',stroke:'rgba(245,158,11,.4)',tc:'rgba(245,158,11,.8)'};
+  if(i===2) return {fill:'rgba(34,197,94,.12)',stroke:'#22c55e',tc:'#86efac'};
+  if(i===3) return {fill:'rgba(124,110,240,.12)',stroke:'#7c6ef0',tc:'#a5b4fc'};
+  if([4,5,8].includes(i)) return {fill:'rgba(59,130,246,.1)',stroke:'rgba(59,130,246,.5)',tc:'rgba(147,197,253,.85)'};
+  if([6,7,10].includes(i)) return {fill:'rgba(124,110,240,.08)',stroke:'rgba(124,110,240,.35)',tc:'rgba(165,180,252,.75)'};
+  return {fill:'rgba(34,197,94,.07)',stroke:'rgba(34,197,94,.35)',tc:'rgba(134,239,172,.7)'};
+}
+function edgeCol(k){
+  return k==='ok'?'rgba(34,197,94,.4)':k==='park'?'rgba(245,158,11,.35)':'rgba(124,110,240,.35)';
+}
+function edgeDash(k){return k==='ok'?[]:[5,4];}
+
+let curCase=null, animId=null, gNodes=[], gRunning=false;
+
+function setSteps(n){
+  [1,2,3,4,5].forEach(i=>{
+    document.getElementById('d'+i).classList.toggle('on',i<=n);
+  });
+}
+
+function mkCards(arr){
+  return arr.map(([t,b])=>`<div class="sc"><div class="sc-t">${t}</div><div class="sc-b">${b}</div></div>`).join('');
+}
+
+function showPanel(title,sub,body){
+  document.getElementById('phTitle').textContent=title;
+  document.getElementById('phSub').textContent=sub;
+  document.getElementById('panelBody').innerHTML=body;
+}
+
+function renderTasks(){
+  const c=CASES[curCase];
+  document.getElementById('taskGrid').innerHTML=c.actions.map(([title,body,impact],i)=>`
+    <article class="task-card ${i===0?'primary-task':''}">
+      <div class="task-title">${title}</div>
+      <div class="task-body">${body}</div>
+      <div class="task-impact"><strong>State effect</strong>${impact}</div>
+    </article>
+  `).join('');
+}
+
+function setViewToggle(summaryOn){
+  document.getElementById('viewSummary').classList.toggle('on',summaryOn);
+  document.getElementById('viewCards').classList.toggle('on',!summaryOn);
+}
+
+function setStructureView(on){
+  const c=CASES[curCase];
+  const panel=document.getElementById('sidePanel');
+  const sa=document.getElementById('structArea');
+  const mainBtn=document.getElementById('btn-struct');
+  const panelBtn=document.getElementById('btn-structPanel');
+  panel.classList.toggle('struct-on',on);
+  sa.classList.toggle('on',on);
+  setViewToggle(!on);
+  if(on){
+    sa.innerHTML=renderStructCards();
+    showPanel('Structure cards','Support, park factors, refutation, and reopening.', '');
+    mainBtn.textContent='Back to summary';
+    panelBtn.textContent='Back to summary';
+  }else{
+    sa.innerHTML='';
+    showPanel('Claim graph','One question became a dispute network.',mkCards(c.panel.graph));
+    mainBtn.textContent='View structure cards';
+    panelBtn.textContent='Show structure cards';
+  }
+}
+
+function goScene(name){
+  document.querySelectorAll('.scene').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sc-'+name).classList.add('on');
+  document.getElementById('btn-structPanel').style.display='none';
+  document.getElementById('structArea').classList.remove('on');
+  document.getElementById('sidePanel').classList.remove('struct-on');
+  document.getElementById('viewToggle').classList.add('hidden');
+  setViewToggle(true);
+  const c=CASES[curCase];
+  setSteps({question:1,split:2,parked:3,graph:4,actions:5}[name]);
+  if(name==='question') showPanel('Claim surface','It still looks like a single claim.',mkCards(c.panel.question));
+  if(name==='split')    showPanel('Scoped readings','The answer split into different scoped claims.',mkCards(c.panel.split));
+  if(name==='parked')   showPanel('Claim state: PARKED','A dispute becomes a set of testable conditions.',mkCards(c.panel.parked));
+  if(name==='graph'){
+    showPanel('Claim graph','One question became a dispute network.',mkCards(c.panel.graph));
+    document.getElementById('viewToggle').classList.remove('hidden');
+    document.getElementById('btn-structPanel').style.display='none';
+    document.getElementById('btn-struct').textContent='View structure cards';
+    setTimeout(startGraph,60);
+  } else if(name==='actions'){
+    stopGraph();
+    renderTasks();
+    showPanel('Action board','Small tasks that can move the claim state.',mkCards([
+      ['Goal','Turn dispute energy into useful evidence work.'],
+      ['Pick one','Clarify, source-check, refute, or reopen.'],
+      ['Result','The claim moves without requiring a winner.']
+    ]));
+  } else {
+    stopGraph();
+  }
+}
+
+function choose(ans){
+  const c=CASES[curCase];
+  document.querySelectorAll('.yn-btn').forEach(b=>b.classList.toggle('on',b.dataset.a===ans));
+  document.getElementById('answerLine').textContent=ans==='yes'?c.yesLine:c.noLine;
+  goScene('split');
+}
+
+function loadCase(key){
+  curCase=key;
+  document.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.case-btn').forEach(b=>b.classList.toggle('on',b.dataset.case===key));
+  const c=CASES[key];
+  document.getElementById('qText').textContent=c.question;
+  document.getElementById('qLead').textContent=c.lead;
+  document.getElementById('yesText').textContent=c.yesText;
+  document.getElementById('noText').textContent=c.noText;
+  document.getElementById('broadText').textContent=c.broadText;
+  document.getElementById('parkedClaim').textContent=c.parkedClaim;
+  document.getElementById('parkedReason').textContent=c.parkedReason;
+  document.getElementById('graphTitle').textContent=c.graphTitle;
+  document.getElementById('challengeList').innerHTML=c.challenges.map(
+    ([t,b])=>`<div class="ch"><div class="ch-title">${t}</div><div class="ch-text">${b}</div></div>`
+  ).join('');
+  goScene('question');
+}
+
+function stopGraph(){
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  gRunning=false;
+}
+
+function startGraph(){
+  stopGraph();
+  const cv=document.getElementById('gc');
+  const wrap=cv.parentElement;
+  cv.width=wrap.clientWidth;
+  cv.height=wrap.clientHeight;
+  const W=cv.width, H=cv.height;
+  const labels=CASES[curCase].graphNodes;
+  gNodes=labels.map((lbl,i)=>{
+    const a=(i/labels.length)*Math.PI*2-Math.PI/2;
+    const r=i<4?Math.min(W,H)*.22:Math.min(W,H)*.38;
+    return {x:W/2+Math.cos(a)*r*(i===0?.01:1),y:H/2+Math.sin(a)*r*(i===0?.01:1),vx:0,vy:0,lbl,r:36};
+  });
+  if(gNodes[0]){gNodes[0].x=W*.2;gNodes[0].y=H*.5;}
+  if(gNodes[1]){gNodes[1].x=W*.42;gNodes[1].y=H*.18;}
+  if(gNodes[2]){gNodes[2].x=W*.42;gNodes[2].y=H*.5;}
+  if(gNodes[3]){gNodes[3].x=W*.42;gNodes[3].y=H*.82;}
+  gRunning=true;
+  drawGraph();
+}
+
+function drawGraph(){
+  if(!gRunning) return;
+  const cv=document.getElementById('gc');
+  if(!cv){gRunning=false;return;}
+  const ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const ns=gNodes,es=EDGES;
+  ctx.clearRect(0,0,W,H);
+
+  const K=.004,rep=1800,grav=.001,damp=.88;
+  for(let i=0;i<ns.length;i++){
+    for(let j=i+1;j<ns.length;j++){
+      const dx=ns[j].x-ns[i].x,dy=ns[j].y-ns[i].y;
+      const d=Math.sqrt(dx*dx+dy*dy)+.1;
+      const f=rep/(d*d);
+      ns[i].vx-=f*dx/d;ns[i].vy-=f*dy/d;
+      ns[j].vx+=f*dx/d;ns[j].vy+=f*dy/d;
+    }
+  }
+  es.forEach(([a,b])=>{
+    const na=ns[a],nb=ns[b];if(!na||!nb)return;
+    const dx=nb.x-na.x,dy=nb.y-na.y,d=Math.sqrt(dx*dx+dy*dy)+.1;
+    const tgt=a<4&&b<4?160:110;
+    const f=K*(d-tgt);
+    na.vx+=f*dx/d;na.vy+=f*dy/d;nb.vx-=f*dx/d;nb.vy-=f*dy/d;
+  });
+  ns.forEach(n=>{
+    n.vx+=(W/2-n.x)*grav;n.vy+=(H/2-n.y)*grav;
+    n.vx*=damp;n.vy*=damp;
+    n.x+=n.vx;n.y+=n.vy;
+    n.x=Math.max(50,Math.min(W-50,n.x));
+    n.y=Math.max(50,Math.min(H-50,n.y));
+  });
+
+  es.forEach(([a,b,k])=>{
+    const na=ns[a],nb=ns[b];if(!na||!nb)return;
+    const dx=nb.x-na.x,dy=nb.y-na.y;
+    const dist=Math.sqrt(dx*dx+dy*dy)+.1;
+    const ux=dx/dist,uy=dy/dist;
+    const sx=na.x+ux*na.r,sy=na.y+uy*na.r;
+    const ex=nb.x-ux*(nb.r+2),ey=nb.y-uy*(nb.r+2);
+    const col=edgeCol(k);
+    ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;
+    ctx.setLineDash(edgeDash(k));ctx.stroke();ctx.setLineDash([]);
+    const angle=Math.atan2(ey-sy,ex-sx);
+    ctx.beginPath();ctx.moveTo(ex,ey);
+    ctx.lineTo(ex-8*Math.cos(angle-.42),ey-8*Math.sin(angle-.42));
+    ctx.lineTo(ex-8*Math.cos(angle+.42),ey-8*Math.sin(angle+.42));
+    ctx.closePath();ctx.fillStyle=col;ctx.fill();
+    const mx=(sx+ex)/2,my=(sy+ey)/2;
+    const lbl=k==='ok'?'supports':k==='park'?'parked':'contested';
+    ctx.font='bold 9px monospace';
+    const tw=ctx.measureText(lbl).width;
+    ctx.fillStyle='rgba(11,15,24,.88)';
+    ctx.beginPath();ctx.roundRect(mx-tw/2-4,my-7,tw+8,14,2);ctx.fill();
+    ctx.fillStyle=col;ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(lbl,mx,my);
+  });
+
+  ns.forEach((n,i)=>{
+    const st=nodeStyle(i);
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle=st.fill;ctx.fill();
+    ctx.strokeStyle=st.stroke;ctx.lineWidth=1.5;ctx.stroke();
+    const lines=n.lbl.split('\n');
+    ctx.fillStyle=st.tc;ctx.font='600 10px system-ui,sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    const lh=12,off=(lines.length-1)*lh/2;
+    lines.forEach((ln,li)=>ctx.fillText(ln,n.x,n.y-off+li*lh));
+  });
+
+  animId=requestAnimationFrame(drawGraph);
+}
+
+function renderStructCards(){
+  const c=CASES[curCase];
+  const[pf,ec,rf,ro]=c.challenges;
+  return `
+    <div class="sc2 pk"><h3>Parked Claim</h3><p>${c.parkedClaim}</p><div class="sc2-rule"><strong>Park factor</strong>${pf[1]}</div></div>
+    <div class="sc2 ok"><h3>Narrow Claims Accepted</h3><p>${c.yesText}</p><div class="sc2-rule"><strong>Caveat</strong>${c.noText}</div></div>
+    <div class="sc2 ch"><h3>Evidence Check</h3><p>${ec[1]}</p></div>
+    <div class="sc2 re"><h3>Refutation Condition</h3><p>${rf[1]}</p><div class="sc2-rule"><strong>Downgrade rule</strong>In the range covered by this condition, the broad claim is not accepted.</div></div>
+    <div class="sc2 ch"><h3>Reopening Condition</h3><p>${ro[1]}</p><div class="sc2-rule"><strong>Reopen rule</strong>When evidence meeting this condition emerges, re-evaluate the parked claim.</div></div>`;
+}
+
+document.querySelectorAll('.case-btn').forEach(b=>
+  b.addEventListener('click',()=>loadCase(b.dataset.case))
+);
+document.getElementById('btn-yes').addEventListener('click',()=>choose('yes'));
+document.getElementById('btn-no').addEventListener('click',()=>choose('no'));
+document.getElementById('btn-toParked').addEventListener('click',()=>goScene('parked'));
+document.getElementById('btn-toGraph').addEventListener('click',()=>goScene('graph'));
+document.getElementById('btn-toActions').addEventListener('click',()=>goScene('actions'));
+document.getElementById('btn-backToQ').addEventListener('click',()=>goScene('question'));
+document.getElementById('btn-backToSplit').addEventListener('click',()=>goScene('split'));
+document.getElementById('btn-backToGraph').addEventListener('click',()=>goScene('graph'));
+document.getElementById('btn-restart').addEventListener('click',()=>{
+  document.querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('on'));
+  goScene('question');
+});
+document.getElementById('btn-struct').addEventListener('click',()=>{
+  setStructureView(!document.getElementById('sidePanel').classList.contains('struct-on'));
+});
+document.getElementById('btn-structPanel').addEventListener('click',()=>{
+  setStructureView(!document.getElementById('sidePanel').classList.contains('struct-on'));
+});
+document.getElementById('viewSummary').addEventListener('click',()=>setStructureView(false));
+document.getElementById('viewCards').addEventListener('click',()=>setStructureView(true));
+window.addEventListener('resize',()=>{
+  if(gRunning) startGraph();
+});
+
+loadCase('tomato');
+</script>
+</body>
+</html>
