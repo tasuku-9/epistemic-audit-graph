@@ -103,6 +103,31 @@
       gap:14px;
       margin:34px 0 0;
     }
+    .section-label{
+      margin:34px 0 0;
+    }
+    .section-label h2{
+      margin:0;
+      font-size:.82rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--accent-strong);
+    }
+    .section-label p{
+      max-width:760px;
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+    .guided-path{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      margin:14px 0 0;
+    }
+    .examples{
+      margin-top:14px;
+    }
     .route{
       display:block;
       min-height:132px;
@@ -112,6 +137,21 @@
       background:#fff;
       text-decoration:none;
       box-shadow:0 16px 35px rgba(23,32,42,.06);
+    }
+    .route.featured{
+      min-height:166px;
+      border-color:#a9c8d4;
+      background:#fff;
+      box-shadow:0 20px 42px rgba(31,111,139,.1);
+    }
+    .route-kicker{
+      display:block;
+      margin:0 0 8px;
+      color:var(--accent-strong);
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
     .route strong{
       display:block;
@@ -133,6 +173,7 @@
       main{width:min(100% - 24px,680px);padding-top:28px}
       h1{font-size:2.4rem}
       .state-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .guided-path{grid-template-columns:1fr}
       .routes{grid-template-columns:1fr}
     }
   </style>
@@ -146,8 +187,7 @@
     </p>
     <div class="actions" aria-label="Primary demo links">
       <a class="primary" href="demos/park_or_reopen/index.html">Open Claim Cascade</a>
-      <a class="secondary" href="demos/claim_lifecycle/index.html">Claim lifecycle story</a>
-      <a class="secondary" href="frontend/index.html">Validation dashboard</a>
+      <a class="secondary" href="demos/claim_lifecycle/index.html">Claim Lifecycle Workspace</a>
       <a class="secondary" href="https://github.com/tasuku-9/epistemic-audit-graph">View repository</a>
     </div>
 
@@ -159,15 +199,30 @@
       <div class="state">reopened</div>
     </section>
 
-    <section class="routes" aria-label="Demo routes">
-      <a class="route" href="demos/park_or_reopen/index.html">
+    <section class="section-label" aria-labelledby="start-path-title">
+      <h2 id="start-path-title">Start with these two</h2>
+      <p>Use the first demo to feel the idea, then the workspace to see the same pattern as a claim-state system.</p>
+    </section>
+
+    <section class="guided-path" aria-label="Recommended demo path">
+      <a class="route featured" href="demos/park_or_reopen/index.html">
+        <span class="route-kicker">1. First touch</span>
         <strong>Claim Cascade</strong>
         <span>The first-touch interactive demo: a casual Y/N question becomes a parked claim, a graph, structure cards, and concrete next actions.</span>
       </a>
-      <a class="route" href="demos/claim_lifecycle/index.html">
-        <strong>Claim lifecycle story</strong>
-        <span>A 15-second route from disputed claim to parked state to a claim challenge board with actionable reopening conditions.</span>
+      <a class="route featured" href="demos/claim_lifecycle/index.html">
+        <span class="route-kicker">2. Structure</span>
+        <strong>Claim Lifecycle Workspace</strong>
+        <span>A direct workspace view of source wording, inference, downgrade, parked state, reopening conditions, and the claim challenge board.</span>
       </a>
+    </section>
+
+    <section class="section-label" aria-labelledby="examples-title">
+      <h2 id="examples-title">Examples and implementation proof</h2>
+      <p>These routes are useful after the first two. They show domain examples, validation data, and deeper prototype mechanics.</p>
+    </section>
+
+    <section class="routes examples" aria-label="Example and implementation routes">
       <a class="route" href="frontend/index.html">
         <strong>Claim lifecycle dashboard</strong>
         <span>Six-domain validation cases with source wording, inference risk, downgrade checks, and reopening questions.</span>

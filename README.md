@@ -4,18 +4,19 @@
 
 **Public demo hub:** [https://tasuku-9.github.io/epistemic-audit-graph/](https://tasuku-9.github.io/epistemic-audit-graph/)
 
-Open this first to see the project as a claim lifecycle system. The repository explains the model, validator, and sample cases after the demo entry point.
+Open these first to understand the project before looking at the validation suite or domain examples.
 
-**First demo:** [Claim Cascade](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html)
+**Recommended path:**
+
+1. [Claim Cascade](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html) - first-touch interactive demo.
+2. [Claim Lifecycle Workspace](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html) - structured claim-state workspace.
 
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
 The goal is not only to map disputes, but to make them actionable: each contested claim can show what evidence, source clarification, counterevidence, or policy review would move it forward, downgrade it, park it, or reopen it.
 
-Primary demo routes:
+After those two, use the remaining routes as examples and implementation proof:
 
-- [Claim Cascade: first-touch interactive demo](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html)
-- [Claim lifecycle story](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html)
 - [Claim lifecycle dashboard](https://tasuku-9.github.io/epistemic-audit-graph/frontend/index.html)
 - [K-Pg claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/kpg_extinction/index.html)
 - [Bronze Age claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/bronze_age_collapse/index.html)
@@ -93,7 +94,7 @@ and addresses the listed counterevidence.
 Local paths:
 
 - Claim Cascade first-touch demo: `demos/park_or_reopen/index.html`
-- Claim lifecycle story: `demos/claim_lifecycle/index.html`
+- Claim Lifecycle Workspace: `demos/claim_lifecycle/index.html`
 - Claim lifecycle dashboard: `frontend/index.html`
 - K-Pg claim-state graph: `demos/kpg_extinction/index.html`
 - Bronze Age claim-state graph: `demos/bronze_age_collapse/index.html`
@@ -132,7 +133,7 @@ Source -> SourceClaim -> Evidence -> Inference -> ClaimState
                                       +-> Risk      +-> Evidence challenge
 ```
 
-The validator applies deterministic shared and domain-specific rules. It checks source-claim separation, inference separation, tier reasons, analogy limits, domain overclaim patterns, and whether contested claims name the evidence that would weaken, park, or reopen them.
+The validator applies deterministic shared and domain-specific rules. It checks source-claim separation, inference separation, tier reasons, analogy limits, domain overclaim patterns, and whether contested claims name the evidence that would weaken, park, or reopen them. Tier labels are internal validator shorthand; they should stay in the deeper validation layer rather than the first-touch demo path.
 
 ## Why AI-Mediated Editing
 
@@ -259,13 +260,13 @@ See `docs/POSITIONING.md` for adjacent areas and prior positioning. The current 
 
 ## GitHub Pages
 
-For the static demo, publish the repository root with GitHub Pages and open:
+For the static demo, publish the repository root with GitHub Pages and open the hub first:
 
 ```text
-frontend/index.html
+index.html
 ```
 
-The frontend loads generated JSON from `frontend/` and sample cases from `data/`, so publishing from the repository root is the simplest configuration.
+The validation dashboard at `frontend/index.html` loads generated JSON from `frontend/` and sample cases from `data/`, so publishing from the repository root is the simplest configuration.
 
 ## Limitations
 
