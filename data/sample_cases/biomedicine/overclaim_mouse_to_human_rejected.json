@@ -42,7 +42,62 @@
       "tier": "A",
       "provisional_tier": "A",
       "reason_for_tier": "Rejected: animal-model evidence alone cannot establish a human clinical treatment claim.",
-      "falsification_conditions": []
+      "falsification_conditions": [],
+      "claim_state": {
+        "status": "parked",
+        "status_reason": "The source reports mouse tumor reduction, but the claim infers human clinical efficacy and cure.",
+        "source_says": "Compound X reduced tumors in mice under experimental conditions.",
+        "inference_made": "Compound X cures human cancer.",
+        "status_history": [
+          {
+            "status": "proposed",
+            "note": "Claim entered the graph as a strong assertion."
+          },
+          {
+            "status": "contested",
+            "note": "Source wording and inference strength were separated."
+          },
+          {
+            "status": "parked",
+            "note": "The source reports mouse tumor reduction, but the claim infers human clinical efficacy and cure."
+          }
+        ],
+        "downgrade_conditions": [
+          "Keep the claim parked while it lacks human evidence.",
+          "Downgrade to a preclinical animal-model signal if no clinical data is supplied."
+        ],
+        "reopening_conditions": [
+          "Provide human clinical trial or systematic-review evidence.",
+          "Address endpoint translation from mouse tumor size to patient outcomes.",
+          "Include intervention condition, population, safety, and adverse-event data."
+        ],
+        "evidence_challenges": [
+          {
+            "id": "ccb_bio_human",
+            "title": "Find human clinical evidence",
+            "challenge_type": "independent_evidence",
+            "status": "open",
+            "needed": "Add RCT, cohort, guideline, or systematic-review evidence for human outcomes.",
+            "would_move_claim": "reopen_for_review"
+          },
+          {
+            "id": "ccb_bio_endpoint",
+            "title": "Clarify endpoint translation",
+            "challenge_type": "source_clarification",
+            "status": "open",
+            "needed": "Explain whether mouse tumor-size reduction supports patient-relevant efficacy.",
+            "would_move_claim": "downgrade_to_scoped_claim"
+          },
+          {
+            "id": "ccb_bio_safety",
+            "title": "Add safety and population limits",
+            "challenge_type": "limiting_test",
+            "status": "open",
+            "needed": "Specify intervention condition, eligible population, adverse events, and dose limits.",
+            "would_move_claim": "candidate_for_accepted_with_caveats"
+          }
+        ]
+      }
     },
     {
       "id": "e_mouse",
@@ -107,13 +162,13 @@
       "from": "src_mouse",
       "to": "sc_mouse",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_mouse",
       "to": "e_mouse",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "e_mouse",
@@ -131,7 +186,7 @@
       "from": "h_cure",
       "to": "r_animal_human",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     }
   ],
   "hypotheses": [

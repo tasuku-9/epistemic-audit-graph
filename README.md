@@ -64,6 +64,16 @@ This makes participation smaller and more concrete. A contributor does not need 
 
 The board should not score people or reward factional wins. It tracks claim states, open challenges, resolved challenges, parked claims, reopened claims, and claims needing source audit.
 
+In the sample cases, this board is now data-driven from each hypothesis node's `claim_state` object:
+
+- `status`
+- `status_reason`
+- `source_says`
+- `inference_made`
+- `downgrade_conditions`
+- `reopening_conditions`
+- `evidence_challenges`
+
 ## Why This Is Different
 
 Kialo-style debate maps make pros and cons visible; ASPIC-style systems formalize defeasible argument; Wikidata stores structured entities and statements; RAG retrieves documents for generation. Epistemic Audit Graph manages the state of a claim over time. It records what the source says, what inference is being made, why a claim was weakened or parked, and what evidence would reopen, downgrade, or supersede it.

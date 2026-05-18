@@ -58,7 +58,62 @@
       "tier": "A",
       "provisional_tier": "A",
       "reason_for_tier": "Rejected: Y-DNA frequency, ritual discontinuity, and mythic analogy cannot support A-tier historical certainty.",
-      "falsification_conditions": []
+      "falsification_conditions": [],
+      "claim_state": {
+        "status": "parked",
+        "status_reason": "The sources report D-M55 persistence, Dotaku discontinuity, and Kiki motifs, but the claim infers certain conquest and direct textual record.",
+        "source_says": "Sources report lineage persistence, ritual discontinuity, and mythic motifs.",
+        "inference_made": "These sources directly prove conquest and direct historical recording in Kiki.",
+        "status_history": [
+          {
+            "status": "proposed",
+            "note": "Claim entered the graph as a strong assertion."
+          },
+          {
+            "status": "contested",
+            "note": "Source wording and inference strength were separated."
+          },
+          {
+            "status": "parked",
+            "note": "The sources report D-M55 persistence, Dotaku discontinuity, and Kiki motifs, but the claim infers certain conquest and direct textual record."
+          }
+        ],
+        "downgrade_conditions": [
+          "Keep the claim parked while genetic, ritual, and mythic evidence are collapsed into one conquest proof.",
+          "Downgrade to a scoped abductive hypothesis if alternative explanations and chronology are retained."
+        ],
+        "reopening_conditions": [
+          "Provide independent secondary sources directly supporting the conquest interpretation.",
+          "Address alternative explanations for D-M55 persistence and Dotaku discontinuity.",
+          "Separate mythic motif analysis from direct historical evidence."
+        ],
+        "evidence_challenges": [
+          {
+            "id": "ccb_hist_secondary",
+            "title": "Find direct secondary support",
+            "challenge_type": "independent_evidence",
+            "status": "open",
+            "needed": "Locate a reliable secondary source that directly supports the conquest interpretation.",
+            "would_move_claim": "reopen_for_review"
+          },
+          {
+            "id": "ccb_hist_alternatives",
+            "title": "Answer alternative explanations",
+            "challenge_type": "counterevidence_response",
+            "status": "open",
+            "needed": "Address non-conquest explanations for lineage persistence and ritual change.",
+            "would_move_claim": "candidate_for_accepted_with_caveats"
+          },
+          {
+            "id": "ccb_hist_text",
+            "title": "Separate source from inference",
+            "challenge_type": "source_clarification",
+            "status": "open",
+            "needed": "Clarify whether Kiki says the event or whether the event is inferred from motifs.",
+            "would_move_claim": "downgrade_to_scoped_claim"
+          }
+        ]
+      }
     },
     {
       "id": "e_d_m55",
@@ -194,37 +249,37 @@
       "from": "src_packet",
       "to": "sc_d_m55",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "src_packet",
       "to": "sc_dotaku",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "src_packet",
       "to": "sc_kiki",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_d_m55",
       "to": "e_d_m55",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_dotaku",
       "to": "e_dotaku",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_kiki",
       "to": "e_kiki",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "e_d_m55",
@@ -254,19 +309,19 @@
       "from": "h_conquest_certainty",
       "to": "r_y_dna",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "h_conquest_certainty",
       "to": "r_myth",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "h_conquest_certainty",
       "to": "r_ritual",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "h_conquest_certainty",

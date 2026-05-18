@@ -42,7 +42,62 @@
       "tier": "A",
       "provisional_tier": "A",
       "reason_for_tier": "Rejected: benchmark score alone cannot support broad intelligence or safety.",
-      "falsification_conditions": []
+      "falsification_conditions": [],
+      "claim_state": {
+        "status": "parked",
+        "status_reason": "The source says Model X scored 90% on one benchmark, but the claim infers general intelligence, safety, and deployment reliability.",
+        "source_says": "Model X scored 90% on Benchmark B.",
+        "inference_made": "The benchmark result proves general intelligence, safety, and reliable real-world deployment.",
+        "status_history": [
+          {
+            "status": "proposed",
+            "note": "Claim entered the graph as a strong assertion."
+          },
+          {
+            "status": "contested",
+            "note": "Source wording and inference strength were separated."
+          },
+          {
+            "status": "parked",
+            "note": "The source says Model X scored 90% on one benchmark, but the claim infers general intelligence, safety, and deployment reliability."
+          }
+        ],
+        "downgrade_conditions": [
+          "Keep the claim parked while it relies on a single benchmark result.",
+          "Downgrade to a benchmark-scoped performance claim if no transfer or safety evidence is provided."
+        ],
+        "reopening_conditions": [
+          "Provide independent benchmark reproduction with contamination checks.",
+          "Provide external evaluations showing transfer beyond Benchmark B.",
+          "Provide safety and deployment-reliability evidence under realistic conditions."
+        ],
+        "evidence_challenges": [
+          {
+            "id": "ccb_ai_reproduce",
+            "title": "Reproduce the benchmark result",
+            "challenge_type": "independent_evidence",
+            "status": "open",
+            "needed": "Find an independent reproduction of the 90% score with contamination controls.",
+            "would_move_claim": "reopen_for_review"
+          },
+          {
+            "id": "ccb_ai_transfer",
+            "title": "Show transfer beyond the benchmark",
+            "challenge_type": "domain_review",
+            "status": "open",
+            "needed": "Provide external evaluations or real-world ablations that test capability beyond Benchmark B.",
+            "would_move_claim": "candidate_for_accepted_with_caveats"
+          },
+          {
+            "id": "ccb_ai_safety",
+            "title": "Separate safety from capability",
+            "challenge_type": "source_clarification",
+            "status": "open",
+            "needed": "Add safety evaluations instead of treating performance as safety evidence.",
+            "would_move_claim": "downgrade_to_scoped_claim"
+          }
+        ]
+      }
     },
     {
       "id": "e_score",
@@ -105,13 +160,13 @@
       "from": "src_benchmark",
       "to": "sc_score",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_score",
       "to": "e_score",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "e_score",
@@ -129,7 +184,7 @@
       "from": "h_agi_safe",
       "to": "r_benchmark",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     }
   ],
   "evaluation_protocol": "not specified",

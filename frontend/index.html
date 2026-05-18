@@ -57,7 +57,7 @@ a{color:#315f9e}
 #overlay{position:absolute;top:8px;left:8px;font-size:9px;color:var(--color-text-secondary);line-height:1.6;pointer-events:none;background:var(--color-background-primary);padding:4px 7px;border-radius:5px;border:0.5px solid var(--color-border-tertiary);opacity:.88}
 #statusPills{position:absolute;bottom:8px;left:8px;right:8px;display:flex;gap:5px;flex-wrap:wrap;pointer-events:none}
 .pill{font-size:9px;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:5px;padding:3px 6px;opacity:.92}
-#right{width:240px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:12px}
+#right{width:300px;border-left:0.5px solid var(--color-border-tertiary);overflow-y:auto;flex-shrink:0;padding:12px}
 #empty{color:var(--color-text-secondary);font-size:12px;text-align:center;margin-top:50px;line-height:1.9}
 .dlbl{font-size:10px;letter-spacing:.1em;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase}
 .dtitle{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.5;margin-bottom:10px}
@@ -97,6 +97,19 @@ a{color:#315f9e}
 .ev-title{font-size:10px;color:var(--color-text-secondary);line-height:1.35}
 .ev-src{font-size:9px;margin-top:3px;font-family:var(--font-mono);color:var(--color-text-secondary);opacity:.65}
 .src-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(55,138,221,.06);border:0.5px solid rgba(55,138,221,.2)}
+.state-chip{display:inline-flex;align-items:center;min-height:20px;padding:2px 7px;border-radius:999px;background:rgba(186,117,23,.1);border:0.5px solid rgba(186,117,23,.35);color:#92400e;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.cc-box{padding:8px 9px;border-radius:6px;margin-bottom:10px;background:rgba(93,79,180,.06);border:0.5px solid rgba(93,79,180,.22)}
+.cc-head{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:6px}
+.cc-title{font-size:9px;color:#5d4fb4;letter-spacing:.08em;font-weight:700;text-transform:uppercase}
+.cc-note{font-size:10px;color:var(--color-text-secondary);line-height:1.45;margin-bottom:7px}
+.cc-item{padding:7px 8px;border-radius:5px;border:0.5px solid rgba(93,79,180,.22);background:#fff;margin-bottom:6px}
+.cc-item:last-child{margin-bottom:0}
+.cc-item-top{display:flex;align-items:flex-start;justify-content:space-between;gap:7px;margin-bottom:4px}
+.cc-item-title{font-size:10px;line-height:1.35;font-weight:650;color:var(--color-text-primary)}
+.cc-status{font-size:8px;border-radius:999px;padding:1px 5px;border:0.5px solid rgba(93,79,180,.35);color:#5d4fb4;background:rgba(93,79,180,.08);text-transform:uppercase;white-space:nowrap}
+.cc-needed{font-size:10px;color:var(--color-text-secondary);line-height:1.45}
+.cc-meta{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.cc-chip{font-size:8px;border:0.5px solid var(--color-border-tertiary);border-radius:999px;color:var(--color-text-secondary);padding:1px 5px;background:#fff}
 .legacy-links{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
 .small-link{display:inline-block;font-size:10px;border:0.5px solid var(--color-border-tertiary);border-radius:5px;padding:3px 5px;background:#fff;text-decoration:none}
 @media(max-width:1100px){
@@ -306,6 +319,49 @@ function claimNodes(){
   return (state.caseData?.nodes||[]).filter(n=>n.node_type==="hypothesis"||n.node_type==="inference");
 }
 
+function humanStatus(status){
+  return String(status||"untracked").replace(/_/g," ");
+}
+
+function challengeMoveLabel(value){
+  return String(value||"move claim").replace(/_/g," ");
+}
+
+function allEvidenceChallenges(){
+  return state.HY.flatMap(h=>(h.evidenceChallenges||[]).map(ch=>({
+    ...ch,
+    claimId:h.id,
+    claimTitle:h.title,
+    claimStatus:h.claimStatus
+  })));
+}
+
+function challengeBoardMarkup(challenges,{showClaim=false,limit=null}={}){
+  const items=limit?challenges.slice(0,limit):challenges;
+  if(!items.length) return "";
+  const openCount=challenges.filter(ch=>(ch.status||"open")==="open").length;
+  return `<div class="cc-box">
+    <div class="cc-head">
+      <div class="cc-title">Claim Challenge Board</div>
+      <span class="state-chip">${openCount} open</span>
+    </div>
+    <div class="cc-note">Concrete tasks that would move a claim forward, keep it parked, downgrade it, or reopen it for review.</div>
+    ${items.map(ch=>`<div class="cc-item">
+      <div class="cc-item-top">
+        <div class="cc-item-title">${esc(ch.title||ch.id)}</div>
+        <span class="cc-status">${esc(ch.status||"open")}</span>
+      </div>
+      <div class="cc-needed">${esc(ch.needed||"No challenge text recorded.")}</div>
+      <div class="cc-meta">
+        ${showClaim?`<span class="cc-chip">${esc(short(ch.claimTitle,34))}</span>`:""}
+        <span class="cc-chip">${esc(ch.challenge_type||"challenge")}</span>
+        <span class="cc-chip">${esc(challengeMoveLabel(ch.would_move_claim))}</span>
+      </div>
+    </div>`).join("")}
+    ${limit&&challenges.length>items.length?`<div class="cc-note">${challenges.length-items.length} more challenges recorded in selected claims.</div>`:""}
+  </div>`;
+}
+
 function riskNodesForClaim(id){
   return (state.caseData?.nodes||[]).filter(n=>
     n.node_type==="risk"&&((n.targets||[]).includes(id)||outgoing(id,"has_risk").some(e=>e.to===n.id))
@@ -414,6 +470,12 @@ function buildViewModel(){
       .map(x=>x.suggested_patch||x.title)
       .filter(Boolean);
     const validatorTexts=reportFlagsForClaim(node.id).filter(Boolean);
+    const claimState=node.claim_state||{};
+    const sourceSays=claimState.source_says || evs.flatMap(e=>sourceDetailsForEvidence(e)).map(s=>s.claim_text||s.title).filter(Boolean)[0] || "";
+    const inferenceMade=claimState.inference_made || bodyOf(node);
+    const downgradeConditions=claimState.downgrade_conditions || riskOverclaimTexts;
+    const reopeningConditions=claimState.reopening_conditions || fc;
+    const evidenceChallenges=claimState.evidence_challenges || [];
     return {
       id:node.id,
       nodeType:node.node_type,
@@ -424,6 +486,14 @@ function buildViewModel(){
       hasMissingFalsifier:!fc.length,
       oc:validatorTexts.join(" "),
       hasOverclaim:riskOverclaimTexts.length>0||validatorTexts.length>0||r.status==="REJECT",
+      claimStatus:claimState.status || ((riskOverclaimTexts.length||validatorTexts.length||node.tier==="X") ? "parked" : "supported"),
+      statusReason:claimState.status_reason || node.reason_for_tier || "",
+      sourceSays,
+      inferenceMade,
+      downgradeConditions,
+      reopeningConditions,
+      evidenceChallenges,
+      statusHistory:claimState.status_history || [],
       narConflicts:nar,
       fields:[...new Set(evs.map(e=>evidenceKind(e,domain)))],
       risks,
@@ -571,6 +641,8 @@ function renderClaimList(){
 function renderStatusPills(){
   const c=state.caseData,r=state.report;
   if(!c||!r) return;
+  const challenges=allEvidenceChallenges();
+  const openChallenges=challenges.filter(ch=>(ch.status||"open")==="open").length;
   const items=[
     DOMAIN_LABELS[c.domain]||c.domain,
     c.case_type==="good"?"scoped claim":"downgrade challenge",
@@ -579,7 +651,8 @@ function renderStatusPills(){
     `${state.HY.length} claims`,
     `${state.EV.length} evidence`,
     `${state.NAR.length} narrative`,
-    `${state.HY.filter(h=>h.frontier).length} challenges`
+    `${state.HY.filter(h=>h.frontier).length} unresolved nodes`,
+    `${openChallenges} open claim challenges`
   ];
   document.getElementById("statusPills").innerHTML=items.map(x=>`<span class="pill">${esc(x)}</span>`).join("");
 }
@@ -602,6 +675,7 @@ function renderCaseOverview(dc){
     ...(out?(r.errors||[]).slice(0,5):(r.warnings||[]).slice(0,4))
   ];
   const fixes=(r.suggested_fixes||[]).slice(0,4);
+  const challenges=allEvidenceChallenges();
   dc.innerHTML=`
     <div class="dlbl">case state</div>
     <div class="dtitle">${esc(c.title||c.case_id)}</div>
@@ -622,8 +696,9 @@ function renderCaseOverview(dc){
       <div class="na-lbl">evidence challenges</div>
       ${fixes.map(x=>`<div class="na-text">${esc(x)}</div>`).join("")}
     </div>`:""}
+    ${challengeBoardMarkup(challenges,{showClaim:true,limit:6})}
     <div class="evl-lbl">state graph contents</div>
-    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes, ${state.HY.filter(h=>h.frontier).length} unresolved challenge nodes. Dashed claim rings keep unsettled claims inspectable without upgrading or deleting them.</div>`;
+    <div class="ddesc">${state.HY.length} claims, ${state.EV.length} evidence nodes, ${state.NAR.length} narrative/frame nodes, ${state.HY.filter(h=>h.frontier).length} unresolved challenge nodes, ${challenges.length} evidence challenges. Dashed claim rings keep unsettled claims inspectable without upgrading or deleting them.</div>`;
 }
 
 function renderDetail(){
@@ -647,6 +722,7 @@ function renderDetail(){
     dc.innerHTML=`
       <div class="dlbl">${esc(h.nodeType)}</div>
       <div class="dtitle">${esc(h.title)}</div>
+      <div style="margin-bottom:8px"><span class="state-chip">claim state: ${esc(humanStatus(h.claimStatus))}</span></div>
       <div class="tier-row">
         <div class="tier-big" style="background:${t.bg};color:${t.color};border:0.5px solid ${t.border}">${esc(h.tier)}</div>
         <div>
@@ -659,6 +735,15 @@ function renderDetail(){
         <div class="sbar"><div class="sbar-fill" style="width:${Math.round(score*100)}%;background:${t.border}"></div></div>
       </div>
       <div class="ddesc">${esc(h.desc)}</div>
+      ${h.statusReason?`<div class="na-box">
+        <div class="na-lbl">state reason</div>
+        <div class="na-text">${esc(h.statusReason)}</div>
+      </div>`:""}
+      ${(h.sourceSays||h.inferenceMade)?`<div class="src-box">
+        <div class="fclbl" style="color:#1d4ed8">source says vs inference made</div>
+        ${h.sourceSays?`<div class="fctext" style="color:#1d4ed8"><strong>Source says:</strong> ${esc(h.sourceSays)}</div>`:""}
+        ${h.inferenceMade?`<div class="fctext" style="color:#1d4ed8"><strong>Inference made:</strong> ${esc(h.inferenceMade)}</div>`:""}
+      </div>`:""}
       ${h.oc||h.risks.length?`<div class="oc-box">
         <div class="oc-lbl">downgrade risks / overclaim paths</div>
         ${h.risks.map(x=>`<div class="oc-text">${esc(x.title||x.id)}${x.suggested_patch?` - ${esc(x.suggested_patch)}`:""}</div>`).join("")}
@@ -670,8 +755,10 @@ function renderDetail(){
       </div>`:""}
       <div class="fc-box" style="background:${TIERS.C.bg};border:0.5px solid ${TIERS.C.border};color:${TIERS.C.color}">
         <div class="fclbl">downgrade / reopening condition</div>
-        <div class="fctext">${esc(h.fc)}</div>
+        ${h.downgradeConditions.length?`<div class="fctext"><strong>Downgrade:</strong> ${esc(h.downgradeConditions.join(" "))}</div>`:""}
+        ${h.reopeningConditions.length?`<div class="fctext"><strong>Reopen:</strong> ${esc(h.reopeningConditions.join(" "))}</div>`:`<div class="fctext">${esc(h.fc)}</div>`}
       </div>
+      ${challengeBoardMarkup(h.evidenceChallenges)}
       ${h.narConflicts.length?`<div class="na-box">
         <div class="na-lbl">narrative pressure</div>
         ${h.narConflicts.map(nc=>{

@@ -56,6 +56,19 @@ ALLOWED_EDGE_TYPES = {
     "uses_evidence",
     "derived_from",
 }
+ALLOWED_CLAIM_STATUSES = {
+    "proposed",
+    "supported",
+    "contested",
+    "weakened",
+    "parked",
+    "failed_by_current_evidence",
+    "reopened",
+    "accepted_with_caveats",
+    "accepted",
+    "superseded",
+}
+ALLOWED_CHALLENGE_STATUSES = {"open", "resolved", "blocked", "not_applicable"}
 
 
 @dataclass
@@ -190,6 +203,49 @@ def _node_map(nodes: List[Dict[str, Any]], result: ValidationResult) -> Dict[str
     return index
 
 
+def _validate_claim_state(node_id: str, claim_state: Any, result: ValidationResult) -> None:
+    if claim_state is None:
+        return
+    if not isinstance(claim_state, dict):
+        result.add_error(f"{node_id}: claim_state must be an object")
+        return
+    status = claim_state.get("status")
+    if status not in ALLOWED_CLAIM_STATUSES:
+        result.add_error(f"{node_id}: invalid claim_state.status {status!r}")
+    if not claim_state.get("status_reason"):
+        result.add_error(f"{node_id}: claim_state requires status_reason")
+    for field_name in ("downgrade_conditions", "reopening_conditions"):
+        value = claim_state.get(field_name)
+        if value is not None and not isinstance(value, list):
+            result.add_error(f"{node_id}: claim_state.{field_name} must be a list")
+        if isinstance(value, list) and any(not isinstance(item, str) or not item for item in value):
+            result.add_error(f"{node_id}: claim_state.{field_name} entries must be non-empty strings")
+    challenges = claim_state.get("evidence_challenges") or []
+    if not isinstance(challenges, list):
+        result.add_error(f"{node_id}: claim_state.evidence_challenges must be a list")
+        return
+    if status in {"parked", "failed_by_current_evidence", "contested", "weakened"} and not challenges:
+        result.add_warning(f"{node_id}: claim_state.status {status!r} should include evidence_challenges")
+    seen_ids: set[str] = set()
+    for index, challenge in enumerate(challenges):
+        if not isinstance(challenge, dict):
+            result.add_error(f"{node_id}: evidence_challenges[{index}] must be an object")
+            continue
+        challenge_id = challenge.get("id")
+        if not challenge_id:
+            result.add_error(f"{node_id}: evidence_challenges[{index}] missing id")
+        elif challenge_id in seen_ids:
+            result.add_error(f"{node_id}: duplicate evidence_challenge id {challenge_id!r}")
+        else:
+            seen_ids.add(challenge_id)
+        for field_name in ("title", "challenge_type", "needed", "would_move_claim"):
+            if not challenge.get(field_name):
+                result.add_error(f"{node_id}: evidence_challenge {challenge_id or index} missing {field_name}")
+        challenge_status = challenge.get("status")
+        if challenge_status not in ALLOWED_CHALLENGE_STATUSES:
+            result.add_error(f"{node_id}: evidence_challenge {challenge_id or index} invalid status {challenge_status!r}")
+
+
 def _supporting_evidence_for(hypothesis_id: str, nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     evidence_by_id = {n["id"]: n for n in nodes if _node_type(n) == "evidence" and n.get("id")}
     inference_by_id = {n["id"]: n for n in nodes if _node_type(n) == "inference" and n.get("id")}
@@ -301,12 +357,14 @@ def validate_case(case: Dict[str, Any], domain_rules: Dict[str, Dict[str, Any]] 
             if tier in {"A", "B", "C", "X"} and not node.get("reason_for_tier"):
                 result.add_error(f"{node_id}: tier or provisional tier requires reason_for_tier")
                 result.add_suggested_fix(f"{node_id}: explain why the tier is provisional")
+            _validate_claim_state(node_id, node.get("claim_state"), result)
 
         if node_type == "inference":
             if not node.get("depends_on"):
                 result.add_warning(f"{node_id}: inference has no depends_on references")
             if not node.get("source_claim_ids"):
                 result.add_warning(f"{node_id}: inference should reference source_claim_ids to preserve separation")
+            _validate_claim_state(node_id, node.get("claim_state"), result)
 
         if node_type == "risk":
             if not node.get("targets"):

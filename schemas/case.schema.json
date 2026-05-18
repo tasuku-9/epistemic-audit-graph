@@ -91,6 +91,68 @@
           "falsification_conditions": {
             "type": "array",
             "items": { "type": "string" }
+          },
+          "claim_state": {
+            "type": "object",
+            "required": ["status", "status_reason"],
+            "properties": {
+              "status": {
+                "enum": [
+                  "proposed",
+                  "supported",
+                  "contested",
+                  "weakened",
+                  "parked",
+                  "failed_by_current_evidence",
+                  "reopened",
+                  "accepted_with_caveats",
+                  "accepted",
+                  "superseded"
+                ]
+              },
+              "status_reason": { "type": "string" },
+              "source_says": { "type": "string" },
+              "inference_made": { "type": "string" },
+              "status_history": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["status", "note"],
+                  "properties": {
+                    "status": { "type": "string" },
+                    "note": { "type": "string" }
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "downgrade_conditions": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "reopening_conditions": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "evidence_challenges": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "title", "challenge_type", "status", "needed", "would_move_claim"],
+                  "properties": {
+                    "id": { "type": "string" },
+                    "title": { "type": "string" },
+                    "challenge_type": { "type": "string" },
+                    "status": {
+                      "enum": ["open", "resolved", "blocked", "not_applicable"]
+                    },
+                    "needed": { "type": "string" },
+                    "would_move_claim": { "type": "string" }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "additionalProperties": true
           }
         },
         "additionalProperties": true

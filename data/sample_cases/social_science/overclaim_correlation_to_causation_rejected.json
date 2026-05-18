@@ -42,7 +42,62 @@
       "tier": "A",
       "provisional_tier": "A",
       "reason_for_tier": "Rejected: observational correlation cannot establish policy causation.",
-      "falsification_conditions": []
+      "falsification_conditions": [],
+      "claim_state": {
+        "status": "parked",
+        "status_reason": "The source reports a same-region association, but the claim infers definite causal policy effect.",
+        "source_says": "Spending and scores rose in the same region.",
+        "inference_made": "Increasing education spending definitely caused the improvement.",
+        "status_history": [
+          {
+            "status": "proposed",
+            "note": "Claim entered the graph as a strong assertion."
+          },
+          {
+            "status": "contested",
+            "note": "Source wording and inference strength were separated."
+          },
+          {
+            "status": "parked",
+            "note": "The source reports a same-region association, but the claim infers definite causal policy effect."
+          }
+        ],
+        "downgrade_conditions": [
+          "Keep the claim parked while it lacks identification strategy and counterfactual comparison.",
+          "Downgrade to an observational association if no causal design is supplied."
+        ],
+        "reopening_conditions": [
+          "Provide a credible identification strategy such as randomized policy trial, natural experiment, difference-in-differences, or instrumental variable design.",
+          "Address confounders, comparison group, and time window.",
+          "Provide independent replication or robustness checks."
+        ],
+        "evidence_challenges": [
+          {
+            "id": "ccb_soc_identification",
+            "title": "Add identification strategy",
+            "challenge_type": "independent_evidence",
+            "status": "open",
+            "needed": "Provide a causal design rather than a same-region before/after association.",
+            "would_move_claim": "reopen_for_review"
+          },
+          {
+            "id": "ccb_soc_confounders",
+            "title": "Address confounders",
+            "challenge_type": "counterevidence_response",
+            "status": "open",
+            "needed": "Name plausible confounders and show how the design handles them.",
+            "would_move_claim": "candidate_for_accepted_with_caveats"
+          },
+          {
+            "id": "ccb_soc_scope",
+            "title": "Downgrade to association if needed",
+            "challenge_type": "source_clarification",
+            "status": "open",
+            "needed": "Rewrite the claim as an association unless causal evidence is supplied.",
+            "would_move_claim": "downgrade_to_scoped_claim"
+          }
+        ]
+      }
     },
     {
       "id": "e_correlation",
@@ -104,13 +159,13 @@
       "from": "src_education",
       "to": "sc_correlation",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_correlation",
       "to": "e_correlation",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "e_correlation",
@@ -128,7 +183,7 @@
       "from": "h_cause",
       "to": "r_correlation",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     }
   ],
   "hypotheses": [

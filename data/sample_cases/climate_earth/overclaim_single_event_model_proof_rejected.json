@@ -42,7 +42,62 @@
       "tier": "A",
       "provisional_tier": "A",
       "reason_for_tier": "Rejected: a single event cannot prove a long-term model.",
-      "falsification_conditions": []
+      "falsification_conditions": [],
+      "claim_state": {
+        "status": "parked",
+        "status_reason": "The source records one hot year, but the claim infers complete proof of a long-term climate model.",
+        "source_says": "This year was extremely hot in the observed region.",
+        "inference_made": "This one event completely proves the long-term climate model.",
+        "status_history": [
+          {
+            "status": "proposed",
+            "note": "Claim entered the graph as a strong assertion."
+          },
+          {
+            "status": "contested",
+            "note": "Source wording and inference strength were separated."
+          },
+          {
+            "status": "parked",
+            "note": "The source records one hot year, but the claim infers complete proof of a long-term climate model."
+          }
+        ],
+        "downgrade_conditions": [
+          "Keep the claim parked while it relies on a single event.",
+          "Downgrade to an event observation unless long-term trend, attribution, and uncertainty evidence are added."
+        ],
+        "reopening_conditions": [
+          "Provide multi-decadal observational baseline evidence.",
+          "Provide model ensemble or attribution-study evidence with uncertainty ranges.",
+          "Specify scenario, region, time horizon, and observational baseline."
+        ],
+        "evidence_challenges": [
+          {
+            "id": "ccb_climate_baseline",
+            "title": "Add long-term baseline",
+            "challenge_type": "independent_evidence",
+            "status": "open",
+            "needed": "Compare the event against multi-decadal observations or paleoclimate proxies.",
+            "would_move_claim": "reopen_for_review"
+          },
+          {
+            "id": "ccb_climate_model",
+            "title": "Show model ensemble support",
+            "challenge_type": "domain_review",
+            "status": "open",
+            "needed": "Add model ensemble or attribution evidence with uncertainty range and scenario.",
+            "would_move_claim": "candidate_for_accepted_with_caveats"
+          },
+          {
+            "id": "ccb_climate_scope",
+            "title": "Clarify region and time horizon",
+            "challenge_type": "source_clarification",
+            "status": "open",
+            "needed": "State the region, scenario, and time horizon instead of claiming complete proof.",
+            "would_move_claim": "downgrade_to_scoped_claim"
+          }
+        ]
+      }
     },
     {
       "id": "e_hot_year",
@@ -104,13 +159,13 @@
       "from": "src_weather",
       "to": "sc_hot_year",
       "edge_type": "says",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "sc_hot_year",
       "to": "e_hot_year",
       "edge_type": "extracted_as",
-      "strength": 1.0
+      "strength": 1
     },
     {
       "from": "e_hot_year",
@@ -128,7 +183,7 @@
       "from": "h_model_proven",
       "to": "r_single_event",
       "edge_type": "has_risk",
-      "strength": 1.0
+      "strength": 1
     }
   ],
   "hypotheses": [

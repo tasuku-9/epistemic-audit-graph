@@ -113,6 +113,18 @@ class ValidatorTests(unittest.TestCase):
             "single_event_to_trend",
         )
 
+    def test_invalid_claim_state_status_is_rejected(self):
+        case = self.load_case("data/sample_cases/social_science/overclaim_correlation_to_causation_rejected.json")
+        modified = copy.deepcopy(case)
+        for node in modified["nodes"]:
+            if node.get("id") == "h_cause":
+                node["claim_state"]["status"] = "winning_argument"
+                node["claim_state"]["evidence_challenges"][0]["status"] = "done_by_user"
+        result = validate_case(modified, self.rules)
+        self.assertEqual("REJECT", result.status)
+        self.assertTrue(any("claim_state.status" in e for e in result.errors))
+        self.assertTrue(any("evidence_challenge" in e and "invalid status" in e for e in result.errors))
+
 
 if __name__ == "__main__":
     unittest.main()
