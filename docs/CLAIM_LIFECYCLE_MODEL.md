@@ -109,6 +109,73 @@ The validator checks whether the required material has been provided. It does no
 | Domain rule requirement | Required fields or domain evidence tags are present. | The evidence satisfies the domain's standards in substance. |
 | Consensus or policy change | The change request names the relevant authority, date, or review route. | A human reviewer or domain process accepts the change. |
 
+## Claim State Versus Action Recommendation
+
+A parked claim does not mean "do nothing." It means the claim should not be presented as more certain than its current evidence supports.
+
+Action can be justified under uncertainty without pretending that the underlying claim has been accepted. This requires two layers.
+
+```text
+Claim layer:
+  "Intervention X reduces risk Y."
+  State: parked or supported-with-caveats
+  Reason: mechanism and early evidence are plausible, but effect size and scope are unresolved.
+  Reopen if: stronger direct evidence, subgroup evidence, or counterevidence response appears.
+
+Action layer:
+  "Recommend temporary use of intervention X in context Z."
+  State: adopted, limited, paused, or under review
+  Justified by: plausible benefit, low cost, asymmetric downside, reversibility, urgency.
+  Not justified by: treating the claim as proven.
+  Review if: strong null evidence, material harms, cost increase, better alternatives, or subgroup burden appears.
+```
+
+This separation is important for policy, medicine, safety, due diligence, and operational decisions. A system can say:
+
+```text
+The claim remains parked.
+The action is provisionally adopted because the decision threshold is lower than the truth threshold.
+```
+
+That is different from silently upgrading the claim to certainty just because action is needed.
+
+### Nested Park
+
+Action recommendations contain their own claims. Those subclaims may also need to be parked.
+
+```text
+Action: recommend X
++- Justification: expected benefit exceeds expected cost
+   +- Subclaim: benefit is plausible [parked / supported-with-caveats]
+   +- Subclaim: cost is low [parked / context-dependent]
+   +- Subclaim: downside is reversible [contested / needs monitoring]
+   +- Subclaim: urgent action is warranted [review-dependent]
+```
+
+The goal is not to avoid decisions. The goal is to prevent decisions from laundering uncertain claims into accepted claims.
+
+### Possible Future Node
+
+The current prototype focuses on `ClaimState`. A future schema can add `ActionRecommendation` nodes that reference one or more claim states while keeping an independent action status and review conditions.
+
+Possible fields:
+
+```json
+{
+  "node_type": "action_recommendation",
+  "status": "proposed | adopted | limited | paused | superseded",
+  "depends_on_claim_states": ["claim_id"],
+  "justification": "why action is reasonable under uncertainty",
+  "not_justified_by": "what the action should not be taken to prove",
+  "review_conditions": ["when to revise, pause, or supersede the action"],
+  "cost_claims": ["claim_id"],
+  "benefit_claims": ["claim_id"],
+  "risk_claims": ["claim_id"]
+}
+```
+
+This extension should remain separate from the first-touch demos until the claim lifecycle model is stable.
+
 ## Typical Transitions
 
 ```text
@@ -121,4 +188,3 @@ reopened -> B/C/A after human review of the new evidence
 ```
 
 The purpose is not to make claims look final. The purpose is to keep the reason for their current state visible and reviewable.
-
