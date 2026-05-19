@@ -11,6 +11,13 @@ Open these first to understand the project before looking at the validation suit
 1. [Claim Cascade](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_or_reopen/index.html) - first-touch interactive demo.
 2. [Claim Lifecycle Workspace](https://tasuku-9.github.io/epistemic-audit-graph/demos/claim_lifecycle/index.html) - structured claim-state workspace.
 
+**Five-minute click path from the hub:**
+
+1. Click **Open Claim Cascade**.
+2. Click **Claim Lifecycle Workspace**.
+3. Under examples, click **K-Pg claim-state graph**.
+4. For the deeper model, click **Park-condition propagation**.
+
 Epistemic Audit Graph turns disputes into actionable evidence challenges.
 
 The goal is not only to map disputes, but to make them actionable: each contested claim can show what evidence, source clarification, counterevidence, or policy review would move it forward, downgrade it, park it, or reopen it.

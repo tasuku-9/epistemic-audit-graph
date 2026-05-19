@@ -23,6 +23,7 @@
       line-height:1.5;
       color:var(--ink);
       background:linear-gradient(180deg,#ffffff 0%,#f3f7fb 100%);
+      overflow-x:hidden;
     }
     main{
       width:min(1080px,calc(100% - 32px));
@@ -69,6 +70,7 @@
       border-radius:8px;
       font-weight:700;
       text-decoration:none;
+      text-align:center;
       border:1px solid var(--accent);
     }
     .primary{
@@ -97,6 +99,40 @@
     }
     .state:nth-child(4){border-color:#e7c27e;color:var(--warn)}
     .state:nth-child(5){border-color:#b9b3ea;color:var(--reopen)}
+    .click-path{
+      margin:20px 0 0;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+    }
+    .click-step{
+      display:block;
+      min-height:100px;
+      padding:14px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      text-decoration:none;
+      transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .click-step:hover{
+      transform:translateY(-2px);
+      border-color:#a9c8d4;
+      box-shadow:0 14px 28px rgba(31,111,139,.1);
+    }
+    .click-step b{
+      display:block;
+      color:var(--accent-strong);
+      font-size:.76rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    .click-step span{
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.88rem;
+    }
     .routes{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -170,9 +206,11 @@
       font-size:.92rem;
     }
     @media (max-width:720px){
-      main{width:min(100% - 24px,680px);padding-top:28px}
-      h1{font-size:2.4rem}
+      main{width:calc(100% - 24px);padding-top:28px}
+      h1{font-size:2rem}
+      .actions a{flex:1 1 100%;min-width:0}
       .state-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .click-path{grid-template-columns:1fr}
       .guided-path{grid-template-columns:1fr}
       .routes{grid-template-columns:1fr}
     }
@@ -197,6 +235,30 @@
       <div class="state">weakened</div>
       <div class="state">parked</div>
       <div class="state">reopened</div>
+    </section>
+
+    <section class="section-label" aria-labelledby="click-path-title">
+      <h2 id="click-path-title">Five-minute click path</h2>
+      <p>Start from this hub, then click these routes in order if you want the shortest walkthrough.</p>
+    </section>
+
+    <section class="click-path" aria-label="Five-minute click path">
+      <a class="click-step" href="demos/park_or_reopen/index.html">
+        <b>1. Open Claim Cascade</b>
+        <span>Feel how a simple question becomes a parked claim and an evidence challenge.</span>
+      </a>
+      <a class="click-step" href="demos/claim_lifecycle/index.html">
+        <b>2. Claim Lifecycle Workspace</b>
+        <span>See source wording, inference, parked state, and reopening conditions as a workspace.</span>
+      </a>
+      <a class="click-step" href="demos/kpg_extinction/index.html">
+        <b>3. K-Pg graph</b>
+        <span>Use a familiar domain example to inspect accepted, contributing, contested, and open claims.</span>
+      </a>
+      <a class="click-step" href="demos/park_condition_propagation/index.html">
+        <b>4. Park-condition propagation</b>
+        <span>See why uncertainty travels from evidence through inference into a claim.</span>
+      </a>
     </section>
 
     <section class="section-label" aria-labelledby="start-path-title">
