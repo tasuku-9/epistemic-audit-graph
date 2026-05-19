@@ -21,6 +21,7 @@ After those two, use the remaining routes as examples and implementation proof:
 - [K-Pg claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/kpg_extinction/index.html)
 - [Bronze Age claim-state graph](https://tasuku-9.github.io/epistemic-audit-graph/demos/bronze_age_collapse/index.html)
 - [Lifecycle timeline prototype](https://tasuku-9.github.io/epistemic-audit-graph/demos/uncertainty_workspace/index.html)
+- [Park-condition propagation](https://tasuku-9.github.io/epistemic-audit-graph/demos/park_condition_propagation/index.html)
 
 It does this by managing the lifecycle of contested claims:
 
@@ -104,6 +105,7 @@ Local paths:
 - K-Pg claim-state graph: `demos/kpg_extinction/index.html`
 - Bronze Age claim-state graph: `demos/bronze_age_collapse/index.html`
 - Lifecycle timeline prototype: `demos/uncertainty_workspace/index.html`
+- Park-condition propagation: `demos/park_condition_propagation/index.html`
 
 Core explanatory docs:
 

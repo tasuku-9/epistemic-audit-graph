@@ -71,6 +71,8 @@ A parked claim must include the reason it is parked and the condition that would
 
 The core rule is that a claim inherits not only support from its evidence, but also conditions and uncertainty from the evidence and the inference edge.
 
+Visual demo: [`demos/park_condition_propagation/index.html`](../demos/park_condition_propagation/index.html)
+
 ```text
 Evidence E has condition C1
 Inference E -> Claim X adds assumption C2
