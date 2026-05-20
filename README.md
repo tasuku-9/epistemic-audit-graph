@@ -121,6 +121,10 @@ No. The AI may draft or structure nodes, but humans inspect the claim state. The
 
 That is a future hypothesis. Machine-readable claim states could let an LLM retrieve not only a claim, but also its status, downgrade reason, uncertainty, and reopening conditions.
 
+**Can LLMs handle research papers reliably?**
+
+Not as standalone truth judges. But if constrained to a retrieved source library, an LLM may help compare source wording, extract source-level claims, flag conflicts, detect overclaims, and draft evidence challenges for human review. The goal is not to ask "is this true?", but to ask where sources support, narrow, contradict, or fail to support a derived claim.
+
 **Who decides whether a claim can reopen?**
 
 Some reopening conditions can be structurally checked, such as whether required evidence fields exist. Substantive judgment remains a human or community review decision.
