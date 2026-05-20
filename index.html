@@ -234,6 +234,26 @@
       color:var(--accent-strong);
       font-size:.94rem;
     }
+    .practical-note{
+      margin:18px 0 0;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      box-shadow:0 12px 28px rgba(23,32,42,.04);
+    }
+    .practical-note h2{
+      margin:0 0 8px;
+      color:var(--accent-strong);
+      font-size:1.05rem;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .practical-note p{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-size:.95rem;
+    }
     .footer{
       margin:30px 0 0;
       color:var(--muted);
@@ -393,6 +413,14 @@
     <p class="qa-note">
       Short novelty answer: this is not a from-scratch invention; it is a practical combination of public claim-state management, non-destructive downgrading, reopening conditions, actionable evidence challenges, uncertainty propagation, source-conflict inspection, and possibly machine-readable claim-state memory for LLM-assisted workflows.
     </p>
+
+    <section class="practical-note" aria-labelledby="practical-title">
+      <h2 id="practical-title">Why This Is Familiar</h2>
+      <p>In frontline sales work and engineering work, people constantly separate what was actually said, what was inferred, what is still only a hypothesis, and what needs confirmation.</p>
+      <p>In sales, mixing a customer's actual words with internal assumptions can cause real mistakes. In engineering, requests, specifications, hypotheses, tests, issues, reviews, and rollback all need to be separated and managed as states.</p>
+      <p>But in public knowledge work, sources, interpretations, assumptions, counterevidence, and unresolved questions often collapse back into prose. In Wikipedia articles, papers, policy documents, and AI outputs, different knowledge states can become compressed into one fluent explanation.</p>
+      <p>Epistemic Audit Graph tries to bring the practical discipline of frontline work and engineering into the public knowledge layer: separating what was said, what was inferred, what remains uncertain, and what conditions would allow a claim to be reopened or strengthened.</p>
+    </section>
 
     <p class="footer">
       Weak claims are parked with reasons instead of deleted. Reopening conditions make the next evidence challenge explicit.
