@@ -93,6 +93,42 @@ In the sample cases, this board is now data-driven from each hypothesis node's `
 
 Kialo-style debate maps make pros and cons visible; ASPIC-style systems formalize defeasible argument; Wikidata stores structured entities and statements; RAG retrieves documents for generation. Epistemic Audit Graph manages the state of a claim over time. It records what the source says, what inference is being made, why a claim was weakened or parked, and what evidence would reopen, downgrade, or supersede it.
 
+## Relationship To Existing Work
+
+Epistemic Audit Graph is not a completely new idea from scratch. It overlaps with several established areas:
+
+- **Defeasible reasoning / non-monotonic reasoning:** conclusions can be supported by current premises, then weakened or withdrawn when new information arrives.
+- **Wikidata-style statements:** structured claims can carry references, qualifiers, and ranks.
+- **ClaimReview / fact-check schemas:** claims can be made explicit as reviewable objects.
+- **Argument mapping tools such as Kialo:** disputes can be broken into inspectable positions and responses.
+
+The prototype tests a specific combination for contested knowledge workflows: public claim-state management, non-destructive downgrading, reopening conditions, actionable evidence challenges, and park-condition propagation from evidence through inference into derived claims.
+
+Useful feedback question:
+
+```text
+Is there already a tool or workflow in the Wikimedia / WikiCred ecosystem
+that handles this kind of claim lifecycle well?
+```
+
+Expected Q&A:
+
+**Does AI decide what is true?**
+
+No. The AI may draft or structure nodes, but humans inspect the claim state. The validator checks structural rules and overclaim patterns; it is not a truth oracle.
+
+**Could this help LLM memory or retrieval?**
+
+That is a future hypothesis. Machine-readable claim states could let an LLM retrieve not only a claim, but also its status, downgrade reason, uncertainty, and reopening conditions.
+
+**Who decides whether a claim can reopen?**
+
+Some reopening conditions can be structurally checked, such as whether required evidence fields exist. Substantive judgment remains a human or community review decision.
+
+**Does parking preserve every hypothesis forever?**
+
+No. Parking is bounded by reliable sources, no original research, due weight, and community judgment. A claim can be kept out of article space while its reason and challenge remain inspectable.
+
 ## Why Parking Matters
 
 Weak claims often come back because the prior objection is buried in prose, a discussion thread, or a binary verdict. Parking gives weak claims a durable middle state: not accepted, not erased. A parked claim stays visible with the reason it was downgraded and the evidence challenge that would move it forward.

@@ -200,6 +200,40 @@
       color:var(--muted);
       font-size:.93rem;
     }
+    .qa-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin:14px 0 0;
+    }
+    .qa-item{
+      min-height:150px;
+      padding:16px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:#fff;
+      box-shadow:0 12px 28px rgba(23,32,42,.045);
+    }
+    .qa-item strong{
+      display:block;
+      margin:0 0 7px;
+      color:var(--ink);
+      font-size:.96rem;
+    }
+    .qa-item span{
+      display:block;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+    .qa-note{
+      margin:14px 0 0;
+      padding:14px 16px;
+      border-left:4px solid var(--accent);
+      border-radius:6px;
+      background:#eef6fa;
+      color:var(--accent-strong);
+      font-size:.94rem;
+    }
     .footer{
       margin:30px 0 0;
       color:var(--muted);
@@ -213,6 +247,7 @@
       .click-path{grid-template-columns:1fr}
       .guided-path{grid-template-columns:1fr}
       .routes{grid-template-columns:1fr}
+      .qa-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -306,6 +341,54 @@
         <span>A one-screen explanation of how parked evidence and inference assumptions propagate into a parked claim.</span>
       </a>
     </section>
+
+    <section class="section-label" aria-labelledby="qa-title">
+      <h2 id="qa-title">Expected Q&A</h2>
+      <p>Short answers for common questions about prior work, AI authority, LLM use, reopening, and boundaries.</p>
+    </section>
+
+    <section class="qa-grid" aria-label="Expected questions and answers">
+      <div class="qa-item">
+        <strong>Is this completely new from scratch?</strong>
+        <span>No. It overlaps with defeasible reasoning, non-monotonic reasoning, truth-maintenance systems, Wikidata-style statements, ClaimReview, and argument mapping. The test is the combination as a practical claim-lifecycle workflow.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Is this just Kialo or argument mapping?</strong>
+        <span>It overlaps, but the focus is different: claim lifecycle management, non-destructive downgrading, reopening conditions, and evidence challenges rather than arranging pro/con positions.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Is this just Wikidata or ClaimReview?</strong>
+        <span>Those structure claims and references. Epistemic Audit Graph adds explicit claim states, downgrade reasons, reopening conditions, inference risk, and propagation from evidence to derived claims.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Does AI decide what is true?</strong>
+        <span>No. The AI may draft or structure nodes, but humans inspect the claim state. The validator checks structural rules and overclaim patterns; it is not a truth oracle.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Could this help LLM memory or retrieval?</strong>
+        <span>That is a future hypothesis. Machine-readable claim states could let an LLM retrieve not only a claim, but also its status, downgrade reason, uncertainty, and reopening conditions.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Who decides whether a claim can reopen?</strong>
+        <span>Some reopening conditions can be structurally checked, such as whether required evidence fields exist. Substantive judgment remains a human or community review decision.</span>
+      </div>
+      <div class="qa-item">
+        <strong>Does parking preserve every hypothesis forever?</strong>
+        <span>No. Parking is bounded by reliable sources, no original research, due weight, and community judgment. A claim can be kept out of article space while its reason and challenge remain inspectable.</span>
+      </div>
+      <div class="qa-item">
+        <strong>What is the WikiCred feedback ask?</strong>
+        <span>Which workflow should be the first serious test: disputed section audits, source-lineage maps, Talk page summaries into claim states, or synthesis/original research/undue-weight risk flags?</span>
+      </div>
+      <div class="qa-item">
+        <strong>What question should this raise?</strong>
+        <span>Is there already a tool or workflow in the Wikimedia / WikiCred ecosystem that handles this kind of claim lifecycle well?</span>
+      </div>
+    </section>
+
+    <p class="qa-note">
+      Short novelty answer: this is not a from-scratch invention; it is a practical combination of public claim-state management, non-destructive downgrading, reopening conditions, actionable evidence challenges, uncertainty propagation, and possibly machine-readable claim-state memory for LLM-assisted workflows.
+    </p>
 
     <p class="footer">
       Weak claims are parked with reasons instead of deleted. Reopening conditions make the next evidence challenge explicit.
