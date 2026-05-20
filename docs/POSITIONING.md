@@ -27,6 +27,18 @@ It separates:
 The goal is not to automate judgement.
 The goal is to make the judgement surface smaller, clearer, and more honest.
 
+## The Missing Operational Layer
+
+The need for this layer is familiar outside public knowledge work.
+
+In frontline sales work, people have to separate what a customer actually said from what the team inferred, assumed, promised, or still needs to confirm. Mixing those states can create real operational mistakes.
+
+In engineering work, teams routinely separate requests, specifications, hypotheses, tests, issues, reviews, rollbacks, and accepted changes. Code has mature operational systems for this: version control, issue trackers, review states, failing tests, release gates, and rollback paths.
+
+Public knowledge work has many adjacent pieces of this discipline, but they are often distributed across prose, citations, talk pages, review comments, fact-checks, policy language, and expert memory. A source statement, an interpretation, a derived claim, an unresolved assumption, and counterevidence can collapse into one fluent paragraph.
+
+Epistemic Audit Graph is an attempt to bring that practical state discipline into the public knowledge layer. It does not claim that no prior system has addressed parts of the problem. The claim is narrower: contested public knowledge needs an inspectable operational layer for what was said, what was inferred, what remains uncertain, what was downgraded or parked, and what would reopen or strengthen a claim.
+
 ## Adjacent Work
 
 This project is close to several existing traditions, but combines them differently.
